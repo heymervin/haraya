@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>haraya — where dreams take shape</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================
+           HARAYA BRAND MOCKUP
+           A Filipino celebration planning platform
+           ============================================ */
+
+        /* === ROOT VARIABLES === */
+        :root {
+            /* Color Palette */
+            --dream-lavender: #9D8BD8;
+            --twilight-blue: #5B7C99;
+            --sunset-blush: #F4B8C5;
+            --golden-hour: #F4C688;
+            --morning-mist: #C5D5E4;
+            --cloud-white: #F7F5FB;
+            --pearl: #FDFCFE;
+            --whisper: #EEEEF5;
+            --midnight: #2A2838;
+            --dusk-gray: #6B6B7D;
+
+            /* Gradients */
+            --dream-fade: linear-gradient(135deg, #9D8BD8, #5B7C99);
+            --sunset-dream: linear-gradient(135deg, #F4B8C5, #F4C688);
+            --sky-drift: linear-gradient(135deg, #C5D5E4, #F7F5FB);
+
+            /* Typography */
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Poppins', sans-serif;
+
+            /* Spacing */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2.5rem;
+            --spacing-xl: 4rem;
+            --spacing-2xl: 6rem;
+
+            /* Border Radius */
+            --radius-sm: 0.5rem;
+            --radius-md: 1rem;
+            --radius-lg: 1.5rem;
+            --radius-full: 9999px;
+
+            /* Shadows */
+            --shadow-sm: 0 1px 3px rgba(42, 40, 56, 0.05);
+            --shadow-md: 0 4px 6px rgba(42, 40, 56, 0.07);
+            --shadow-lg: 0 10px 25px rgba(42, 40, 56, 0.1);
+            --shadow-lavender: 0 8px 30px rgba(157, 139, 216, 0.25);
+            --shadow-glow: 0 0 40px rgba(157, 139, 216, 0.3);
+        }
+
+        /* === GLOBAL RESET === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-weight: 300;
+            color: var(--midnight);
+            background: var(--cloud-white);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* === TYPOGRAPHY === */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 300;
+            line-height: 1.2;
+            color: var(--midnight);
+        }
+
+        h1 { font-size: 4rem; margin-bottom: var(--spacing-md); }
+        h2 { font-size: 3rem; margin-bottom: var(--spacing-md); }
+        h3 { font-size: 2rem; margin-bottom: var(--spacing-sm); }
+        h4 { font-size: 1.5rem; margin-bottom: var(--spacing-sm); }
+        h5 { font-size: 1.25rem; margin-bottom: var(--spacing-xs); }
+        h6 { font-size: 1rem; margin-bottom: var(--spacing-xs); }
+
+        p {
+            font-size: 1.125rem;
+            margin-bottom: var(--spacing-sm);
+            color: var(--dusk-gray);
+        }
+
+        /* === UTILITIES === */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        .container-wide {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        .text-center { text-align: center; }
+
+        .italic { font-style: italic; }
+
+        /* === MOCKUP WRAPPER === */
+        .mockup-wrapper {
+            background: #fff;
+            min-height: 100vh;
+        }
+
+        .mockup-section {
+            padding: var(--spacing-2xl) 0;
+            border-bottom: 2px solid var(--whisper);
+        }
+
+        .mockup-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+            color: var(--dream-lavender);
+            font-weight: 400;
+        }
+
+        .mockup-subtitle {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            color: var(--dusk-gray);
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* === BRAND BOARD === */
+        .brand-board {
+            background: var(--pearl);
+        }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .color-swatch {
+            background: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s ease;
+        }
+
+        .color-swatch:hover {
+            transform: translateY(-4px);
+        }
+
+        .color-preview {
+            height: 120px;
+            width: 100%;
+        }
+
+        .color-info {
+            padding: var(--spacing-sm);
+        }
+
+        .color-name {
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 0.875rem;
+            color: var(--midnight);
+            margin-bottom: 0.25rem;
+        }
+
+        .color-hex {
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            color: var(--dusk-gray);
+        }
+
+        .color-role {
+            font-size: 0.75rem;
+            color: var(--dusk-gray);
+            margin-top: 0.25rem;
+        }
+
+        /* Gradient Swatches */
+        .gradient-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .gradient-swatch {
+            height: 150px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 1.125rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* Typography Showcase */
+        .typography-showcase {
+            background: white;
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .type-sample {
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-lg);
+            border-bottom: 1px solid var(--whisper);
+        }
+
+        .type-sample:last-child {
+            border-bottom: none;
+        }
+
+        .type-label {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            color: var(--dusk-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: var(--spacing-xs);
+            font-weight: 500;
+        }
+
+        .body-text-sample {
+            font-family: var(--font-body);
+            font-weight: 300;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .label-sample {
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Logo/Wordmark */
+        .logo-showcase {
+            text-align: center;
+            padding: var(--spacing-xl);
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .haraya-wordmark {
+            font-family: var(--font-heading);
+            font-size: 5rem;
+            font-weight: 300;
+            color: var(--midnight);
+            position: relative;
+            display: inline-block;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .haraya-wordmark::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--dream-fade);
+            border-radius: var(--radius-full);
+        }
+
+        .haraya-tagline {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-style: italic;
+            font-weight: 300;
+            color: var(--dusk-gray);
+            margin-top: var(--spacing-md);
+        }
+
+        .haraya-meaning {
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            color: var(--dusk-gray);
+            margin-top: var(--spacing-sm);
+            font-weight: 400;
+        }
+
+        /* === SIGNATURE ELEMENTS === */
+        .signature-elements {
+            background: var(--cloud-white);
+        }
+
+        .element-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .element-card {
+            background: white;
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+        }
+
+        .element-name {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--midnight);
+            margin-bottom: var(--spacing-md);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Dream Line */
+        .dream-line {
+            height: 2px;
+            background: var(--dream-fade);
+            border-radius: var(--radius-full);
+            margin: var(--spacing-md) 0;
+        }
+
+        .dream-line-thin {
+            height: 1px;
+            background: var(--dream-fade);
+            border-radius: var(--radius-full);
+        }
+
+        /* Shimmer Animation */
+        .shimmer-box {
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(90deg, var(--whisper) 0%, var(--morning-mist) 50%, var(--whisper) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+            border-radius: var(--radius-sm);
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Floating Dream Dots */
+        .dream-dots {
+            display: flex;
+            gap: var(--spacing-xs);
+            justify-content: center;
+            align-items: center;
+            height: 60px;
+        }
+
+        .dream-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--dream-lavender);
+            animation: float 1.4s infinite ease-in-out;
+        }
+
+        .dream-dot:nth-child(2) {
+            background: var(--twilight-blue);
+            animation-delay: 0.2s;
+        }
+
+        .dream-dot:nth-child(3) {
+            background: var(--sunset-blush);
+            animation-delay: 0.4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Card Glow Effect */
+        .glow-demo-card {
+            background: var(--pearl);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--whisper);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .glow-demo-card:hover {
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-4px);
+            border-color: var(--dream-lavender);
+        }
+
+        /* === BUTTONS === */
+        .btn {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 1rem 2rem;
+            border-radius: var(--radius-full);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+            letter-spacing: 0.02em;
+        }
+
+        .btn-primary {
+            background: var(--dream-fade);
+            color: white;
+            box-shadow: var(--shadow-lavender);
+        }
+
+        .btn-primary:hover {
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--dream-lavender);
+            border: 2px solid var(--dream-lavender);
+        }
+
+        .btn-secondary:hover {
+            background: var(--dream-lavender);
+            color: white;
+            box-shadow: var(--shadow-lavender);
+        }
+
+        .btn-tertiary {
+            background: transparent;
+            color: var(--dream-lavender);
+            padding: 0.5rem 1rem;
+            text-decoration: underline;
+        }
+
+        .btn-tertiary:hover {
+            color: var(--twilight-blue);
+        }
+
+        .btn-sm {
+            font-size: 0.875rem;
+            padding: 0.75rem 1.5rem;
+        }
+
+        .btn-lg {
+            font-size: 1.125rem;
+            padding: 1.25rem 2.5rem;
+        }
+
+        /* === BADGES === */
+        .badge {
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 0.75rem;
+            padding: 0.375rem 0.75rem;
+            border-radius: var(--radius-full);
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-verified {
+            background: var(--morning-mist);
+            color: var(--twilight-blue);
+        }
+
+        .badge-acw {
+            background: var(--dream-lavender);
+            color: white;
+        }
+
+        .badge-premium {
+            background: var(--sunset-dream);
+            color: white;
+        }
+
+        .badge-featured {
+            background: var(--golden-hour);
+            color: var(--midnight);
+        }
+
+        /* === NAVBAR === */
+        .navbar {
+            background: white;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md) var(--spacing-md) 0;
+        }
+
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .navbar-logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 300;
+            color: var(--midnight);
+            text-decoration: none;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: var(--spacing-lg);
+            list-style: none;
+        }
+
+        .navbar-link {
+            font-family: var(--font-body);
+            font-weight: 400;
+            font-size: 0.9375rem;
+            color: var(--dusk-gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-link:hover {
+            color: var(--dream-lavender);
+        }
+
+        /* === HERO SECTION === */
+        .hero-section {
+            background: var(--cloud-white);
+            padding: var(--spacing-2xl) 0;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 300;
+            color: var(--midnight);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.1;
+        }
+
+        .hero-tagline {
+            font-family: var(--font-heading);
+            font-size: 1.75rem;
+            font-style: italic;
+            font-weight: 300;
+            color: var(--dream-lavender);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--dusk-gray);
+            max-width: 600px;
+            margin: 0 auto var(--spacing-xl);
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* === TRUST BAR === */
+        .trust-bar {
+            background: var(--whisper);
+            padding: var(--spacing-lg) 0;
+        }
+
+        .trust-stats {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-xl);
+            flex-wrap: wrap;
+        }
+
+        .trust-stat {
+            text-align: center;
+        }
+
+        .trust-stat-value {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 400;
+            color: var(--dream-lavender);
+            margin-bottom: 0.25rem;
+        }
+
+        .trust-stat-label {
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            color: var(--dusk-gray);
+            font-weight: 400;
+        }
+
+        /* === VENDOR CARDS === */
+        .vendors-section {
+            padding: var(--spacing-2xl) 0;
+            background: var(--cloud-white);
+        }
+
+        .section-title {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .vendor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .vendor-card {
+            background: var(--pearl);
+            border: 1px solid var(--whisper);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .vendor-card:hover {
+            box-shadow: var(--shadow-lavender);
+            transform: translateY(-6px);
+        }
+
+        .vendor-image {
+            height: 250px;
+            background: var(--sky-drift);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--twilight-blue);
+            font-family: var(--font-body);
+            font-weight: 400;
+            font-size: 0.875rem;
+        }
+
+        .vendor-content {
+            padding: var(--spacing-md);
+        }
+
+        .vendor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .vendor-name {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: var(--midnight);
+            margin-bottom: 0.25rem;
+        }
+
+        .vendor-category {
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 0.75rem;
+            color: var(--dusk-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .vendor-location {
+            font-size: 0.875rem;
+            color: var(--dusk-gray);
+            margin-bottom: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .vendor-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .star {
+            color: var(--golden-hour);
+            font-size: 1rem;
+        }
+
+        .rating-value {
+            font-weight: 500;
+            color: var(--midnight);
+            margin-left: 0.25rem;
+        }
+
+        .vendor-price {
+            font-weight: 500;
+            color: var(--midnight);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .vendor-badges {
+            display: flex;
+            gap: var(--spacing-xs);
+            flex-wrap: wrap;
+        }
+
+        /* === CATEGORIES === */
+        .categories-section {
+            padding: var(--spacing-2xl) 0;
+            background: var(--cloud-white);
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .category-card {
+            background: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--whisper);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .category-card:hover {
+            border-color: var(--dream-lavender);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-4px);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .category-name {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1.125rem;
+            color: var(--midnight);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .category-description {
+            font-size: 0.875rem;
+            color: var(--dusk-gray);
+        }
+
+        /* === HOW IT WORKS === */
+        .how-it-works-section {
+            padding: var(--spacing-2xl) 0;
+            background: var(--pearl);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-xl);
+        }
+
+        .step-card {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            font-family: var(--font-heading);
+            font-size: 5rem;
+            font-weight: 300;
+            color: var(--dream-lavender);
+            opacity: 0.3;
+            margin-bottom: var(--spacing-sm);
+            line-height: 1;
+        }
+
+        .step-title {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 400;
+            color: var(--midnight);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .step-description {
+            color: var(--dusk-gray);
+            font-size: 1rem;
+        }
+
+        /* === CTA SECTION === */
+        .cta-section {
+            padding: var(--spacing-2xl) 0;
+            background: var(--dream-fade);
+            text-align: center;
+            color: white;
+        }
+
+        .cta-title {
+            font-size: 3rem;
+            color: white;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .cta-description {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .btn-cta-white {
+            background: white;
+            color: var(--dream-lavender);
+            font-weight: 600;
+            padding: 1.25rem 2.5rem;
+            font-size: 1.125rem;
+        }
+
+        .btn-cta-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* === CELEBRATIONS PREVIEW === */
+        .celebrations-section {
+            padding: var(--spacing-2xl) 0;
+            background: var(--cloud-white);
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+        }
+
+        .story-card {
+            height: 400px;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .story-card:hover {
+            transform: scale(1.02);
+        }
+
+        .story-image {
+            width: 100%;
+            height: 100%;
+            background: var(--sunset-dream);
+        }
+
+        .story-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: var(--spacing-lg);
+            background: linear-gradient(to top, rgba(42, 40, 56, 0.9), transparent);
+            color: white;
+        }
+
+        .story-title {
+            font-family: var(--font-heading);
+            font-size: 1.75rem;
+            font-weight: 400;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .story-subtitle {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* === FOOTER === */
+        .footer {
+            background: var(--midnight);
+            color: white;
+            padding: var(--spacing-xl) 0 var(--spacing-lg);
+        }
+
+        .footer-top {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .footer-wordmark {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 300;
+            background: linear-gradient(135deg, var(--dream-lavender), white);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-tagline {
+            font-family: var(--font-heading);
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.125rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .footer-column h4 {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--dream-lavender);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.875rem;
+            line-height: 2;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--dream-lavender);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.875rem;
+        }
+
+        .footer-dream-text {
+            font-family: var(--font-heading);
+            font-style: italic;
+            color: var(--dream-lavender);
+            margin-top: var(--spacing-sm);
+        }
+
+        /* === COMPONENT LIBRARY === */
+        .component-library {
+            background: var(--pearl);
+        }
+
+        .component-section {
+            background: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .component-section h3 {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: var(--midnight);
+            margin-bottom: var(--spacing-md);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .badge-grid {
+            display: flex;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+        }
+
+        .input-demo {
+            max-width: 400px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--whisper);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--dream-lavender);
+            box-shadow: 0 0 0 3px rgba(157, 139, 216, 0.1);
+        }
+
+        .form-label {
+            display: block;
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 0.875rem;
+            color: var(--midnight);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* === MOBILE PREVIEW === */
+        .mobile-preview {
+            background: var(--cloud-white);
+        }
+
+        .mobile-frame {
+            max-width: 375px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 20px 60px rgba(42, 40, 56, 0.3);
+            overflow: hidden;
+            border: 8px solid var(--midnight);
+        }
+
+        .mobile-content {
+            overflow-y: auto;
+            max-height: 667px;
+        }
+
+        .mobile-hero {
+            padding: var(--spacing-lg);
+            text-align: center;
+            background: var(--cloud-white);
+        }
+
+        .mobile-hero h1 {
+            font-size: 2rem;
+        }
+
+        .mobile-hero .hero-tagline {
+            font-size: 1rem;
+        }
+
+        .mobile-hero p {
+            font-size: 0.875rem;
+        }
+
+        .mobile-cta {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+            padding: 0 var(--spacing-sm);
+        }
+
+        .mobile-vendor-card {
+            margin: var(--spacing-sm);
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+            h3 { font-size: 1.5rem; }
+
+            .navbar-links {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-tagline {
+                font-size: 1.25rem;
+            }
+
+            .haraya-wordmark {
+                font-size: 3rem;
+            }
+
+            .vendor-grid,
+            .category-grid,
+            .story-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .trust-stats {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+
+            .hero-cta {
+                flex-direction: column;
+            }
+
+            .mockup-section {
+                padding: var(--spacing-lg) 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-wrapper">
+
+        <!-- ============================================
+             BRAND BOARD SECTION
+             ============================================ -->
+        <section class="mockup-section brand-board">
+            <div class="container">
+                <h2 class="mockup-title">Brand Board</h2>
+                <p class="mockup-subtitle">Haraya Design System</p>
+
+                <!-- Logo/Wordmark -->
+                <div class="logo-showcase">
+                    <div class="haraya-wordmark">haraya</div>
+                    <div class="haraya-tagline">where dreams take shape</div>
+                    <div class="haraya-meaning">
+                        Filipino word for imagination, creative vision, dream
+                    </div>
+                </div>
+
+                <!-- Color Palette -->
+                <h3 style="text-align: center; margin-bottom: 2rem; color: var(--dusk-gray); font-family: var(--font-body); font-size: 1rem; text-transform: uppercase; letter-spacing: 0.1em;">Color Palette</h3>
+                <div class="color-grid">
+                    <div class="color-swatch">
+                        <div class="color-preview" style="background: #9D8BD8;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Dream Lavender</div>
+                            <div class="color-hex">#9D8BD8</div>
+                            <div class="color-role">Primary brand, CTAs</div>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="color-preview" style="background: #5B7C99;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Twilight Blue</div>
+                            <div class="color-hex">#5B7C99</div>
+                            <div class="color-role">Secondary, navigation</div>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="color-preview" style="background: #F4B8C5;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Sunset Blush</div>
+                            <div class="color-hex">#F4B8C5</div>
+                            <div class="color-role">Romantic accents</div>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="color-preview" style="background: #F4C688;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Golden Hour</div>
+                            <div class="color-hex">#F4C688</div>
+                            <div class="color-role">Premium highlights</div>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="color-preview" style="background: #C5D5E4;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Morning Mist</div>
+                            <div class="color-hex">#C5D5E4</div>
+                            <div class="color-role">Calm backgrounds</div>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="color-preview" style="background: #F7F5FB;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Cloud White</div>
+                            <div class="color-hex">#F7F5FB</div>
+                            <div class="color-role">Primary canvas</div>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="color-preview" style="background: #FDFCFE;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Pearl</div>
+                            <div class="color-hex">#FDFCFE</div>
+                            <div class="color-role">Card surfaces</div>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="color-preview" style="background: #EEEEF5;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Whisper</div>
+                            <div class="color-hex">#EEEEF5</div>
+                            <div class="color-role">Borders, subtle bg</div>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="color-preview" style="background: #2A2838;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Midnight</div>
+                            <div class="color-hex">#2A2838</div>
+                            <div class="color-role">Primary text</div>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="color-preview" style="background: #6B6B7D;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Dusk Gray</div>
+                            <div class="color-hex">#6B6B7D</div>
+                            <div class="color-role">Secondary text</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gradients -->
+                <h3 style="text-align: center; margin: 3rem 0 2rem; color: var(--dusk-gray); font-family: var(--font-body); font-size: 1rem; text-transform: uppercase; letter-spacing: 0.1em;">Gradients</h3>
+                <div class="gradient-grid">
+                    <div class="gradient-swatch" style="background: linear-gradient(135deg, #9D8BD8, #5B7C99);">
+                        Dream Fade
+                    </div>
+                    <div class="gradient-swatch" style="background: linear-gradient(135deg, #F4B8C5, #F4C688);">
+                        Sunset Dream
+                    </div>
+                    <div class="gradient-swatch" style="background: linear-gradient(135deg, #C5D5E4, #F7F5FB);">
+                        Sky Drift
+                    </div>
+                </div>
+
+                <!-- Typography -->
+                <h3 style="text-align: center; margin: 3rem 0 2rem; color: var(--dusk-gray); font-family: var(--font-body); font-size: 1rem; text-transform: uppercase; letter-spacing: 0.1em;">Typography</h3>
+                <div class="typography-showcase">
+                    <div class="type-sample">
+                        <div class="type-label">Heading 1 - Playfair Display Light 300</div>
+                        <h1>Every celebration begins with a dream</h1>
+                    </div>
+                    <div class="type-sample">
+                        <div class="type-label">Heading 2 - Playfair Display Light 300</div>
+                        <h2>Find your dream team</h2>
+                    </div>
+                    <div class="type-sample">
+                        <div class="type-label">Heading 3 - Playfair Display Light 300</div>
+                        <h3>Featured Vendors</h3>
+                    </div>
+                    <div class="type-sample">
+                        <div class="type-label">Heading 4 - Playfair Display Light 300</div>
+                        <h4>Discover Perfect Matches</h4>
+                    </div>
+                    <div class="type-sample">
+                        <div class="type-label">Body Text - Poppins Light 300</div>
+                        <p class="body-text-sample">
+                            Haraya connects you with Filipino vendors who celebrate every kind of love story.
+                            From intimate gatherings to grand celebrations, we're here to help you bring your
+                            vision to life with vendors who truly understand your journey.
+                        </p>
+                    </div>
+                    <div class="type-sample">
+                        <div class="type-label">Labels - Poppins Medium 500</div>
+                        <div class="label-sample">All Celebrations Welcome</div>
+                    </div>
+                    <div class="type-sample">
+                        <div class="type-label">Tagline - Playfair Display Italic Light 300</div>
+                        <div style="font-family: var(--font-heading); font-style: italic; font-size: 1.5rem; font-weight: 300; color: var(--dream-lavender);">
+                            where dreams take shape
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             SIGNATURE ELEMENTS SECTION
+             ============================================ -->
+        <section class="mockup-section signature-elements">
+            <div class="container">
+                <h2 class="mockup-title">Signature Elements</h2>
+                <p class="mockup-subtitle">Brand Expressions</p>
+
+                <div class="element-grid">
+                    <div class="element-card">
+                        <div class="element-name">Dream Line</div>
+                        <p style="font-size: 0.875rem; color: var(--dusk-gray); margin-bottom: 1.5rem;">
+                            Gradient divider for visual separation
+                        </p>
+                        <div class="dream-line"></div>
+                    </div>
+
+                    <div class="element-card">
+                        <div class="element-name">Shimmer Loading</div>
+                        <p style="font-size: 0.875rem; color: var(--dusk-gray); margin-bottom: 1.5rem;">
+                            Elegant content loading state
+                        </p>
+                        <div class="shimmer-box"></div>
+                    </div>
+
+                    <div class="element-card">
+                        <div class="element-name">Dream Dots Loader</div>
+                        <p style="font-size: 0.875rem; color: var(--dusk-gray); margin-bottom: 1.5rem;">
+                            Floating animation for page loads
+                        </p>
+                        <div class="dream-dots">
+                            <div class="dream-dot"></div>
+                            <div class="dream-dot"></div>
+                            <div class="dream-dot"></div>
+                        </div>
+                    </div>
+
+                    <div class="element-card">
+                        <div class="element-name">Card Glow Effect</div>
+                        <p style="font-size: 0.875rem; color: var(--dusk-gray); margin-bottom: 1.5rem;">
+                            Hover to see the lavender glow
+                        </p>
+                        <div class="glow-demo-card">
+                            <p style="margin: 0; color: var(--midnight); font-weight: 500;">Hover over me</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             HOMEPAGE MOCKUP
+             ============================================ -->
+        <section class="mockup-section" style="background: white; padding: 0; border: none;">
+            <div style="background: var(--cloud-white); padding-bottom: 4rem;">
+                <h2 class="mockup-title" style="padding-top: 4rem;">Full Homepage Mockup</h2>
+                <p class="mockup-subtitle">Complete User Experience</p>
+            </div>
+
+            <!-- Navbar -->
+            <nav class="navbar">
+                <div class="navbar-container">
+                    <div class="navbar-content">
+                        <a href="#" class="navbar-logo">haraya</a>
+                        <ul class="navbar-links">
+                            <li><a href="#" class="navbar-link">Vendors</a></li>
+                            <li><a href="#" class="navbar-link">Plan</a></li>
+                            <li><a href="#" class="navbar-link">Community</a></li>
+                            <li><a href="#" class="navbar-link">Celebrations</a></li>
+                            <li><a href="#" class="navbar-link">About</a></li>
+                        </ul>
+                    </div>
+                    <div class="dream-line-thin"></div>
+                </div>
+            </nav>
+
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="container">
+                    <h1 class="hero-title">Where every celebration<br>begins with a dream</h1>
+                    <div class="hero-tagline">where dreams take shape</div>
+                    <p class="hero-description">
+                        Connect with Filipino vendors who celebrate every kind of love story.
+                        From intimate moments to grand celebrations.
+                    </p>
+                    <div class="hero-cta">
+                        <a href="#" class="btn btn-primary btn-lg">Find Vendors</a>
+                        <a href="#" class="btn btn-secondary btn-lg">Start Planning</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Trust Bar -->
+            <section class="trust-bar">
+                <div class="container">
+                    <div class="trust-stats">
+                        <div class="trust-stat">
+                            <div class="trust-stat-value">500+</div>
+                            <div class="trust-stat-label">Verified Vendors</div>
+                        </div>
+                        <div class="trust-stat">
+                            <div class="trust-stat-value">Every Celebration</div>
+                            <div class="trust-stat-label">Welcome Here</div>
+                        </div>
+                        <div class="trust-stat">
+                            <div class="trust-stat-value">Filipino-First</div>
+                            <div class="trust-stat-label">Platform</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Vendors -->
+            <section class="vendors-section">
+                <div class="container">
+                    <h2 class="section-title">Featured Vendors</h2>
+                    <div class="vendor-grid">
+                        <div class="vendor-card">
+                            <div class="vendor-image">
+                                Image Placeholder
+                            </div>
+                            <div class="vendor-content">
+                                <div class="vendor-header">
+                                    <div>
+                                        <div class="vendor-name">Bloom & Co.</div>
+                                        <div class="vendor-category">Florist</div>
+                                    </div>
+                                </div>
+                                <div class="vendor-location">
+                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 1.75C4.65 1.75 2.75 3.65 2.75 6C2.75 9 7 12.25 7 12.25C7 12.25 11.25 9 11.25 6C11.25 3.65 9.35 1.75 7 1.75ZM7 7.5C6.175 7.5 5.5 6.825 5.5 6C5.5 5.175 6.175 4.5 7 4.5C7.825 4.5 8.5 5.175 8.5 6C8.5 6.825 7.825 7.5 7 7.5Z" fill="currentColor"/>
+                                    </svg>
+                                    Manila, Metro Manila
+                                </div>
+                                <div class="vendor-rating">
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="rating-value">5.0</span>
+                                    <span style="color: var(--dusk-gray); font-size: 0.875rem;">(42)</span>
+                                </div>
+                                <div class="vendor-price">₱₱₱ · Premium</div>
+                                <div class="vendor-badges">
+                                    <span class="badge badge-verified">Verified</span>
+                                    <span class="badge badge-acw">ACW</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="vendor-card">
+                            <div class="vendor-image" style="background: var(--sunset-dream);">
+                                Image Placeholder
+                            </div>
+                            <div class="vendor-content">
+                                <div class="vendor-header">
+                                    <div>
+                                        <div class="vendor-name">Captured Moments</div>
+                                        <div class="vendor-category">Photography</div>
+                                    </div>
+                                </div>
+                                <div class="vendor-location">
+                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 1.75C4.65 1.75 2.75 3.65 2.75 6C2.75 9 7 12.25 7 12.25C7 12.25 11.25 9 11.25 6C11.25 3.65 9.35 1.75 7 1.75ZM7 7.5C6.175 7.5 5.5 6.825 5.5 6C5.5 5.175 6.175 4.5 7 4.5C7.825 4.5 8.5 5.175 8.5 6C8.5 6.825 7.825 7.5 7 7.5Z" fill="currentColor"/>
+                                    </svg>
+                                    Quezon City, Metro Manila
+                                </div>
+                                <div class="vendor-rating">
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="rating-value">4.9</span>
+                                    <span style="color: var(--dusk-gray); font-size: 0.875rem;">(87)</span>
+                                </div>
+                                <div class="vendor-price">₱₱ · Moderate</div>
+                                <div class="vendor-badges">
+                                    <span class="badge badge-verified">Verified</span>
+                                    <span class="badge badge-acw">ACW</span>
+                                    <span class="badge badge-featured">Featured</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="vendor-card">
+                            <div class="vendor-image" style="background: linear-gradient(135deg, #F4C688, #9D8BD8);">
+                                Image Placeholder
+                            </div>
+                            <div class="vendor-content">
+                                <div class="vendor-header">
+                                    <div>
+                                        <div class="vendor-name">Sweet Celebrations</div>
+                                        <div class="vendor-category">Catering</div>
+                                    </div>
+                                </div>
+                                <div class="vendor-location">
+                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 1.75C4.65 1.75 2.75 3.65 2.75 6C2.75 9 7 12.25 7 12.25C7 12.25 11.25 9 11.25 6C11.25 3.65 9.35 1.75 7 1.75ZM7 7.5C6.175 7.5 5.5 6.825 5.5 6C5.5 5.175 6.175 4.5 7 4.5C7.825 4.5 8.5 5.175 8.5 6C8.5 6.825 7.825 7.5 7 7.5Z" fill="currentColor"/>
+                                    </svg>
+                                    Pasig City, Metro Manila
+                                </div>
+                                <div class="vendor-rating">
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="rating-value">5.0</span>
+                                    <span style="color: var(--dusk-gray); font-size: 0.875rem;">(156)</span>
+                                </div>
+                                <div class="vendor-price">₱₱₱ · Premium</div>
+                                <div class="vendor-badges">
+                                    <span class="badge badge-verified">Verified</span>
+                                    <span class="badge badge-acw">ACW</span>
+                                    <span class="badge badge-premium">Premium</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categories -->
+            <section class="categories-section">
+                <div class="container">
+                    <h2 class="section-title">Find your dream team</h2>
+                    <div class="category-grid">
+                        <div class="category-card">
+                            <div class="category-icon">🌸</div>
+                            <div class="category-name">Florists</div>
+                            <div class="category-description">
+                                Beautiful blooms for every celebration
+                            </div>
+                        </div>
+                        <div class="category-card">
+                            <div class="category-icon">📸</div>
+                            <div class="category-name">Photography</div>
+                            <div class="category-description">
+                                Capture your most precious moments
+                            </div>
+                        </div>
+                        <div class="category-card">
+                            <div class="category-icon">🍰</div>
+                            <div class="category-name">Catering</div>
+                            <div class="category-description">
+                                Delicious food for memorable gatherings
+                            </div>
+                        </div>
+                        <div class="category-card">
+                            <div class="category-icon">🏛️</div>
+                            <div class="category-name">Venues</div>
+                            <div class="category-description">
+                                Perfect spaces for your dream event
+                            </div>
+                        </div>
+                        <div class="category-card">
+                            <div class="category-icon">🎵</div>
+                            <div class="category-name">Entertainment</div>
+                            <div class="category-description">
+                                Music and joy for your celebration
+                            </div>
+                        </div>
+                        <div class="category-card">
+                            <div class="category-icon">✨</div>
+                            <div class="category-name">Planning</div>
+                            <div class="category-description">
+                                Expert coordination for stress-free events
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- How It Works -->
+            <section class="how-it-works-section">
+                <div class="container">
+                    <h2 class="section-title">How it works</h2>
+                    <div class="steps-grid">
+                        <div class="step-card">
+                            <div class="step-number">01</div>
+                            <h3 class="step-title">Discover</h3>
+                            <p class="step-description">
+                                Browse our curated collection of Filipino vendors who celebrate
+                                every kind of love and every type of celebration.
+                            </p>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">02</div>
+                            <h3 class="step-title">Plan</h3>
+                            <p class="step-description">
+                                Connect with vendors, get quotes, and organize every detail
+                                in one beautiful, easy-to-use platform.
+                            </p>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">03</div>
+                            <h3 class="step-title">Celebrate</h3>
+                            <p class="step-description">
+                                Relax and enjoy your special day knowing every detail has
+                                been thoughtfully planned and beautifully executed.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA Section -->
+            <section class="cta-section">
+                <div class="container">
+                    <h2 class="cta-title">Not sure where to start?</h2>
+                    <p class="cta-description">
+                        Take our quick matchmaker quiz to find vendors perfect for your vision
+                    </p>
+                    <a href="#" class="btn btn-cta-white">Take the Quiz</a>
+                </div>
+            </section>
+
+            <!-- Real Celebrations -->
+            <section class="celebrations-section">
+                <div class="container">
+                    <h2 class="section-title">Be inspired by real Filipino love stories</h2>
+                    <div class="story-grid">
+                        <div class="story-card">
+                            <div class="story-image"></div>
+                            <div class="story-overlay">
+                                <div class="story-title">Maria & Sofia's Garden Wedding</div>
+                                <div class="story-subtitle">An intimate celebration of love and family</div>
+                            </div>
+                        </div>
+                        <div class="story-card">
+                            <div class="story-image" style="background: linear-gradient(135deg, #9D8BD8, #F4C688);"></div>
+                            <div class="story-overlay">
+                                <div class="story-title">The Cruz Family Reunion</div>
+                                <div class="story-subtitle">Bringing generations together in joy</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div style="height: 3px; background: var(--dream-fade); margin-bottom: 3rem;"></div>
+                <div class="container">
+                    <div class="footer-top text-center">
+                        <div class="footer-wordmark">haraya</div>
+                        <div class="footer-tagline">where dreams take shape</div>
+                    </div>
+                    <div class="footer-content">
+                        <div class="footer-column">
+                            <h4>For Couples</h4>
+                            <ul class="footer-links">
+                                <li><a href="#" class="footer-link">Find Vendors</a></li>
+                                <li><a href="#" class="footer-link">Planning Tools</a></li>
+                                <li><a href="#" class="footer-link">Real Celebrations</a></li>
+                                <li><a href="#" class="footer-link">Community</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-column">
+                            <h4>For Vendors</h4>
+                            <ul class="footer-links">
+                                <li><a href="#" class="footer-link">List Your Business</a></li>
+                                <li><a href="#" class="footer-link">Pricing</a></li>
+                                <li><a href="#" class="footer-link">Success Stories</a></li>
+                                <li><a href="#" class="footer-link">Resources</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-column">
+                            <h4>Company</h4>
+                            <ul class="footer-links">
+                                <li><a href="#" class="footer-link">About Us</a></li>
+                                <li><a href="#" class="footer-link">Our Values</a></li>
+                                <li><a href="#" class="footer-link">Careers</a></li>
+                                <li><a href="#" class="footer-link">Press</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-column">
+                            <h4>Support</h4>
+                            <ul class="footer-links">
+                                <li><a href="#" class="footer-link">Help Center</a></li>
+                                <li><a href="#" class="footer-link">Contact Us</a></li>
+                                <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                                <li><a href="#" class="footer-link">Terms of Service</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        <p>&copy; 2026 Haraya. All rights reserved.</p>
+                        <p class="footer-dream-text">Dream it. Plan it. Celebrate it.</p>
+                    </div>
+                </div>
+            </footer>
+        </section>
+
+        <!-- ============================================
+             COMPONENT LIBRARY
+             ============================================ -->
+        <section class="mockup-section component-library">
+            <div class="container">
+                <h2 class="mockup-title">Component Library</h2>
+                <p class="mockup-subtitle">Reusable Elements</p>
+
+                <!-- Buttons -->
+                <div class="component-section">
+                    <h3>Buttons</h3>
+                    <div class="button-grid">
+                        <div>
+                            <p style="font-size: 0.75rem; color: var(--dusk-gray); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Primary</p>
+                            <button class="btn btn-primary">Find Vendors</button>
+                        </div>
+                        <div>
+                            <p style="font-size: 0.75rem; color: var(--dusk-gray); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Secondary</p>
+                            <button class="btn btn-secondary">Start Planning</button>
+                        </div>
+                        <div>
+                            <p style="font-size: 0.75rem; color: var(--dusk-gray); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Tertiary</p>
+                            <button class="btn btn-tertiary">Learn More</button>
+                        </div>
+                        <div>
+                            <p style="font-size: 0.75rem; color: var(--dusk-gray); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Small</p>
+                            <button class="btn btn-primary btn-sm">Small Button</button>
+                        </div>
+                        <div>
+                            <p style="font-size: 0.75rem; color: var(--dusk-gray); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Large</p>
+                            <button class="btn btn-primary btn-lg">Large Button</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Badges -->
+                <div class="component-section">
+                    <h3>Badges</h3>
+                    <div class="badge-grid">
+                        <span class="badge badge-verified">Verified</span>
+                        <span class="badge badge-acw">All Celebrations Welcome</span>
+                        <span class="badge badge-premium">Premium</span>
+                        <span class="badge badge-featured">Featured</span>
+                    </div>
+                </div>
+
+                <!-- Form Input -->
+                <div class="component-section">
+                    <h3>Form Input</h3>
+                    <div class="input-demo">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-input" placeholder="you@example.com">
+                        <p style="font-size: 0.75rem; color: var(--dusk-gray); margin-top: 0.5rem;">
+                            Click inside to see the focus state with lavender border
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card States -->
+                <div class="component-section">
+                    <h3>Card Hover States</h3>
+                    <div style="max-width: 400px;">
+                        <div class="vendor-card">
+                            <div class="vendor-image">Hover over me to see the glow effect</div>
+                            <div class="vendor-content">
+                                <div class="vendor-name">Example Vendor</div>
+                                <div class="vendor-category">Category</div>
+                                <p style="font-size: 0.875rem; color: var(--dusk-gray); margin-top: 0.5rem;">
+                                    This card demonstrates the lavender shadow glow on hover
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loading States -->
+                <div class="component-section">
+                    <h3>Loading States</h3>
+                    <div style="display: grid; gap: 2rem;">
+                        <div>
+                            <p style="font-size: 0.875rem; color: var(--dusk-gray); margin-bottom: 1rem;">Shimmer Loading</p>
+                            <div class="shimmer-box"></div>
+                        </div>
+                        <div>
+                            <p style="font-size: 0.875rem; color: var(--dusk-gray); margin-bottom: 1rem;">Floating Dream Dots</p>
+                            <div class="dream-dots">
+                                <div class="dream-dot"></div>
+                                <div class="dream-dot"></div>
+                                <div class="dream-dot"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             MOBILE PREVIEW
+             ============================================ -->
+        <section class="mockup-section mobile-preview">
+            <div class="container">
+                <h2 class="mockup-title">Mobile Experience</h2>
+                <p class="mockup-subtitle">375px Viewport</p>
+
+                <div class="mobile-frame">
+                    <div class="mobile-content">
+                        <!-- Mobile Navbar -->
+                        <nav class="navbar" style="position: relative;">
+                            <div style="padding: 1rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.5rem;">
+                                    <a href="#" class="navbar-logo" style="font-size: 1.5rem;">haraya</a>
+                                    <div style="font-size: 1.5rem; color: var(--dream-lavender);">☰</div>
+                                </div>
+                                <div class="dream-line-thin"></div>
+                            </div>
+                        </nav>
+
+                        <!-- Mobile Hero -->
+                        <div class="mobile-hero">
+                            <h1>Where every celebration begins with a dream</h1>
+                            <div class="hero-tagline">where dreams take shape</div>
+                            <p>Connect with Filipino vendors who celebrate every kind of love story.</p>
+                            <div class="mobile-cta">
+                                <a href="#" class="btn btn-primary">Find Vendors</a>
+                                <a href="#" class="btn btn-secondary">Start Planning</a>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Trust Bar -->
+                        <div class="trust-bar">
+                            <div style="padding: 0 1rem;">
+                                <div class="trust-stats" style="flex-direction: column; gap: 1rem;">
+                                    <div class="trust-stat">
+                                        <div class="trust-stat-value">500+</div>
+                                        <div class="trust-stat-label">Verified Vendors</div>
+                                    </div>
+                                    <div class="trust-stat">
+                                        <div class="trust-stat-value">Every Celebration</div>
+                                        <div class="trust-stat-label">Welcome Here</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Vendor Card -->
+                        <div class="mobile-vendor-card">
+                            <div class="vendor-card">
+                                <div class="vendor-image" style="height: 180px;">Image Placeholder</div>
+                                <div class="vendor-content">
+                                    <div class="vendor-name">Bloom & Co.</div>
+                                    <div class="vendor-category">Florist</div>
+                                    <div class="vendor-location">Manila, Metro Manila</div>
+                                    <div class="vendor-rating">
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="rating-value">5.0</span>
+                                    </div>
+                                    <div class="vendor-badges">
+                                        <span class="badge badge-verified">Verified</span>
+                                        <span class="badge badge-acw">ACW</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mobile CTA -->
+                        <div style="background: var(--dream-fade); padding: 2rem 1rem; text-align: center;">
+                            <h2 style="font-size: 1.75rem; color: white; margin-bottom: 1rem;">Not sure where to start?</h2>
+                            <p style="color: rgba(255,255,255,0.9); margin-bottom: 1.5rem;">Take our matchmaker quiz</p>
+                            <a href="#" class="btn btn-cta-white">Take the Quiz</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</body>
+</html>

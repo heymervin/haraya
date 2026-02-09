@@ -1,0 +1,169 @@
+/* Google Fonts — Haraya Design System */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@300;400;500;600&display=swap');
+
+@import "tailwindcss";
+
+/* ═══ HARAYA DESIGN TOKENS ═══ */
+
+@theme {
+  /* Brand Colors - Dream Palette */
+  --color-dream-lavender: #9D8BD8;
+  --color-twilight-blue: #5B7C99;
+  --color-sunset-blush: #F4B8C5;
+  --color-golden-hour: #F4C688;
+  --color-morning-mist: #C5D5E4;
+  --color-cloud-white: #F7F5FB;
+  --color-pearl: #FDFCFE;
+  --color-whisper: #EEEEF5;
+  --color-midnight: #2A2838;
+  --color-dusk-gray: #6B6B7D;
+
+  /* Semantic Mappings */
+  --color-bg-primary: #F7F5FB;
+  --color-bg-secondary: #FDFCFE;
+  --color-bg-deep: #2A2838;
+  --color-text-primary: #2A2838;
+  --color-text-secondary: #6B6B7D;
+  --color-text-on-dark: #F7F5FB;
+  --color-accent-primary: #9D8BD8;
+  --color-accent-primary-hover: #8169C4;
+  --color-border: #EEEEF5;
+  --color-accent-success: #5B7C99;
+  --color-accent-warning: #F4C688;
+  --color-accent-error: #FF6B9D;
+  --color-accent-info: #5B7C99;
+
+  /* Font families */
+  --font-family-sans: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-family-serif: 'Playfair Display', Georgia, serif;
+
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Shadows (lavender-tinted) */
+  --shadow-sm: 0 2px 8px rgba(157, 139, 216, 0.08);
+  --shadow-md: 0 4px 16px rgba(157, 139, 216, 0.12);
+  --shadow-lg: 0 8px 32px rgba(157, 139, 216, 0.15);
+  --shadow-xl: 0 16px 48px rgba(157, 139, 216, 0.2);
+
+  /* Gradients */
+  --gradient-dream: linear-gradient(135deg, #9D8BD8 0%, #5B7C99 100%);
+  --gradient-sunset: linear-gradient(135deg, #F4B8C5 0%, #F4C688 100%);
+  --gradient-sky: linear-gradient(135deg, #C5D5E4 0%, #F7F5FB 100%);
+}
+
+/* ═══ BASE STYLES ═══ */
+
+body {
+  font-family: var(--font-family-sans);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: rgba(157, 139, 216, 0.2);
+  color: var(--color-text-primary);
+}
+
+/* ═══ HARAYA SIGNATURE ELEMENT — Dream Line ═══ */
+
+.haraya-glow {
+  height: 2px;
+  background: linear-gradient(90deg, #9D8BD8 0%, #5B7C99 100%);
+  width: 100%;
+}
+
+.haraya-glow-thin {
+  height: 1px;
+  background: linear-gradient(90deg, #9D8BD8 0%, #5B7C99 100%);
+  width: 100%;
+}
+
+@keyframes dream-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.haraya-glow-loading {
+  height: 2px;
+  background: linear-gradient(90deg, #9D8BD8 0%, #5B7C99 50%, #9D8BD8 100%);
+  background-size: 200% 100%;
+  animation: dream-shimmer 2s linear infinite;
+  width: 100%;
+}
+
+/* ═══ BUTTON SHIMMER ANIMATION ═══ */
+
+@keyframes button-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.btn-shimmer {
+  background-size: 200% 100%;
+  animation: button-shimmer 3s linear infinite;
+}
+
+/* ═══ FLOATING DREAM DOTS ANIMATION ═══ */
+
+@keyframes float-dream {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-20px) scale(1.1);
+    opacity: 1;
+  }
+}
+
+.dream-dot {
+  animation: float-dream 3s ease-in-out infinite;
+}
+
+.dream-dot:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.dream-dot:nth-child(3) {
+  animation-delay: 1s;
+}
+
+/* ═══ BACKGROUND PATTERN — Dream Pattern ═══ */
+
+.pattern-dream {
+  background-image:
+    repeating-linear-gradient(45deg,
+      transparent, transparent 8px,
+      rgba(157, 139, 216, 0.04) 8px, rgba(157, 139, 216, 0.04) 9px),
+    repeating-linear-gradient(-45deg,
+      transparent, transparent 8px,
+      rgba(157, 139, 216, 0.04) 8px, rgba(157, 139, 216, 0.04) 9px);
+}
+
+/* ═══ FADE-IN ANIMATION ═══ */
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

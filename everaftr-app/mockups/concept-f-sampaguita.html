@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>everaftr - Sampaguita Concept (F)</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Zodiak:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* ================================================================
+           RESET & BASE STYLES
+           ================================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Canvas */
+            --color-white: #FFFFFF;
+            --color-cloud: #FAFAF9;
+            --color-petal: #F5F5F4;
+
+            /* Primary Accent: Dahon (Leaf) */
+            --color-dahon: #1C6B47;
+            --color-dahon-dark: #145239;
+            --color-dahon-light: #E8F5EF;
+            --color-dahon-lighter: #F0FAF5;
+
+            /* Text */
+            --color-ink: #1C1917;
+            --color-stone: #78716C;
+            --color-mist: #A8A29E;
+
+            /* Borders */
+            --color-border: #E7E5E4;
+            --color-border-strong: #D6D3D1;
+
+            /* Functional */
+            --color-success: #16A34A;
+            --color-warning: #F59E0B;
+            --color-error: #DC2626;
+            --color-info: #3B82F6;
+
+            /* Accent: Sampaguita Gold */
+            --color-gold: #D4AF37;
+            --color-gold-light: #FAF6E8;
+
+            /* Deep (footer) */
+            --color-deep: #0F1A14;
+            --color-deep-surface: #1C2E23;
+            --color-text-on-deep: #FAFAF9;
+            --color-text-on-deep-muted: #A8A29E;
+
+            /* Fonts */
+            --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-serif: 'Zodiak', Georgia, serif;
+
+            /* Shadows */
+            --shadow-card: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
+            --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+            --shadow-soft: 0 2px 8px rgba(0,0,0,0.06);
+
+            /* Border radius */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-pill: 999px;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--color-ink);
+            background-color: var(--color-white);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ================================================================
+           TYPOGRAPHY
+           ================================================================ */
+        h1, h2, h3 {
+            font-family: var(--font-serif);
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 300;
+            line-height: 1.1;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 300;
+        }
+
+        h3 {
+            font-size: clamp(1.5rem, 3vw, 2.25rem);
+            font-weight: 400;
+        }
+
+        h4 {
+            font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+            font-weight: 400;
+            font-family: var(--font-serif);
+        }
+
+        p.lead {
+            font-size: 1.125rem;
+            line-height: 1.7;
+            color: var(--color-stone);
+        }
+
+        /* ================================================================
+           PATTERNS
+           ================================================================ */
+        .pattern-sampaguita {
+            background-color: var(--color-white);
+            background-image:
+                radial-gradient(circle at 50% 50%, var(--color-petal) 1.5px, transparent 1.5px),
+                radial-gradient(circle at 50% 50%, var(--color-petal) 1px, transparent 1px);
+            background-size: 48px 48px, 24px 24px;
+            background-position: 0 0, 12px 12px;
+        }
+
+        /* ================================================================
+           GARLAND ELEMENTS
+           ================================================================ */
+        .garland-divider {
+            width: 120px;
+            height: 24px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .garland-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: var(--color-dahon);
+            opacity: 0.3;
+            transform: translateY(-50%);
+        }
+
+        .garland-divider span {
+            width: 8px;
+            height: 8px;
+            background-color: var(--color-dahon);
+            border-radius: 50%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .garland-loading {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .garland-loading span {
+            width: 8px;
+            height: 8px;
+            background: var(--color-dahon);
+            border-radius: 50%;
+            animation: pulse 1.4s ease-in-out infinite;
+        }
+
+        .garland-loading span:nth-child(2) { animation-delay: 0.2s; }
+        .garland-loading span:nth-child(3) { animation-delay: 0.4s; }
+        .garland-loading span:nth-child(4) { animation-delay: 0.6s; }
+        .garland-loading span:nth-child(5) { animation-delay: 0.8s; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .star-accent {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            position: relative;
+        }
+
+        .star-accent::before,
+        .star-accent::after {
+            content: '';
+            position: absolute;
+            background-color: currentColor;
+        }
+
+        .star-accent::before {
+            width: 100%;
+            height: 2px;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        .star-accent::after {
+            width: 2px;
+            height: 100%;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* ================================================================
+           BUTTONS
+           ================================================================ */
+        .btn {
+            display: inline-block;
+            padding: 12px 32px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--color-dahon);
+            color: var(--color-white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-dahon-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-dahon);
+            border: 1.5px solid var(--color-dahon);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--color-dahon-lighter);
+        }
+
+        .btn-ghost {
+            background-color: transparent;
+            color: var(--color-dahon);
+            border: none;
+        }
+
+        .btn-ghost:hover {
+            background-color: var(--color-dahon-lighter);
+        }
+
+        /* ================================================================
+           BADGES
+           ================================================================ */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            border-radius: var(--radius-pill);
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-category {
+            background-color: var(--color-petal);
+            color: var(--color-stone);
+        }
+
+        .badge-acw {
+            background-color: var(--color-dahon-light);
+            color: var(--color-dahon);
+        }
+
+        .badge-verified {
+            background-color: var(--color-gold-light);
+            color: var(--color-gold);
+        }
+
+        /* ================================================================
+           CARDS
+           ================================================================ */
+        .card {
+            background-color: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-card);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-card-hover);
+            transform: translateY(-2px);
+        }
+
+        /* ================================================================
+           LAYOUT
+           ================================================================ */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-alt {
+            background-color: var(--color-cloud);
+        }
+
+        /* ================================================================
+           BRAND BOARD SPECIFIC
+           ================================================================ */
+        .brand-board {
+            padding: 40px 0;
+        }
+
+        .color-swatch {
+            height: 120px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 16px;
+            color: var(--color-white);
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid var(--color-border);
+        }
+
+        .color-swatch.light {
+            color: var(--color-ink);
+        }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+        }
+
+        .type-sample {
+            margin-bottom: 24px;
+        }
+
+        /* ================================================================
+           NAVBAR
+           ================================================================ */
+        .navbar {
+            background-color: var(--color-white);
+            border-bottom: 1px solid var(--color-border);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--color-dahon);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--color-ink);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9375rem;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-dahon);
+        }
+
+        .nav-links a.active {
+            color: var(--color-dahon);
+            border-bottom: 2px solid var(--color-dahon);
+            padding-bottom: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* ================================================================
+           HERO
+           ================================================================ */
+        .hero {
+            background-color: var(--color-white);
+            padding: 120px 0 80px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero h1 {
+            margin-bottom: 24px;
+            color: var(--color-ink);
+        }
+
+        .hero p.lead {
+            margin-bottom: 40px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ================================================================
+           VENDOR GRID
+           ================================================================ */
+        .vendor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .vendor-card {
+            background-color: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            transition: all 0.3s ease;
+        }
+
+        .vendor-card:hover {
+            box-shadow: var(--shadow-card-hover);
+            transform: translateY(-4px);
+        }
+
+        .vendor-image {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            background-color: var(--color-petal);
+        }
+
+        .vendor-content {
+            padding: 20px;
+        }
+
+        .vendor-name {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 400;
+            margin-bottom: 8px;
+            color: var(--color-ink);
+        }
+
+        .vendor-meta {
+            font-size: 0.875rem;
+            color: var(--color-stone);
+            margin-bottom: 12px;
+        }
+
+        .vendor-badges {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .vendor-price {
+            font-size: 0.875rem;
+            color: var(--color-dahon);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .star-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 12px;
+        }
+
+        .star {
+            color: var(--color-gold);
+            font-size: 1rem;
+        }
+
+        .star.empty {
+            color: var(--color-mist);
+        }
+
+        .rating-count {
+            font-size: 0.875rem;
+            color: var(--color-stone);
+            margin-left: 4px;
+        }
+
+        .vendor-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 4px 10px;
+            background-color: var(--color-petal);
+            color: var(--color-stone);
+            border-radius: var(--radius-pill);
+            font-size: 0.75rem;
+        }
+
+        /* ================================================================
+           CATEGORIES
+           ================================================================ */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+        }
+
+        .category-card {
+            background-color: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover {
+            background-color: var(--color-petal);
+            transform: translateY(-2px);
+        }
+
+        .category-icon {
+            width: 48px;
+            height: 48px;
+            background-color: var(--color-dahon);
+            border-radius: 50%;
+            margin: 0 auto 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-white);
+            font-size: 20px;
+        }
+
+        .category-name {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--color-ink);
+            margin-bottom: 4px;
+        }
+
+        .category-count {
+            font-size: 0.875rem;
+            color: var(--color-stone);
+        }
+
+        /* ================================================================
+           FOOTER
+           ================================================================ */
+        .footer {
+            background-color: var(--color-deep);
+            color: var(--color-text-on-deep);
+            padding: 60px 0 40px;
+            position: relative;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(
+                to right,
+                transparent 0%,
+                var(--color-dahon-light) 15%,
+                var(--color-dahon-light) 20%,
+                transparent 20%,
+                transparent 30%,
+                var(--color-dahon-light) 40%,
+                var(--color-dahon-light) 45%,
+                transparent 45%,
+                transparent 55%,
+                var(--color-dahon-light) 60%,
+                var(--color-dahon-light) 65%,
+                transparent 65%,
+                transparent 75%,
+                var(--color-dahon-light) 80%,
+                var(--color-dahon-light) 85%,
+                transparent 85%,
+                transparent 100%
+            );
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand {
+            grid-column: span 2;
+        }
+
+        .footer-logo {
+            font-family: var(--font-serif);
+            font-size: 1.75rem;
+            color: var(--color-text-on-deep);
+            margin-bottom: 12px;
+        }
+
+        .footer-tagline {
+            font-size: 0.875rem;
+            font-weight: 300;
+            color: var(--color-text-on-deep-muted);
+            margin-bottom: 24px;
+        }
+
+        .footer-section h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-family: var(--font-sans);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--color-text-on-deep-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--color-text-on-deep);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--color-deep-surface);
+            padding-top: 24px;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--color-text-on-deep-muted);
+        }
+
+        /* ================================================================
+           COMPONENT SHOWCASE
+           ================================================================ */
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
+
+        .component-demo {
+            padding: 32px;
+            background-color: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+        }
+
+        .component-demo h4 {
+            margin-bottom: 16px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: var(--font-sans);
+        }
+
+        .component-demo .demo-content {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .input-demo {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: var(--color-petal);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            color: var(--color-ink);
+            transition: all 0.2s ease;
+        }
+
+        .input-demo:focus {
+            outline: none;
+            background-color: var(--color-white);
+            border-color: var(--color-dahon);
+        }
+
+        .input-demo::placeholder {
+            color: var(--color-mist);
+        }
+
+        /* ================================================================
+           RESPONSIVE
+           ================================================================ */
+        @media (max-width: 768px) {
+            .section {
+                padding: 60px 0;
+            }
+
+            .hero {
+                padding: 80px 0 60px;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .vendor-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-brand {
+                grid-column: span 1;
+            }
+
+            .component-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ================================================================
+         NAVBAR
+         ================================================================ -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="#" class="logo">everaftr</a>
+                <ul class="nav-links">
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#">Vendors</a></li>
+                    <li><a href="#">Plan</a></li>
+                    <li><a href="#">Matchmaker</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+                <button class="btn btn-primary">Get Started</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================================================================
+         BRAND BOARD
+         ================================================================ -->
+    <section class="brand-board section pattern-sampaguita">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 60px;">
+                <h2 style="margin-bottom: 16px;">Concept F: "Sampaguita"</h2>
+                <div class="garland-divider">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <p class="lead" style="margin-top: 24px; max-width: 700px; margin-left: auto; margin-right: auto;">
+                    The Philippine national flower inspires a design system of delicate beauty and pure white space. Small moments, strung together.
+                </p>
+            </div>
+
+            <!-- Color Palette -->
+            <div style="margin-bottom: 60px;">
+                <h3 style="margin-bottom: 24px; text-align: center;">Color Palette</h3>
+                <div class="garland-divider" style="margin-bottom: 32px;">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <h4 style="font-size: 1rem; margin-bottom: 16px; font-family: var(--font-sans); font-weight: 600;">Canvas</h4>
+                <div class="color-grid" style="margin-bottom: 32px;">
+                    <div class="color-swatch light" style="background-color: #FFFFFF; border: 2px solid var(--color-border);">
+                        <div>Snow White</div>
+                        <div style="opacity: 0.6;">#FFFFFF</div>
+                    </div>
+                    <div class="color-swatch light" style="background-color: #FAFAF9;">
+                        <div>Cloud</div>
+                        <div style="opacity: 0.6;">#FAFAF9</div>
+                    </div>
+                    <div class="color-swatch light" style="background-color: #F5F5F4;">
+                        <div>Petal</div>
+                        <div style="opacity: 0.6;">#F5F5F4</div>
+                    </div>
+                </div>
+
+                <h4 style="font-size: 1rem; margin-bottom: 16px; font-family: var(--font-sans); font-weight: 600;">Dahon (Leaf) - Primary Accent</h4>
+                <div class="color-grid" style="margin-bottom: 32px;">
+                    <div class="color-swatch" style="background-color: #1C6B47;">
+                        <div>Dahon</div>
+                        <div style="opacity: 0.8;">#1C6B47</div>
+                    </div>
+                    <div class="color-swatch" style="background-color: #145239;">
+                        <div>Dahon Dark</div>
+                        <div style="opacity: 0.8;">#145239</div>
+                    </div>
+                    <div class="color-swatch light" style="background-color: #E8F5EF;">
+                        <div>Dahon Light</div>
+                        <div style="opacity: 0.6;">#E8F5EF</div>
+                    </div>
+                    <div class="color-swatch light" style="background-color: #F0FAF5;">
+                        <div>Dahon Lighter</div>
+                        <div style="opacity: 0.6;">#F0FAF5</div>
+                    </div>
+                </div>
+
+                <h4 style="font-size: 1rem; margin-bottom: 16px; font-family: var(--font-sans); font-weight: 600;">Sampaguita Gold - Optional Accent</h4>
+                <div class="color-grid" style="margin-bottom: 32px;">
+                    <div class="color-swatch" style="background-color: #D4AF37;">
+                        <div>Gold</div>
+                        <div style="opacity: 0.8;">#D4AF37</div>
+                    </div>
+                    <div class="color-swatch light" style="background-color: #FAF6E8;">
+                        <div>Gold Light</div>
+                        <div style="opacity: 0.6;">#FAF6E8</div>
+                    </div>
+                </div>
+
+                <h4 style="font-size: 1rem; margin-bottom: 16px; font-family: var(--font-sans); font-weight: 600;">Text</h4>
+                <div class="color-grid" style="margin-bottom: 32px;">
+                    <div class="color-swatch" style="background-color: #1C1917;">
+                        <div>Ink</div>
+                        <div style="opacity: 0.8;">#1C1917</div>
+                    </div>
+                    <div class="color-swatch" style="background-color: #78716C;">
+                        <div>Stone</div>
+                        <div style="opacity: 0.8;">#78716C</div>
+                    </div>
+                    <div class="color-swatch light" style="background-color: #A8A29E;">
+                        <div>Mist</div>
+                        <div style="opacity: 0.6;">#A8A29E</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typography -->
+            <div style="margin-bottom: 60px;">
+                <h3 style="margin-bottom: 24px; text-align: center;">Typography</h3>
+                <div class="garland-divider" style="margin-bottom: 32px;">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <div class="type-sample">
+                    <div style="font-family: var(--font-serif); font-size: 3rem; font-weight: 300; margin-bottom: 8px;">
+                        Plan together, celebrate forevr
+                    </div>
+                    <div style="font-size: 0.875rem; color: var(--color-stone);">Zodiak Light - Display/Headings</div>
+                </div>
+
+                <div class="type-sample">
+                    <div style="font-family: var(--font-sans); font-size: 1.125rem; line-height: 1.7; margin-bottom: 8px;">
+                        The sampaguita is the Philippine national flower. Small, white, delicate, powerfully fragrant. It's strung into garlands for weddings, offerings, and everyday life. Each flower is tiny, but when threaded together, they become something complete.
+                    </div>
+                    <div style="font-size: 0.875rem; color: var(--color-stone);">Plus Jakarta Sans - Body Text</div>
+                </div>
+            </div>
+
+            <!-- Garland Motif -->
+            <div style="margin-bottom: 60px;">
+                <h3 style="margin-bottom: 24px; text-align: center;">Signature Element: The Garland</h3>
+                <div class="garland-divider" style="margin-bottom: 32px;">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <div style="background: white; padding: 40px; border-radius: var(--radius-md); border: 1px solid var(--color-border);">
+                    <div style="margin-bottom: 32px;">
+                        <h4 style="font-family: var(--font-sans); font-size: 1rem; font-weight: 600; margin-bottom: 12px;">As a divider:</h4>
+                        <div class="garland-divider">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 32px;">
+                        <h4 style="font-family: var(--font-sans); font-size: 1rem; font-weight: 600; margin-bottom: 12px;">As a loading indicator:</h4>
+                        <div class="garland-loading">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 style="font-family: var(--font-sans); font-size: 1rem; font-weight: 600; margin-bottom: 12px;">As a progress indicator:</h4>
+                        <div style="display: flex; align-items: center; gap: 8px; justify-content: center;">
+                            <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--color-success); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 600;">✓</div>
+                            <div style="width: 40px; height: 1px; background: var(--color-dahon);"></div>
+                            <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--color-success); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 600;">✓</div>
+                            <div style="width: 40px; height: 1px; background: var(--color-dahon);"></div>
+                            <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--color-dahon); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 600;">3</div>
+                            <div style="width: 40px; height: 1px; background: var(--color-border);"></div>
+                            <div style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--color-border); display: flex; align-items: center; justify-content: center; color: var(--color-mist); font-size: 14px; font-weight: 600;">4</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         HERO SECTION
+         ================================================================ -->
+    <section class="hero pattern-sampaguita">
+        <div class="container">
+            <div class="hero-content">
+                <h1>The best way to plan a Filipino celebration</h1>
+                <p class="lead">
+                    Find trusted vendors. Track your budget. Check off your list. All in one place. For every couple, every love story, every celebration.
+                </p>
+                <div class="hero-cta">
+                    <a href="#" class="btn btn-primary">Start Planning</a>
+                    <a href="#" class="btn btn-secondary">Browse Vendors</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         CATEGORIES SECTION
+         ================================================================ -->
+    <section class="section section-alt">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 48px;">
+                <h2 style="margin-bottom: 16px;">Find Your Perfect Vendors</h2>
+                <div class="garland-divider">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <p class="lead" style="margin-top: 24px;">Browse by category to discover vendors who match your vision</p>
+            </div>
+
+            <div class="category-grid">
+                <div class="category-card">
+                    <div class="category-icon">📍</div>
+                    <div class="category-name">Venues</div>
+                    <div class="category-count">127 vendors</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">📸</div>
+                    <div class="category-name">Photo & Video</div>
+                    <div class="category-count">203 vendors</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🍽️</div>
+                    <div class="category-name">Catering</div>
+                    <div class="category-count">156 vendors</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">✨</div>
+                    <div class="category-name">Coordination</div>
+                    <div class="category-count">89 vendors</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🌸</div>
+                    <div class="category-name">Flowers & Styling</div>
+                    <div class="category-count">112 vendors</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">💡</div>
+                    <div class="category-name">Lights & Sound</div>
+                    <div class="category-count">67 vendors</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">💄</div>
+                    <div class="category-name">Hair & Makeup</div>
+                    <div class="category-count">145 vendors</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">👗</div>
+                    <div class="category-name">Attire</div>
+                    <div class="category-count">98 vendors</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         FEATURED VENDORS
+         ================================================================ -->
+    <section class="section">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 48px;">
+                <h2 style="margin-bottom: 16px;">Featured Vendors</h2>
+                <div class="garland-divider">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <p class="lead" style="margin-top: 24px;">Trusted professionals ready to make your celebration unforgettable</p>
+            </div>
+
+            <div class="vendor-grid">
+                <!-- Vendor Card 1 -->
+                <div class="vendor-card">
+                    <img src="https://images.unsplash.com/photo-1519167758481-83f29da8c6b4?w=600&h=450&fit=crop" alt="Garden venue" class="vendor-image">
+                    <div class="vendor-content">
+                        <h3 class="vendor-name">The Secret Garden</h3>
+                        <div class="vendor-meta">📍 Tagaytay, Cavite</div>
+                        <div class="vendor-badges">
+                            <span class="badge badge-acw">
+                                <span class="star-accent" style="color: var(--color-dahon);"></span>
+                                All Celebrations Welcome
+                            </span>
+                            <span class="badge badge-verified">✓ Verified</span>
+                        </div>
+                        <div class="vendor-price">₱150,000 - ₱300,000</div>
+                        <div class="star-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="rating-count">(47)</span>
+                        </div>
+                        <div class="vendor-tags">
+                            <span class="tag">Garden venue</span>
+                            <span class="tag">150-200 guests</span>
+                            <span class="tag">Full catering</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vendor Card 2 -->
+                <div class="vendor-card">
+                    <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?w=600&h=450&fit=crop" alt="Photographer" class="vendor-image">
+                    <div class="vendor-content">
+                        <h3 class="vendor-name">Lens & Light Studios</h3>
+                        <div class="vendor-meta">📍 Makati, Metro Manila</div>
+                        <div class="vendor-badges">
+                            <span class="badge badge-acw">
+                                <span class="star-accent" style="color: var(--color-dahon);"></span>
+                                All Celebrations Welcome
+                            </span>
+                            <span class="badge badge-verified">✓ Verified</span>
+                        </div>
+                        <div class="vendor-price">₱50,000 - ₱120,000</div>
+                        <div class="star-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="rating-count">(82)</span>
+                        </div>
+                        <div class="vendor-tags">
+                            <span class="tag">Photo & Video</span>
+                            <span class="tag">Full day coverage</span>
+                            <span class="tag">Same day edit</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vendor Card 3 -->
+                <div class="vendor-card">
+                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600&h=450&fit=crop" alt="Catering" class="vendor-image">
+                    <div class="vendor-content">
+                        <h3 class="vendor-name">Lola's Table Catering</h3>
+                        <div class="vendor-meta">📍 Quezon City, Metro Manila</div>
+                        <div class="vendor-badges">
+                            <span class="badge badge-category">Catering</span>
+                            <span class="badge badge-verified">✓ Verified</span>
+                        </div>
+                        <div class="vendor-price">₱800 - ₱1,500 per guest</div>
+                        <div class="star-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star empty">★</span>
+                            <span class="rating-count">(34)</span>
+                        </div>
+                        <div class="vendor-tags">
+                            <span class="tag">Filipino cuisine</span>
+                            <span class="tag">Buffet & plated</span>
+                            <span class="tag">Lechon specialty</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 48px;">
+                <a href="#" class="btn btn-primary">View All Vendors</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         COMPONENT SHOWCASE
+         ================================================================ -->
+    <section class="section section-alt">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 48px;">
+                <h2 style="margin-bottom: 16px;">Component Showcase</h2>
+                <div class="garland-divider">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+            <div class="component-grid">
+                <!-- Buttons -->
+                <div class="component-demo">
+                    <h4>Buttons</h4>
+                    <div class="demo-content">
+                        <button class="btn btn-primary">Primary Button</button>
+                        <button class="btn btn-secondary">Secondary Button</button>
+                        <button class="btn btn-ghost">Ghost Button</button>
+                    </div>
+                </div>
+
+                <!-- Badges -->
+                <div class="component-demo">
+                    <h4>Badges</h4>
+                    <div class="demo-content">
+                        <div>
+                            <span class="badge badge-acw">
+                                <span class="star-accent" style="color: var(--color-dahon);"></span>
+                                All Celebrations Welcome
+                            </span>
+                        </div>
+                        <div>
+                            <span class="badge badge-verified">✓ Verified Vendor</span>
+                        </div>
+                        <div>
+                            <span class="badge badge-category">Category</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Inputs -->
+                <div class="component-demo">
+                    <h4>Form Inputs</h4>
+                    <div class="demo-content">
+                        <input type="text" class="input-demo" placeholder="Search vendors...">
+                        <input type="email" class="input-demo" placeholder="Your email">
+                    </div>
+                </div>
+
+                <!-- Star Rating -->
+                <div class="component-demo">
+                    <h4>Star Ratings</h4>
+                    <div class="demo-content">
+                        <div class="star-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="rating-count">(5.0)</span>
+                        </div>
+                        <div class="star-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star empty">★</span>
+                            <span class="rating-count">(4.2)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         CTA SECTION
+         ================================================================ -->
+    <section class="section pattern-sampaguita">
+        <div class="container">
+            <div style="max-width: 700px; margin: 0 auto; text-align: center;">
+                <h2 style="margin-bottom: 24px;">Ready to start planning?</h2>
+                <div class="garland-divider" style="margin-bottom: 24px;">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <p class="lead" style="margin-bottom: 40px;">
+                    Join thousands of Filipino couples who are planning their perfect celebration with everaftr. Every moment, strung together.
+                </p>
+                <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                    <a href="#" class="btn btn-primary">Get Started Free</a>
+                    <a href="#" class="btn btn-secondary">Take the Matchmaker Quiz</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         FOOTER
+         ================================================================ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">everaftr</div>
+                    <div class="footer-tagline">plan together, celebrate forevr</div>
+                    <div style="font-size: 0.875rem; color: var(--color-text-on-deep-muted); margin-bottom: 16px;">
+                        The Philippines' first inclusive wedding planning platform
+                    </div>
+                    <div style="display: flex; gap: 12px;">
+                        <a href="#" style="color: var(--color-text-on-deep-muted); text-decoration: none;">Instagram</a>
+                        <a href="#" style="color: var(--color-text-on-deep-muted); text-decoration: none;">Facebook</a>
+                        <a href="#" style="color: var(--color-text-on-deep-muted); text-decoration: none;">TikTok</a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>For Couples</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Browse Vendors</a></li>
+                        <li><a href="#">Planning Tools</a></li>
+                        <li><a href="#">Matchmaker Quiz</a></li>
+                        <li><a href="#">Budget Calculator</a></li>
+                        <li><a href="#">Real Celebrations</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>For Vendors</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Claim Your Profile</a></li>
+                        <li><a href="#">Vendor Resources</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                        <li><a href="#">Pricing</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 8px;">
+                    <span class="star-accent" style="color: var(--color-dahon-light); width: 16px; height: 16px;"></span>
+                </div>
+                <div>© 2026 everaftr. All rights reserved.</div>
+                <div style="margin-top: 8px; font-size: 0.75rem;">
+                    For every couple. Every love story. Every celebration.
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

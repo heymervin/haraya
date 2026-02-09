@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>everaftr — Tropical Luxe Minimal Concept</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================
+       CSS RESET & BASE
+       ============================================ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: #1C1917;
+      background-color: #FFFFFF;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ============================================
+       DESIGN TOKENS
+       ============================================ */
+    :root {
+      /* Canvas */
+      --color-white: #FFFFFF;
+      --color-pearl: #FAF8F5;
+      --color-pearl-warm: #F7F3EE;
+
+      /* Primary: Dagat Teal */
+      --color-dagat-50: #E6F3F1;
+      --color-dagat-100: #C0E4DF;
+      --color-dagat-500: #2BA194;
+      --color-dagat-600: #1A7A6D;
+      --color-dagat-700: #156259;
+      --color-dagat-800: #104B44;
+      --color-dagat-900: #0B342F;
+      --color-dagat-950: #061E1B;
+
+      /* Secondary: Sikat Gold */
+      --color-sikat-50: #FDF6E9;
+      --color-sikat-100: #FAEAC8;
+      --color-sikat-300: #EFBB54;
+      --color-sikat-500: #C8952E;
+      --color-sikat-600: #A67824;
+      --color-sikat-700: #845E1C;
+      --color-sikat-950: #291E09;
+
+      /* Neutral: Stone */
+      --color-stone-50: #FAFAF9;
+      --color-stone-100: #F5F5F4;
+      --color-stone-200: #E7E5E4;
+      --color-stone-300: #D6D3D1;
+      --color-stone-400: #A8A29E;
+      --color-stone-500: #78716C;
+      --color-stone-600: #57534E;
+      --color-stone-700: #44403C;
+      --color-stone-900: #1C1917;
+
+      /* Semantic */
+      --color-success: #16A34A;
+      --color-error: #DC2626;
+      --color-warning: #D97706;
+
+      /* Typography */
+      --font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
+      --font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+      /* Spacing */
+      --spacing-section: 5rem;
+      --spacing-section-mobile: 3rem;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 2px 0 rgba(28, 25, 23, 0.04);
+      --shadow-md: 0 4px 6px -1px rgba(28, 25, 23, 0.06), 0 2px 4px -2px rgba(28, 25, 23, 0.04);
+      --shadow-lg: 0 10px 15px -3px rgba(28, 25, 23, 0.06), 0 4px 6px -4px rgba(28, 25, 23, 0.04);
+      --shadow-card: 0 1px 3px 0 rgba(28, 25, 23, 0.05), 0 1px 2px -1px rgba(28, 25, 23, 0.05);
+      --shadow-card-hover: 0 10px 20px -5px rgba(28, 25, 23, 0.08), 0 4px 6px -4px rgba(28, 25, 23, 0.03);
+
+      /* Transitions */
+      --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ============================================
+       TYPOGRAPHY
+       ============================================ */
+    h1, h2 {
+      font-family: var(--font-display);
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--color-stone-900);
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+    }
+
+    h2 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+    }
+
+    h3 {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 1.25rem;
+      line-height: 1.375;
+      color: var(--color-stone-900);
+    }
+
+    p {
+      line-height: 1.625;
+      color: var(--color-stone-600);
+    }
+
+    .text-display {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .text-italic {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.25rem;
+      line-height: 1.5;
+      color: var(--color-stone-700);
+    }
+
+    .text-small {
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      color: var(--color-stone-500);
+    }
+
+    .text-micro {
+      font-size: 0.75rem;
+      line-height: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.025em;
+      text-transform: uppercase;
+      color: var(--color-stone-500);
+    }
+
+    /* ============================================
+       LAYOUT
+       ============================================ */
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .container-narrow {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    section {
+      padding: var(--spacing-section-mobile) 0;
+    }
+
+    @media (min-width: 768px) {
+      section {
+        padding: var(--spacing-section) 0;
+      }
+    }
+
+    .section-pearl {
+      background-color: var(--color-pearl);
+    }
+
+    .section-charcoal {
+      background-color: var(--color-stone-900);
+      color: var(--color-pearl);
+    }
+
+    /* ============================================
+       BUTTONS
+       ============================================ */
+    .btn {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 0.875rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      transition: all var(--transition-base);
+      cursor: pointer;
+      border: none;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background-color: var(--color-dagat-600);
+      color: var(--color-white);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--color-dagat-700);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--color-dagat-600);
+      border: 1.5px solid var(--color-dagat-600);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--color-dagat-50);
+      border-color: var(--color-dagat-700);
+      color: var(--color-dagat-700);
+    }
+
+    .btn-ghost {
+      background-color: transparent;
+      color: var(--color-stone-600);
+    }
+
+    .btn-ghost:hover {
+      background-color: var(--color-stone-100);
+      color: var(--color-stone-900);
+    }
+
+    /* ============================================
+       THREAD DIVIDER
+       ============================================ */
+    .thread-divider {
+      width: 3rem;
+      height: 2px;
+      background: linear-gradient(90deg, var(--color-sikat-500), var(--color-sikat-300));
+      border-radius: 9999px;
+      margin: 1.5rem 0;
+      box-shadow: 0 0 8px rgba(200, 149, 46, 0.2);
+    }
+
+    /* ============================================
+       BRAND BOARD
+       ============================================ */
+    .brand-board {
+      display: grid;
+      gap: 2rem;
+    }
+
+    .color-palette {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .color-group h4 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--color-stone-700);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .color-swatches {
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .color-swatch {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--color-stone-200);
+      background: var(--color-white);
+    }
+
+    .color-circle {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      flex-shrink: 0;
+    }
+
+    .color-info {
+      flex: 1;
+    }
+
+    .color-name {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--color-stone-900);
+    }
+
+    .color-hex {
+      font-size: 0.75rem;
+      font-family: monospace;
+      color: var(--color-stone-500);
+    }
+
+    /* ============================================
+       TYPE SCALE
+       ============================================ */
+    .type-scale {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .type-sample {
+      padding: 1rem;
+      border-left: 3px solid var(--color-dagat-600);
+      background: var(--color-pearl);
+    }
+
+    .type-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-dagat-700);
+      margin-bottom: 0.5rem;
+    }
+
+    /* ============================================
+       NAVBAR
+       ============================================ */
+    .navbar {
+      background: var(--color-white);
+      border-bottom: 1px solid var(--color-stone-200);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar-container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-brand {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--color-stone-900);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .navbar-nav {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      list-style: none;
+    }
+
+    .navbar-link {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--color-stone-600);
+      text-decoration: none;
+      transition: color var(--transition-base);
+    }
+
+    .navbar-link:hover {
+      color: var(--color-dagat-600);
+    }
+
+    /* ============================================
+       HERO SECTION
+       ============================================ */
+    .hero {
+      display: grid;
+      gap: 3rem;
+      align-items: center;
+      padding: 4rem 0;
+    }
+
+    @media (min-width: 768px) {
+      .hero {
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        padding: 6rem 0;
+      }
+    }
+
+    .hero-image {
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      aspect-ratio: 4/5;
+      background: linear-gradient(135deg, var(--color-dagat-50), var(--color-sikat-50));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-stone-400);
+      font-size: 0.875rem;
+    }
+
+    .hero-content h1 {
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-content p {
+      font-size: 1.125rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .hero-trust {
+      margin-top: 1rem;
+      font-size: 0.875rem;
+      color: var(--color-stone-500);
+    }
+
+    /* ============================================
+       TRUST BAR
+       ============================================ */
+    .trust-bar {
+      padding: 2rem 0;
+      background: var(--color-pearl);
+      text-align: center;
+    }
+
+    .trust-stats {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      font-size: 0.875rem;
+      color: var(--color-stone-600);
+    }
+
+    .trust-divider {
+      color: var(--color-stone-300);
+    }
+
+    /* ============================================
+       HOW IT WORKS
+       ============================================ */
+    .how-it-works {
+      text-align: center;
+    }
+
+    .how-it-works h2 {
+      margin-bottom: 1rem;
+    }
+
+    .how-it-works .thread-divider {
+      margin: 1.5rem auto;
+    }
+
+    .steps {
+      display: grid;
+      gap: 3rem;
+      margin-top: 3rem;
+    }
+
+    @media (min-width: 768px) {
+      .steps {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+      }
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .step-icon {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 50%;
+      background: var(--color-dagat-50);
+      border: 2px solid var(--color-dagat-600);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+      color: var(--color-dagat-600);
+    }
+
+    .step h3 {
+      margin-bottom: 0.75rem;
+    }
+
+    /* ============================================
+       VENDOR SCROLL
+       ============================================ */
+    .vendor-scroll-container {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-stone-300) var(--color-stone-100);
+    }
+
+    .vendor-scroll-container::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .vendor-scroll-container::-webkit-scrollbar-track {
+      background: var(--color-stone-100);
+      border-radius: 4px;
+    }
+
+    .vendor-scroll-container::-webkit-scrollbar-thumb {
+      background: var(--color-stone-300);
+      border-radius: 4px;
+    }
+
+    .vendor-scroll {
+      display: flex;
+      gap: 1.5rem;
+      padding: 1rem 0 2rem 0;
+    }
+
+    .vendor-card {
+      flex: 0 0 320px;
+      scroll-snap-align: start;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      transition: all var(--transition-slow);
+      position: relative;
+      height: 400px;
+    }
+
+    .vendor-card:hover {
+      box-shadow: var(--shadow-card-hover);
+      transform: translateY(-4px);
+    }
+
+    .vendor-card-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: linear-gradient(135deg, var(--color-dagat-100), var(--color-stone-100));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-stone-400);
+      font-size: 0.875rem;
+    }
+
+    .vendor-card-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+    }
+
+    .vendor-card-name {
+      font-weight: 700;
+      font-size: 1.125rem;
+      color: var(--color-stone-900);
+      margin-bottom: 0.25rem;
+    }
+
+    .vendor-card-category {
+      font-size: 0.875rem;
+      color: var(--color-stone-600);
+      margin-bottom: 0.5rem;
+    }
+
+    .vendor-card-featured {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      background: var(--color-sikat-50);
+      color: var(--color-sikat-700);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.025em;
+    }
+
+    .vendor-card-star {
+      font-size: 0.875rem;
+    }
+
+    /* ============================================
+       CELEBRATION GRID
+       ============================================ */
+    .celebration-grid {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    @media (min-width: 768px) {
+      .celebration-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+      }
+    }
+
+    .celebration-card {
+      position: relative;
+      height: 300px;
+      border-radius: 1rem;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--color-dagat-100), var(--color-sikat-100));
+      display: flex;
+      align-items: flex-end;
+      cursor: pointer;
+      transition: transform var(--transition-base);
+    }
+
+    .celebration-card:hover {
+      transform: scale(1.02);
+    }
+
+    .celebration-card-label {
+      width: 100%;
+      padding: 2rem 1.5rem;
+      background: linear-gradient(to top, rgba(255, 255, 255, 0.95), transparent);
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--color-stone-900);
+    }
+
+    /* ============================================
+       TESTIMONIAL
+       ============================================ */
+    .testimonial {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .testimonial-quote {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1.25rem, 3vw, 1.75rem);
+      line-height: 1.5;
+      color: var(--color-stone-700);
+      margin-bottom: 2rem;
+    }
+
+    .testimonial-quote::before {
+      content: '"';
+    }
+
+    .testimonial-quote::after {
+      content: '"';
+    }
+
+    .testimonial-attribution {
+      font-size: 0.875rem;
+      color: var(--color-stone-500);
+    }
+
+    .testimonial-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 2rem;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-stone-300);
+      transition: background var(--transition-base);
+    }
+
+    .dot.active {
+      background: var(--color-dagat-600);
+    }
+
+    /* ============================================
+       PLANNING TOOLS
+       ============================================ */
+    .planning-tools {
+      display: grid;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    @media (min-width: 768px) {
+      .planning-tools {
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+      }
+    }
+
+    .phone-mockup {
+      width: 280px;
+      height: 560px;
+      margin: 0 auto;
+      border-radius: 2rem;
+      background: var(--color-stone-900);
+      padding: 1rem;
+      box-shadow: var(--shadow-xl);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-stone-600);
+      font-size: 0.875rem;
+    }
+
+    .phone-mockup-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 1.25rem;
+      background: var(--color-white);
+    }
+
+    .feature-list {
+      list-style: none;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-icon {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      background: var(--color-dagat-50);
+      color: var(--color-dagat-600);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.875rem;
+      font-weight: 700;
+    }
+
+    .feature-content h3 {
+      margin-bottom: 0.25rem;
+    }
+
+    /* ============================================
+       COMPONENTS SHOWCASE
+       ============================================ */
+    .components-grid {
+      display: grid;
+      gap: 3rem;
+      margin-top: 3rem;
+    }
+
+    .component-group h3 {
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--color-stone-200);
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.025em;
+    }
+
+    .tag-teal {
+      background: var(--color-dagat-50);
+      color: var(--color-dagat-700);
+    }
+
+    .tag-gold {
+      background: var(--color-sikat-50);
+      color: var(--color-sikat-700);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--color-stone-700);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid var(--color-stone-300);
+      border-radius: 0.5rem;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--color-stone-900);
+      transition: all var(--transition-base);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--color-dagat-600);
+      box-shadow: 0 0 0 3px var(--color-dagat-50);
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .footer {
+      background: var(--color-stone-900);
+      color: var(--color-pearl);
+      padding: 4rem 0 2rem 0;
+    }
+
+    .footer-content {
+      display: grid;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    @media (min-width: 768px) {
+      .footer-content {
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 2rem;
+      }
+    }
+
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      color: var(--color-pearl);
+      margin-bottom: 1rem;
+    }
+
+    .footer-tagline {
+      font-size: 0.875rem;
+      color: var(--color-stone-400);
+      font-style: italic;
+    }
+
+    .footer-section h4 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-pearl);
+      margin-bottom: 1rem;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .footer-link {
+      color: var(--color-stone-400);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color var(--transition-base);
+    }
+
+    .footer-link:hover {
+      color: var(--color-sikat-300);
+    }
+
+    .footer-thread {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--color-sikat-600), transparent);
+      margin: 2rem 0;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--color-stone-800);
+      font-size: 0.875rem;
+      color: var(--color-stone-500);
+    }
+
+    .footer-malasakit {
+      font-style: italic;
+      color: var(--color-stone-400);
+    }
+
+    /* ============================================
+       UTILITY CLASSES
+       ============================================ */
+    .text-center {
+      text-align: center;
+    }
+
+    .mb-1 { margin-bottom: 0.5rem; }
+    .mb-2 { margin-bottom: 1rem; }
+    .mb-3 { margin-bottom: 1.5rem; }
+    .mb-4 { margin-bottom: 2rem; }
+
+    .mt-1 { margin-top: 0.5rem; }
+    .mt-2 { margin-top: 1rem; }
+    .mt-3 { margin-top: 1.5rem; }
+    .mt-4 { margin-top: 2rem; }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       NAVBAR
+       ============================================ -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="#" class="navbar-brand">everaftr</a>
+      <ul class="navbar-nav">
+        <li><a href="#vendors" class="navbar-link">Vendors</a></li>
+        <li><a href="#plan" class="navbar-link">Plan</a></li>
+        <li><a href="#celebrations" class="navbar-link">Celebrations</a></li>
+        <li><a href="#about" class="navbar-link">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ============================================
+       BRAND BOARD SECTION
+       ============================================ -->
+  <section id="brand-board">
+    <div class="container">
+      <div class="text-center mb-4">
+        <h2>Tropical Luxe Minimal</h2>
+        <div class="thread-divider" style="margin: 1.5rem auto;"></div>
+        <p>A visual identity inspired by the Philippines' most beloved qualities: the clarity of tropical water, the warmth of golden hour light, and the restraint of a luxury hotel lobby.</p>
+      </div>
+
+      <div class="brand-board">
+        <!-- Color Palettes -->
+        <div>
+          <h3 class="mb-3">Color Palette</h3>
+          <div class="color-palette">
+            <!-- Canvas Colors -->
+            <div class="color-group">
+              <h4>Canvas</h4>
+              <div class="color-swatches">
+                <div class="color-swatch">
+                  <div class="color-circle" style="background: #FFFFFF;"></div>
+                  <div class="color-info">
+                    <div class="color-name">White</div>
+                    <div class="color-hex">#FFFFFF</div>
+                  </div>
+                </div>
+                <div class="color-swatch">
+                  <div class="color-circle" style="background: #FAF8F5;"></div>
+                  <div class="color-info">
+                    <div class="color-name">Pearl</div>
+                    <div class="color-hex">#FAF8F5</div>
+                  </div>
+                </div>
+                <div class="color-swatch">
+                  <div class="color-circle" style="background: #F7F3EE;"></div>
+                  <div class="color-info">
+                    <div class="color-name">Pearl Warm</div>
+                    <div class="color-hex">#F7F3EE</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dagat Teal -->
+            <div class="color-group">
+              <h4>Dagat Teal (Primary)</h4>
+              <div class="color-swatches">
+                <div class="color-swatch">
+                  <div class="color-circle" style="background: #E6F3F1;"></div>
+                  <div class="color-info">
+                    <div class="color-name">Dagat 50</div>
+                    <div class="color-hex">#E6F3F1</div>
+                  </div>
+                </div>
+                <div class="color-swatch">
+                  <div class="color-circle" style="background: #2BA194;"></div>
+                  <div class="color-info">
+                    <div class="color-name">Dagat 500</div>
+                    <div class="color-hex">#2BA194</div>
+                  </div>
+                </div>
+                <div class="color-swatch">
+                  <div class="color-circle" style="background: #1A7A6D;"></div>
+                  <div class="color-info">
+                    <div class="color-name">Dagat 600</div>
+                    <div class="color-hex">#1A7A6D</div>
+                  </div>
+                </div>
+                <div class="color-swatch">
+                  <div class="color-circle" style="background: #061E1B;"></div>
+                  <div class="color-info">
+                    <div class="color-name">Dagat 950</div>
+                    <div class="color-hex">#061E1B</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sikat Gold -->
+            <div class="color-group">
+              <h4>Sikat Gold (Secondary)</h4>
+              <div class="color-swatches">
+                <div class="color-swatch">
+                  <div class="color-circle" style="background: #FDF6E9;"></div>
+                  <div class="color-info">
+                    <div class="color-name">Sikat 50</div>
+                    <div class="color-hex">#FDF6E9</div>
+                  </div>
+                </div>
+                <div class="color-swatch">
+                  <div class="color-circle" style="background: #EFBB54;"></div>
+                  <div class="color-info">
+                    <div class="color-name">Sikat 300</div>
+                    <div class="color-hex">#EFBB54</div>
+                  </div>
+                </div>
+                <div class="color-swatch">
+                  <div class="color-circle" style="background: #C8952E;"></div>
+                  <div class="color-info">
+                    <div class="color-name">Sikat 500</div>
+                    <div class="color-hex">#C8952E</div>
+                  </div>
+                </div>
+                <div class="color-swatch">
+                  <div class="color-circle" style="background: #291E09;"></div>
+                  <div class="color-info">
+                    <div class="color-name">Sikat 950</div>
+                    <div class="color-hex">#291E09</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stone Neutrals -->
+            <div class="color-group">
+              <h4>Stone (Neutral)</h4>
+              <div class="color-swatches">
+                <div class="color-swatch">
+                  <div class="color-circle" style="background: #FAFAF9;"></div>
+                  <div class="color-info">
+                    <div class="color-name">Stone 50</div>
+                    <div class="color-hex">#FAFAF9</div>
+                  </div>
+                </div>
+                <div class="color-swatch">
+                  <div class="color-circle" style="background: #78716C;"></div>
+                  <div class="color-info">
+                    <div class="color-name">Stone 500</div>
+                    <div class="color-hex">#78716C</div>
+                  </div>
+                </div>
+                <div class="color-swatch">
+                  <div class="color-circle" style="background: #1C1917;"></div>
+                  <div class="color-info">
+                    <div class="color-name">Stone 900</div>
+                    <div class="color-hex">#1C1917</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Semantic Colors -->
+            <div class="color-group">
+              <h4>Semantic</h4>
+              <div class="color-swatches">
+                <div class="color-swatch">
+                  <div class="color-circle" style="background: #16A34A;"></div>
+                  <div class="color-info">
+                    <div class="color-name">Success</div>
+                    <div class="color-hex">#16A34A</div>
+                  </div>
+                </div>
+                <div class="color-swatch">
+                  <div class="color-circle" style="background: #DC2626;"></div>
+                  <div class="color-info">
+                    <div class="color-name">Error</div>
+                    <div class="color-hex">#DC2626</div>
+                  </div>
+                </div>
+                <div class="color-swatch">
+                  <div class="color-circle" style="background: #D97706;"></div>
+                  <div class="color-info">
+                    <div class="color-name">Warning</div>
+                    <div class="color-hex">#D97706</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       TYPOGRAPHY SHOWCASE
+       ============================================ -->
+  <section class="section-pearl">
+    <div class="container">
+      <div class="text-center mb-4">
+        <h2>Typography System</h2>
+        <div class="thread-divider" style="margin: 1.5rem auto;"></div>
+        <p>Instrument Serif for display headings + DM Sans for body text</p>
+      </div>
+
+      <div class="type-scale">
+        <div class="type-sample">
+          <div class="type-label">Display (Instrument Serif)</div>
+          <div class="text-display">Your love story, beautifully planned.</div>
+        </div>
+
+        <div class="type-sample">
+          <div class="type-label">H1 (Instrument Serif)</div>
+          <h1>Handpicked vendors for every celebration</h1>
+        </div>
+
+        <div class="type-sample">
+          <div class="type-label">H2 (Instrument Serif)</div>
+          <h2>Every love story is unique</h2>
+        </div>
+
+        <div class="type-sample">
+          <div class="type-label">H3 (DM Sans Semibold)</div>
+          <h3>Featured Wedding Venues in Metro Manila</h3>
+        </div>
+
+        <div class="type-sample">
+          <div class="type-label">Body Text (DM Sans Regular)</div>
+          <p>The Filipino wedding planning platform that connects you with the best local vendors, traditions, and tools. Plan together, celebrate forever.</p>
+        </div>
+
+        <div class="type-sample">
+          <div class="type-label">Italic Quote (Instrument Serif Italic)</div>
+          <p class="text-italic">We found our photographer, coordinator, and caterer all in one afternoon. everaftr made it feel effortless.</p>
+        </div>
+
+        <div class="type-sample">
+          <div class="type-label">Button Text (DM Sans Medium, Uppercase, 0.05em tracking)</div>
+          <button class="btn btn-primary">START PLANNING</button>
+        </div>
+
+        <div class="type-sample">
+          <div class="type-label">Small Text (DM Sans 14px)</div>
+          <p class="text-small">Free to start. No account required to browse.</p>
+        </div>
+
+        <div class="type-sample">
+          <div class="type-label">Micro (DM Sans 12px, uppercase, medium)</div>
+          <p class="text-micro">Photography | Cebu</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       THREAD DIVIDER SHOWCASE
+       ============================================ -->
+  <section>
+    <div class="container-narrow text-center">
+      <h2>The Thread</h2>
+      <div class="thread-divider" style="margin: 1.5rem auto;"></div>
+      <p>A simplified Sikat Gold gradient line with subtle glow. This signature element divides sections and represents the single thread weaving together every Filipino celebration.</p>
+      <div class="thread-divider" style="margin: 2rem auto; width: 6rem;"></div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       HOMEPAGE MOCKUP
+       ============================================ -->
+  <section class="section-pearl">
+    <div class="container">
+      <h2 class="text-center mb-4">Homepage Mockup</h2>
+      <div class="thread-divider" style="margin: 1.5rem auto;"></div>
+    </div>
+  </section>
+
+  <!-- Hero Section -->
+  <section>
+    <div class="container">
+      <div class="hero">
+        <div class="hero-image">
+          [Warm photo: interlaced hands with tropical greenery]
+        </div>
+        <div class="hero-content">
+          <h1>Your love story, beautifully planned.</h1>
+          <p>The Filipino wedding planning platform that connects you with the best local vendors, traditions, and tools.</p>
+          <div class="hero-cta">
+            <a href="#" class="btn btn-primary">START PLANNING</a>
+            <p class="hero-trust">Free to start. No account required to browse.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Bar -->
+  <div class="trust-bar">
+    <div class="trust-stats">
+      <span>500+ vendors</span>
+      <span class="trust-divider">|</span>
+      <span>12 regions</span>
+      <span class="trust-divider">|</span>
+      <span>4.8 average rating</span>
+    </div>
+  </div>
+
+  <!-- How It Works -->
+  <section class="how-it-works">
+    <div class="container">
+      <h2>How It Works</h2>
+      <div class="thread-divider"></div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-icon">♡</div>
+          <h3>Tell us about your celebration</h3>
+          <p>Share your vision, date, and budget to get personalized recommendations.</p>
+        </div>
+        <div class="step">
+          <div class="step-icon">✦</div>
+          <h3>Discover vendors who match</h3>
+          <p>Browse verified vendors with real reviews from Filipino couples.</p>
+        </div>
+        <div class="step">
+          <div class="step-icon">✓</div>
+          <h3>Plan, book, and breathe easy</h3>
+          <p>Use our tools to track everything from budget to checklist.</p>
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        <a href="#" class="btn btn-secondary">GET STARTED</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Vendors (Horizontal Scroll) -->
+  <section class="section-pearl">
+    <div class="container">
+      <h2 class="text-center mb-3">Handpicked for you</h2>
+      <div class="thread-divider" style="margin: 1.5rem auto;"></div>
+      <div class="vendor-scroll-container">
+        <div class="vendor-scroll">
+          <div class="vendor-card">
+            <div class="vendor-card-image">[Stunning wedding photo]</div>
+            <div class="vendor-card-overlay">
+              <div class="vendor-card-name">Captured by Ria</div>
+              <div class="vendor-card-category">Photography | Cebu</div>
+              <span class="vendor-card-featured">
+                <span class="vendor-card-star">★</span> Featured
+              </span>
+            </div>
+          </div>
+
+          <div class="vendor-card">
+            <div class="vendor-card-image">[Beachfront venue]</div>
+            <div class="vendor-card-overlay">
+              <div class="vendor-card-name">Shangri-La Boracay</div>
+              <div class="vendor-card-category">Venues | Boracay</div>
+              <span class="vendor-card-featured">
+                <span class="vendor-card-star">★</span> Featured
+              </span>
+            </div>
+          </div>
+
+          <div class="vendor-card">
+            <div class="vendor-card-image">[Food plating close-up]</div>
+            <div class="vendor-card-overlay">
+              <div class="vendor-card-name">Via Mare Catering</div>
+              <div class="vendor-card-category">Catering | Metro Manila</div>
+            </div>
+          </div>
+
+          <div class="vendor-card">
+            <div class="vendor-card-image">[Floral arrangement]</div>
+            <div class="vendor-card-overlay">
+              <div class="vendor-card-name">Bloom & Co.</div>
+              <div class="vendor-card-category">Flowers & Styling | Tagaytay</div>
+              <span class="vendor-card-featured">
+                <span class="vendor-card-star">★</span> Featured
+              </span>
+            </div>
+          </div>
+
+          <div class="vendor-card">
+            <div class="vendor-card-image">[Bride hair & makeup]</div>
+            <div class="vendor-card-overlay">
+              <div class="vendor-card-name">Jelly Eugenio Makeup</div>
+              <div class="vendor-card-category">Hair & Makeup | Metro Manila</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        <a href="#" class="btn btn-ghost">Browse all vendors →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Celebration Types -->
+  <section>
+    <div class="container">
+      <h2 class="text-center mb-3">Every love story is unique</h2>
+      <div class="thread-divider" style="margin: 1.5rem auto;"></div>
+      <div class="celebration-grid">
+        <div class="celebration-card">
+          <div class="celebration-card-label">Beach Ceremony</div>
+        </div>
+        <div class="celebration-card">
+          <div class="celebration-card-label">Church Wedding</div>
+        </div>
+        <div class="celebration-card">
+          <div class="celebration-card-label">Garden Celebration</div>
+        </div>
+        <div class="celebration-card">
+          <div class="celebration-card-label">Destination Wedding</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonial -->
+  <section class="section-pearl">
+    <div class="container">
+      <div class="testimonial">
+        <p class="testimonial-quote">We found our photographer, coordinator, and caterer all in one afternoon. everaftr made it feel effortless.</p>
+        <p class="testimonial-attribution">— Maria & Jun, Tagaytay, 2025</p>
+        <div class="testimonial-dots">
+          <div class="dot active"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Planning Tools Preview -->
+  <section>
+    <div class="container">
+      <h2 class="text-center mb-3">Plan smarter, not harder</h2>
+      <div class="thread-divider" style="margin: 1.5rem auto;"></div>
+      <div class="planning-tools">
+        <div class="phone-mockup">
+          <div class="phone-mockup-inner"></div>
+        </div>
+        <div>
+          <ul class="feature-list">
+            <li class="feature-item">
+              <div class="feature-icon">✓</div>
+              <div class="feature-content">
+                <h3>Checklist tracking</h3>
+                <p>Never miss a step with our comprehensive Filipino wedding checklist.</p>
+              </div>
+            </li>
+            <li class="feature-item">
+              <div class="feature-icon">✓</div>
+              <div class="feature-content">
+                <h3>Budget calculator</h3>
+                <p>Track expenses by category and stay on top of your spending.</p>
+              </div>
+            </li>
+            <li class="feature-item">
+              <div class="feature-icon">✓</div>
+              <div class="feature-content">
+                <h3>Vendor messaging</h3>
+                <p>Connect with vendors directly through our platform.</p>
+              </div>
+            </li>
+            <li class="feature-item">
+              <div class="feature-icon">✓</div>
+              <div class="feature-content">
+                <h3>Timeline builder</h3>
+                <p>Visualize your planning journey with a custom timeline.</p>
+              </div>
+            </li>
+          </ul>
+          <a href="#" class="btn btn-primary">See all planning tools</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       COMPONENT LIBRARY
+       ============================================ -->
+  <section class="section-pearl">
+    <div class="container">
+      <h2 class="text-center mb-4">Component Library</h2>
+      <div class="thread-divider" style="margin: 1.5rem auto;"></div>
+
+      <div class="components-grid">
+        <!-- Buttons -->
+        <div class="component-group">
+          <h3>Buttons</h3>
+          <div class="button-group">
+            <button class="btn btn-primary">Primary Button</button>
+            <button class="btn btn-secondary">Secondary Button</button>
+            <button class="btn btn-ghost">Ghost Button</button>
+          </div>
+        </div>
+
+        <!-- Tags & Badges -->
+        <div class="component-group">
+          <h3>Tags & Badges</h3>
+          <div class="button-group">
+            <span class="tag tag-teal">Beach Wedding</span>
+            <span class="tag tag-teal">Metro Manila</span>
+            <span class="tag tag-teal">₱50K - ₱100K</span>
+            <span class="tag tag-gold">Featured</span>
+            <span class="tag tag-gold">Premium</span>
+            <span class="tag tag-gold">All Celebrations Welcome</span>
+          </div>
+        </div>
+
+        <!-- Form Inputs -->
+        <div class="component-group">
+          <h3>Form Inputs</h3>
+          <div class="form-group">
+            <label class="form-label">Your Name</label>
+            <input type="text" class="form-input" placeholder="Enter your name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-input" placeholder="you@example.com">
+          </div>
+          <p class="text-small">Focus on any input to see the teal focus ring.</p>
+        </div>
+
+        <!-- Vendor Card (Editorial Style) -->
+        <div class="component-group">
+          <h3>Vendor Card (Editorial Style)</h3>
+          <div style="max-width: 320px;">
+            <div class="vendor-card">
+              <div class="vendor-card-image">[Vendor showcase photo]</div>
+              <div class="vendor-card-overlay">
+                <div class="vendor-card-name">Sample Vendor Name</div>
+                <div class="vendor-card-category">Photography | Cebu</div>
+                <span class="vendor-card-featured">
+                  <span class="vendor-card-star">★</span> Featured
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FOOTER
+       ============================================ -->
+  <footer class="footer">
+    <div class="footer-thread"></div>
+    <div class="container">
+      <div class="footer-content">
+        <div>
+          <div class="footer-brand">everaftr</div>
+          <p class="footer-tagline">plan together, celebrate forevr</p>
+        </div>
+        <div class="footer-section">
+          <h4>For Couples</h4>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-link">Find Vendors</a></li>
+            <li><a href="#" class="footer-link">Planning Tools</a></li>
+            <li><a href="#" class="footer-link">Real Celebrations</a></li>
+            <li><a href="#" class="footer-link">Matchmaker Quiz</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>For Vendors</h4>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-link">Join as Vendor</a></li>
+            <li><a href="#" class="footer-link">Vendor Dashboard</a></li>
+            <li><a href="#" class="footer-link">Pricing</a></li>
+            <li><a href="#" class="footer-link">Success Stories</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Company</h4>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-link">About Us</a></li>
+            <li><a href="#" class="footer-link">Contact</a></li>
+            <li><a href="#" class="footer-link">Blog</a></li>
+            <li><a href="#" class="footer-link">Careers</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 everaftr. All rights reserved.</p>
+        <p class="footer-malasakit">Made with malasakit in the Philippines.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

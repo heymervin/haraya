@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>everaftr — Concept G: Kapwa (Celestial Navigation)</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== RESET & BASE ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* Colors */
+      --midnight: #0A1128;
+      --stellar: #E8F4F8;
+      --celestial: #2B4570;
+      --navigation: #4A7BA7;
+      --stardust: #FFD93D;
+      --nebula: #7B8FA3;
+      --aurora: #A8DADC;
+      --orbit: #F0F7FA;
+
+      /* Semantic */
+      --success: #4ECDC4;
+      --warning: #FFB84D;
+      --error: #E63946;
+      --info: #5AA9E6;
+
+      /* Typography */
+      --font-primary: "Space Grotesk", system-ui, -apple-system, sans-serif;
+      --font-secondary: "Inter", system-ui, -apple-system, sans-serif;
+      --font-accent: "Cormorant Garamond", Georgia, serif;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 2px rgba(10, 17, 40, 0.05);
+      --shadow-md: 0 2px 8px rgba(10, 17, 40, 0.06);
+      --shadow-lg: 0 4px 16px rgba(10, 17, 40, 0.08);
+      --shadow-xl: 0 8px 32px rgba(10, 17, 40, 0.12);
+
+      /* Star Glow */
+      --glow-star: 0 0 12px rgba(255, 217, 61, 0.4);
+      --glow-orbit: 0 0 16px rgba(74, 123, 167, 0.3);
+    }
+
+    body {
+      font-family: var(--font-secondary);
+      background: white;
+      color: var(--midnight);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(123, 143, 163, 0.1);
+      z-index: 1000;
+      padding: 1rem 2rem;
+    }
+
+    .navbar-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-primary);
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--midnight);
+      text-decoration: none;
+    }
+
+    .star-logo {
+      width: 32px;
+      height: 32px;
+      fill: var(--stardust);
+      filter: drop-shadow(0 0 8px rgba(255, 217, 61, 0.3));
+      animation: pulse-glow 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { filter: drop-shadow(0 0 8px rgba(255, 217, 61, 0.3)); }
+      50% { filter: drop-shadow(0 0 16px rgba(255, 217, 61, 0.5)); }
+    }
+
+    .navbar-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      list-style: none;
+    }
+
+    .navbar-links a {
+      font-family: var(--font-primary);
+      font-weight: 500;
+      color: var(--celestial);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s;
+    }
+
+    .navbar-links a:hover {
+      color: var(--navigation);
+    }
+
+    .navbar-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--stardust);
+      transition: width 0.3s;
+      border-radius: 2px;
+    }
+
+    .navbar-links a:hover::after {
+      width: 100%;
+    }
+
+    .btn-nav-cta {
+      background: var(--stardust);
+      color: var(--midnight);
+      padding: 0.625rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--glow-star), var(--shadow-lg);
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      margin-top: 80px;
+      min-height: 90vh;
+      background: linear-gradient(180deg, var(--stellar) 0%, white 100%);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(255, 217, 61, 0.03) 1px, transparent 1px),
+        radial-gradient(circle at 80% 20%, rgba(74, 123, 167, 0.03) 1px, transparent 1px),
+        radial-gradient(circle at 50% 70%, rgba(168, 218, 220, 0.03) 1px, transparent 1px),
+        radial-gradient(circle at 90% 80%, rgba(255, 217, 61, 0.03) 1px, transparent 1px);
+      background-size: 100px 100px, 150px 150px, 120px 120px, 180px 180px;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      max-width: 900px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-constellation {
+      margin: 0 auto 2rem;
+      width: 200px;
+      height: 120px;
+      position: relative;
+    }
+
+    .constellation-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .constellation-line {
+      stroke: var(--navigation);
+      stroke-width: 1.5;
+      fill: none;
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: draw-constellation 3s ease-out forwards;
+    }
+
+    @keyframes draw-constellation {
+      to { stroke-dashoffset: 0; }
+    }
+
+    .constellation-star {
+      fill: var(--stardust);
+      filter: drop-shadow(0 0 4px rgba(255, 217, 61, 0.4));
+      animation: twinkle 2s ease-in-out infinite;
+      animation-delay: calc(var(--star-index) * 0.3s);
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    .hero-tagline {
+      font-family: var(--font-accent);
+      font-style: italic;
+      font-size: 1.25rem;
+      color: var(--nebula);
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: var(--font-primary);
+      font-weight: 700;
+      font-size: 3.5rem;
+      line-height: 1.1;
+      color: var(--midnight);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-secondary);
+      font-size: 1.25rem;
+      color: var(--celestial);
+      margin-bottom: 2.5rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--stardust);
+      color: var(--midnight);
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      font-family: var(--font-primary);
+      font-weight: 600;
+      font-size: 1.125rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: var(--shadow-lg);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--glow-star), var(--shadow-xl);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--celestial);
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      font-family: var(--font-primary);
+      font-weight: 600;
+      font-size: 1.125rem;
+      border: 2px solid var(--navigation);
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-secondary:hover {
+      background: var(--orbit);
+      transform: translateY(-2px);
+    }
+
+    /* ===== BRAND BOARD SECTION ===== */
+    .brand-board {
+      padding: 4rem 2rem;
+      background: white;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-title {
+      font-family: var(--font-primary);
+      font-weight: 700;
+      font-size: 2.5rem;
+      color: var(--midnight);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-subtitle {
+      font-family: var(--font-accent);
+      font-style: italic;
+      font-size: 1.25rem;
+      color: var(--nebula);
+    }
+
+    .brand-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .brand-card {
+      background: white;
+      border: 1px solid rgba(123, 143, 163, 0.15);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    .brand-card h3 {
+      font-family: var(--font-primary);
+      font-weight: 600;
+      font-size: 1.25rem;
+      color: var(--midnight);
+      margin-bottom: 1rem;
+    }
+
+    .color-palette {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+
+    .color-swatch {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .color-swatch:hover {
+      transform: scale(1.05);
+    }
+
+    .color-label {
+      position: absolute;
+      bottom: -24px;
+      left: 0;
+      right: 0;
+      font-size: 0.75rem;
+      color: var(--nebula);
+      text-align: center;
+    }
+
+    .typography-sample {
+      margin-bottom: 1.5rem;
+    }
+
+    .typography-sample h4 {
+      font-size: 0.875rem;
+      color: var(--nebula);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .font-space-grotesk {
+      font-family: var(--font-primary);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--midnight);
+    }
+
+    .font-inter {
+      font-family: var(--font-secondary);
+      font-size: 1rem;
+      color: var(--celestial);
+    }
+
+    .font-cormorant {
+      font-family: var(--font-accent);
+      font-size: 1.25rem;
+      font-style: italic;
+      color: var(--nebula);
+    }
+
+    .signature-element {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .constellation-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--aurora);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--celestial);
+    }
+
+    /* ===== CATEGORIES SECTION ===== */
+    .categories {
+      padding: 4rem 2rem;
+      background: var(--orbit);
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .category-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .category-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .category-icon {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    .category-card:hover .category-icon {
+      box-shadow: var(--glow-orbit), var(--shadow-lg);
+    }
+
+    .category-icon::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 2px dashed var(--navigation);
+      opacity: 0.3;
+    }
+
+    .category-icon svg {
+      width: 48px;
+      height: 48px;
+      fill: var(--celestial);
+    }
+
+    .category-name {
+      font-family: var(--font-primary);
+      font-weight: 600;
+      font-size: 1.125rem;
+      color: var(--midnight);
+    }
+
+    /* ===== VENDORS SECTION ===== */
+    .vendors {
+      padding: 4rem 2rem;
+      background: white;
+    }
+
+    .vendor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .vendor-card {
+      background: white;
+      border: 1px solid rgba(123, 143, 163, 0.1);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .vendor-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-xl);
+    }
+
+    .vendor-card-constellation {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      z-index: 2;
+    }
+
+    .mini-constellation {
+      width: 40px;
+      height: 40px;
+    }
+
+    .vendor-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background: linear-gradient(135deg, var(--aurora), var(--orbit));
+    }
+
+    .vendor-content {
+      padding: 1.5rem;
+    }
+
+    .vendor-name {
+      font-family: var(--font-primary);
+      font-weight: 600;
+      font-size: 1.25rem;
+      color: var(--midnight);
+      margin-bottom: 0.5rem;
+    }
+
+    .vendor-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--nebula);
+      margin-bottom: 1rem;
+    }
+
+    .vendor-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .vendor-rating {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .stars {
+      color: var(--stardust);
+      font-size: 1rem;
+    }
+
+    .rating-text {
+      font-size: 0.875rem;
+      color: var(--nebula);
+    }
+
+    .vendor-cta {
+      width: 100%;
+      background: var(--orbit);
+      color: var(--celestial);
+      padding: 0.75rem;
+      border: 1px solid var(--navigation);
+      border-radius: 8px;
+      font-family: var(--font-primary);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .vendor-cta:hover {
+      background: var(--aurora);
+      border-color: var(--celestial);
+    }
+
+    /* ===== COMPONENTS SHOWCASE ===== */
+    .components {
+      padding: 4rem 2rem;
+      background: var(--stellar);
+    }
+
+    .component-group {
+      margin-bottom: 3rem;
+    }
+
+    .component-group h3 {
+      font-family: var(--font-primary);
+      font-weight: 600;
+      font-size: 1.5rem;
+      color: var(--midnight);
+      margin-bottom: 1.5rem;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--navigation);
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-family: var(--font-primary);
+      font-weight: 600;
+      border: 2px solid var(--navigation);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-ghost:hover {
+      background: var(--navigation);
+      color: white;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .badge-primary {
+      background: var(--stardust);
+      color: var(--midnight);
+    }
+
+    .badge-secondary {
+      background: var(--aurora);
+      color: var(--celestial);
+    }
+
+    .badge-outline {
+      background: white;
+      color: var(--celestial);
+      border: 1.5px solid var(--navigation);
+    }
+
+    .input-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .input-group label {
+      display: block;
+      font-weight: 600;
+      color: var(--celestial);
+      margin-bottom: 0.5rem;
+    }
+
+    .input-group input {
+      width: 100%;
+      max-width: 400px;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid var(--nebula);
+      border-radius: 8px;
+      font-family: var(--font-secondary);
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: var(--navigation);
+      box-shadow: var(--glow-orbit);
+    }
+
+    .progress-tracker {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 2rem;
+      background: white;
+      border-radius: 12px;
+    }
+
+    .progress-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      flex: 1;
+    }
+
+    .progress-dot {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .progress-step.completed .progress-dot {
+      background: var(--stardust);
+      color: var(--midnight);
+      box-shadow: var(--glow-star);
+    }
+
+    .progress-step.upcoming .progress-dot {
+      background: var(--orbit);
+      color: var(--nebula);
+      border: 2px solid var(--nebula);
+    }
+
+    .progress-label {
+      font-size: 0.75rem;
+      color: var(--celestial);
+      text-align: center;
+    }
+
+    .progress-connector {
+      flex: 1;
+      height: 2px;
+      background: var(--nebula);
+      position: relative;
+      top: -20px;
+    }
+
+    .progress-connector.completed {
+      background: var(--stardust);
+    }
+
+    /* ===== CTA SECTION ===== */
+    .cta-section {
+      padding: 6rem 2rem;
+      background: linear-gradient(135deg, var(--celestial) 0%, var(--midnight) 100%);
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(255, 217, 61, 0.1) 2px, transparent 2px),
+        radial-gradient(circle at 80% 70%, rgba(168, 218, 220, 0.1) 2px, transparent 2px),
+        radial-gradient(circle at 50% 50%, rgba(255, 217, 61, 0.1) 1px, transparent 1px);
+      background-size: 150px 150px, 200px 200px, 100px 100px;
+      opacity: 0.6;
+    }
+
+    .cta-content {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-title {
+      font-family: var(--font-primary);
+      font-weight: 700;
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      color: white;
+    }
+
+    .cta-subtitle {
+      font-family: var(--font-accent);
+      font-style: italic;
+      font-size: 1.5rem;
+      margin-bottom: 2.5rem;
+      opacity: 0.9;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-cta-light {
+      background: white;
+      color: var(--midnight);
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      font-family: var(--font-primary);
+      font-weight: 600;
+      font-size: 1.125rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: var(--shadow-xl);
+    }
+
+    .btn-cta-light:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--glow-star), var(--shadow-xl);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--midnight);
+      color: white;
+      padding: 4rem 2rem 2rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 3rem;
+      max-width: 1280px;
+      margin: 0 auto 3rem;
+    }
+
+    .footer-column h4 {
+      font-family: var(--font-primary);
+      font-weight: 600;
+      font-size: 1.125rem;
+      margin-bottom: 1rem;
+      color: var(--stardust);
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: var(--stardust);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 2rem;
+      text-align: center;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .footer-tagline {
+      font-family: var(--font-accent);
+      font-style: italic;
+      font-size: 1.125rem;
+      color: var(--aurora);
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-copyright {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .navbar-links {
+        display: none;
+      }
+
+      .hero-title {
+        font-size: 2.5rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1.125rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .cta-title {
+        font-size: 2rem;
+      }
+
+      .vendor-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .category-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      }
+
+      .progress-tracker {
+        flex-direction: column;
+      }
+
+      .progress-connector {
+        width: 2px;
+        height: 30px;
+        top: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="#" class="navbar-logo">
+        <svg class="star-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+        </svg>
+        everaftr
+      </a>
+      <ul class="navbar-links">
+        <li><a href="#vendors">Vendors</a></li>
+        <li><a href="#planning">Planning Tools</a></li>
+        <li><a href="#inspiration">Inspiration</a></li>
+        <li><a href="#about">About</a></li>
+        <li><button class="btn-nav-cta">Start Your Journey</button></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-constellation">
+        <svg class="constellation-svg" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+          <path class="constellation-line" d="M 40 60 L 80 40 L 120 60 L 100 90 L 60 90 Z"/>
+          <circle class="constellation-star" cx="40" cy="60" r="4" style="--star-index: 0"/>
+          <circle class="constellation-star" cx="80" cy="40" r="5" style="--star-index: 1"/>
+          <circle class="constellation-star" cx="120" cy="60" r="4" style="--star-index: 2"/>
+          <circle class="constellation-star" cx="100" cy="90" r="4" style="--star-index: 3"/>
+          <circle class="constellation-star" cx="60" cy="90" r="4" style="--star-index: 4"/>
+        </svg>
+      </div>
+
+      <p class="hero-tagline">plan together, celebrate forevr</p>
+      <h1 class="hero-title">Your celestial journey to<br>the perfect celebration</h1>
+      <p class="hero-subtitle">Navigate wedding planning with confidence. Connect with trusted vendors across the Philippines. Create your kapwa constellation.</p>
+
+      <div class="hero-cta-group">
+        <button class="btn-primary">
+          Chart Your Course
+          <span>→</span>
+        </button>
+        <button class="btn-secondary">
+          Explore Vendors
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRAND BOARD -->
+  <section class="brand-board">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Concept G: Kapwa</h2>
+        <p class="section-subtitle">Celestial navigation meets Filipino togetherness</p>
+      </div>
+
+      <div class="brand-grid">
+        <!-- Color Palette -->
+        <div class="brand-card">
+          <h3>Color Palette</h3>
+          <div class="color-palette">
+            <div class="color-swatch" style="background: #0A1128;">
+              <div class="color-label">Midnight</div>
+            </div>
+            <div class="color-swatch" style="background: #E8F4F8;">
+              <div class="color-label">Stellar</div>
+            </div>
+            <div class="color-swatch" style="background: #2B4570;">
+              <div class="color-label">Celestial</div>
+            </div>
+            <div class="color-swatch" style="background: #4A7BA7;">
+              <div class="color-label">Navigation</div>
+            </div>
+            <div class="color-swatch" style="background: #FFD93D;">
+              <div class="color-label">Stardust</div>
+            </div>
+            <div class="color-swatch" style="background: #7B8FA3;">
+              <div class="color-label">Nebula</div>
+            </div>
+            <div class="color-swatch" style="background: #A8DADC;">
+              <div class="color-label">Aurora</div>
+            </div>
+            <div class="color-swatch" style="background: #F0F7FA;">
+              <div class="color-label">Orbit</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Typography -->
+        <div class="brand-card">
+          <h3>Typography</h3>
+          <div class="typography-sample">
+            <h4>Space Grotesk (Headlines)</h4>
+            <p class="font-space-grotesk">Navigate Together</p>
+          </div>
+          <div class="typography-sample">
+            <h4>Inter (Body)</h4>
+            <p class="font-inter">Your wedding planning journey starts here with trusted vendors and beautiful inspiration.</p>
+          </div>
+          <div class="typography-sample">
+            <h4>Cormorant Garamond (Accent)</h4>
+            <p class="font-cormorant">plan together, celebrate forevr</p>
+          </div>
+        </div>
+
+        <!-- Signature Element -->
+        <div class="brand-card">
+          <h3>Signature Element</h3>
+          <div class="signature-element">
+            <svg width="120" height="80" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+              <path d="M 30 40 L 60 20 L 90 40" stroke="#4A7BA7" stroke-width="1.5" fill="none"/>
+              <path d="M 30 40 L 45 60" stroke="#4A7BA7" stroke-width="1.5" fill="none"/>
+              <path d="M 90 40 L 75 60" stroke="#4A7BA7" stroke-width="1.5" fill="none"/>
+              <circle cx="30" cy="40" r="4" fill="#FFD93D"/>
+              <circle cx="60" cy="20" r="5" fill="#FFD93D"/>
+              <circle cx="90" cy="40" r="4" fill="#FFD93D"/>
+              <circle cx="45" cy="60" r="4" fill="#FFD93D"/>
+              <circle cx="75" cy="60" r="4" fill="#FFD93D"/>
+            </svg>
+          </div>
+          <p style="text-align: center; color: var(--nebula); margin-top: 1rem;">The everaftr constellation — representing togetherness, journey, and guidance</p>
+        </div>
+
+        <!-- Badge Example -->
+        <div class="brand-card">
+          <h3>Constellation Badge</h3>
+          <div class="signature-element">
+            <div class="constellation-badge">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="8" cy="8" r="2" fill="#2B4570"/>
+                <circle cx="16" cy="8" r="2" fill="#2B4570"/>
+                <circle cx="12" cy="16" r="2" fill="#2B4570"/>
+                <path d="M 8 8 L 16 8 L 12 16 Z" stroke="#2B4570" stroke-width="1" fill="none"/>
+              </svg>
+              Milestone Reached
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="categories">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Navigate Your Planning</h2>
+        <p class="section-subtitle">Every journey has its waypoints</p>
+      </div>
+
+      <div class="category-grid">
+        <div class="category-card">
+          <div class="category-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="category-name">Venues</div>
+        </div>
+
+        <div class="category-card">
+          <div class="category-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M23 19C23 19.5304 22.7893 20.0391 22.4142 20.4142C22.0391 20.7893 21.5304 21 21 21H3C2.46957 21 1.96086 20.7893 1.58579 20.4142C1.21071 20.0391 1 19.5304 1 19V8C1 7.46957 1.21071 6.96086 1.58579 6.58579C1.96086 6.21071 2.46957 6 3 6H7L9 3H15L17 6H21C21.5304 6 22.0391 6.21071 22.4142 6.58579C22.7893 6.96086 23 7.46957 23 8V19Z" stroke="currentColor" stroke-width="2"/>
+              <circle cx="12" cy="13" r="4" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="category-name">Photography</div>
+        </div>
+
+        <div class="category-card">
+          <div class="category-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 7H4C2.89543 7 2 7.89543 2 9V19C2 20.1046 2.89543 21 4 21H20C21.1046 21 22 20.1046 22 19V9C22 7.89543 21.1046 7 20 7Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M16 21V5C16 4.46957 15.7893 3.96086 15.4142 3.58579C15.0391 3.21071 14.5304 3 14 3H10C9.46957 3 8.96086 3.21071 8.58579 3.58579C8.21071 3.96086 8 4.46957 8 5V21" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="category-name">Catering</div>
+        </div>
+
+        <div class="category-card">
+          <div class="category-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="8" r="5" stroke="currentColor" stroke-width="2"/>
+              <path d="M17 21C17 18.2386 14.7614 16 12 16C9.23858 16 7 18.2386 7 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="category-name">Styling</div>
+        </div>
+
+        <div class="category-card">
+          <div class="category-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 11C10.6569 11 12 9.65685 12 8C12 6.34315 10.6569 5 9 5C7.34315 5 6 6.34315 6 8C6 9.65685 7.34315 11 9 11Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 2C13.1046 2 14 2.89543 14 4V6M14 6C15.1046 6 16 6.89543 16 8V9M14 6H16M18 9C19.1046 9 20 9.89543 20 11V15M3 20C3 17.2386 5.23858 15 8 15H10C12.7614 15 15 17.2386 15 20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="category-name">Music & DJ</div>
+        </div>
+
+        <div class="category-card">
+          <div class="category-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 2V8M12 16V22M22 12H16M8 12H2" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="category-name">Decor</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VENDORS -->
+  <section class="vendors">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Featured Vendors</h2>
+        <p class="section-subtitle">Your trusted constellation of partners</p>
+      </div>
+
+      <div class="vendor-grid">
+        <!-- Vendor Card 1 -->
+        <div class="vendor-card">
+          <div class="vendor-card-constellation">
+            <svg class="mini-constellation" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <path d="M 10 20 L 30 10 L 30 30" stroke="#4A7BA7" stroke-width="1.5" fill="none"/>
+              <circle cx="10" cy="20" r="3" fill="#FFD93D"/>
+              <circle cx="30" cy="10" r="3" fill="#FFD93D"/>
+              <circle cx="30" cy="30" r="3" fill="#FFD93D"/>
+            </svg>
+          </div>
+          <div class="vendor-image"></div>
+          <div class="vendor-content">
+            <h3 class="vendor-name">Celestial Gardens</h3>
+            <div class="vendor-meta">
+              <span>Venue</span>
+              <span>•</span>
+              <span>Tagaytay</span>
+            </div>
+            <div class="vendor-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-text">4.9 (143)</span>
+            </div>
+            <button class="vendor-cta">
+              View Details
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Vendor Card 2 -->
+        <div class="vendor-card">
+          <div class="vendor-card-constellation">
+            <svg class="mini-constellation" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <path d="M 10 20 L 30 10 L 30 30" stroke="#4A7BA7" stroke-width="1.5" fill="none"/>
+              <circle cx="10" cy="20" r="3" fill="#FFD93D"/>
+              <circle cx="30" cy="10" r="3" fill="#FFD93D"/>
+              <circle cx="30" cy="30" r="3" fill="#FFD93D"/>
+            </svg>
+          </div>
+          <div class="vendor-image"></div>
+          <div class="vendor-content">
+            <h3 class="vendor-name">Starlight Studios</h3>
+            <div class="vendor-meta">
+              <span>Photography</span>
+              <span>•</span>
+              <span>Metro Manila</span>
+            </div>
+            <div class="vendor-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-text">5.0 (89)</span>
+            </div>
+            <button class="vendor-cta">
+              View Details
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Vendor Card 3 -->
+        <div class="vendor-card">
+          <div class="vendor-card-constellation">
+            <svg class="mini-constellation" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <path d="M 10 20 L 30 10 L 30 30" stroke="#4A7BA7" stroke-width="1.5" fill="none"/>
+              <circle cx="10" cy="20" r="3" fill="#FFD93D"/>
+              <circle cx="30" cy="10" r="3" fill="#FFD93D"/>
+              <circle cx="30" cy="30" r="3" fill="#FFD93D"/>
+            </svg>
+          </div>
+          <div class="vendor-image"></div>
+          <div class="vendor-content">
+            <h3 class="vendor-name">Aurora Catering Co.</h3>
+            <div class="vendor-meta">
+              <span>Catering</span>
+              <span>•</span>
+              <span>Makati</span>
+            </div>
+            <div class="vendor-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-text">4.8 (201)</span>
+            </div>
+            <button class="vendor-cta">
+              View Details
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPONENTS SHOWCASE -->
+  <section class="components">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Component Showcase</h2>
+        <p class="section-subtitle">The building blocks of our design system</p>
+      </div>
+
+      <div class="component-group">
+        <h3>Buttons</h3>
+        <div class="button-row">
+          <button class="btn-primary">Primary Action →</button>
+          <button class="btn-secondary">Secondary Action</button>
+          <button class="btn-ghost">Ghost Button</button>
+        </div>
+      </div>
+
+      <div class="component-group">
+        <h3>Badges</h3>
+        <div class="badge-row">
+          <span class="badge badge-primary">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+            </svg>
+            Featured
+          </span>
+          <span class="badge badge-secondary">
+            Milestone Reached
+          </span>
+          <span class="badge badge-outline">
+            Available
+          </span>
+        </div>
+      </div>
+
+      <div class="component-group">
+        <h3>Form Inputs</h3>
+        <div class="input-group">
+          <label>Your Email</label>
+          <input type="email" placeholder="you@example.com">
+        </div>
+        <div class="input-group">
+          <label>Wedding Date</label>
+          <input type="date" placeholder="Select a date">
+        </div>
+      </div>
+
+      <div class="component-group">
+        <h3>Progress Tracker</h3>
+        <div class="progress-tracker">
+          <div class="progress-step completed">
+            <div class="progress-dot">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+              </svg>
+            </div>
+            <div class="progress-label">Venue Booked</div>
+          </div>
+          <div class="progress-connector completed"></div>
+          <div class="progress-step completed">
+            <div class="progress-dot">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+              </svg>
+            </div>
+            <div class="progress-label">Invites Sent</div>
+          </div>
+          <div class="progress-connector"></div>
+          <div class="progress-step upcoming">
+            <div class="progress-dot">3</div>
+            <div class="progress-label">Menu Final</div>
+          </div>
+          <div class="progress-connector"></div>
+          <div class="progress-step upcoming">
+            <div class="progress-dot">4</div>
+            <div class="progress-label">Final Confirm</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2 class="cta-title">Begin Your Celestial Journey</h2>
+      <p class="cta-subtitle">Your kapwa in the stars awaits</p>
+      <div class="cta-buttons">
+        <button class="btn-cta-light">
+          Get Started Free
+          <span>→</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-column">
+        <h4>Navigate</h4>
+        <ul class="footer-links">
+          <li><a href="#">Find Vendors</a></li>
+          <li><a href="#">Planning Tools</a></li>
+          <li><a href="#">Inspiration Gallery</a></li>
+          <li><a href="#">Budget Calculator</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>Discover</h4>
+        <ul class="footer-links">
+          <li><a href="#">Venues</a></li>
+          <li><a href="#">Photography</a></li>
+          <li><a href="#">Catering</a></li>
+          <li><a href="#">All Categories</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>Connect</h4>
+        <ul class="footer-links">
+          <li><a href="#">About everaftr</a></li>
+          <li><a href="#">For Vendors</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Vendor Guidelines</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-tagline">Your kapwa in the stars</p>
+      <p class="footer-copyright">2024 everaftr. The Philippines' first inclusive wedding planning platform.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

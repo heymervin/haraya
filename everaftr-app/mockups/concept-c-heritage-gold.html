@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heritage Gold — Visual Brand Mockup | everaftr</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ================================================================
+       HERITAGE GOLD DESIGN SYSTEM -- everaftr
+       ================================================================
+       Gold thread on white canvas. One accent. Maximum breathing room.
+       ================================================================ */
+
+    :root {
+      /* Canvas */
+      --white: #FFFFFF;
+      --snow: #FAFAFA;
+
+      /* Heritage Gold */
+      --gold: #B8960C;
+      --gold-mist: #F7F3E8;
+      --gold-deep: #96790A;
+      --gold-bright: #D4AC16;
+
+      /* CTA Teal */
+      --teal: #1A7A6D;
+      --teal-deep: #14635A;
+      --teal-dark: #0E4C44;
+      --teal-mist: #EFF8F6;
+
+      /* Text */
+      --ink: #1A1613;
+      --stone: #6B6560;
+      --mist: #9C9590;
+
+      /* Borders */
+      --silk: #E8E5E0;
+      --whisper: #F0EEEB;
+
+      /* Dark */
+      --obsidian: #141210;
+      --charcoal: #1E1B18;
+      --linen: #F5F2ED;
+
+      /* Semantic States */
+      --fern: #2D8659;
+      --fern-mist: #EDF7F1;
+      --amber: #C47F17;
+      --amber-mist: #FDF6E8;
+      --ember: #C4392E;
+      --ember-mist: #FDF0EF;
+      --slate: #3D6B8F;
+      --slate-mist: #EFF4F8;
+
+      /* Typography */
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+      /* Spacing */
+      --spacing-xs: 4px;
+      --spacing-sm: 8px;
+      --spacing-md: 16px;
+      --spacing-lg: 24px;
+      --spacing-xl: 32px;
+      --spacing-2xl: 48px;
+      --spacing-3xl: 64px;
+      --spacing-4xl: 96px;
+
+      /* Radius */
+      --radius-sm: 6px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-xl: 16px;
+      --radius-full: 9999px;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(26, 22, 19, 0.04);
+      --shadow-md: 0 4px 16px rgba(26, 22, 19, 0.06);
+      --shadow-lg: 0 8px 32px rgba(26, 22, 19, 0.08);
+      --shadow-gold: 0 0 8px rgba(184, 150, 12, 0.2);
+    }
+
+    /* ================================================================
+       BASE STYLES
+       ================================================================ */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--ink);
+      background-color: var(--white);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    ::selection {
+      background: var(--gold-mist);
+      color: var(--ink);
+    }
+
+    /* ================================================================
+       GOLD THREAD -- Signature Element
+       ================================================================ */
+
+    .gold-thread {
+      height: 1px;
+      background: var(--gold);
+      width: 100%;
+    }
+
+    .gold-thread-glow {
+      height: 2px;
+      background: var(--gold);
+      box-shadow: 0 0 8px rgba(184, 150, 12, 0.3);
+      width: 100%;
+    }
+
+    @keyframes thread-draw {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .gold-thread-shimmer {
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--gold) 50%, transparent 100%);
+      background-size: 200% 100%;
+      animation: thread-draw 2.5s ease-in-out infinite;
+      width: 100%;
+    }
+
+    /* Section divider ornament */
+    .section-thread {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 48px 24px;
+    }
+
+    .section-thread::before,
+    .section-thread::after {
+      content: '';
+      flex: 1;
+      max-width: 120px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .section-thread-diamond {
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      transform: rotate(45deg);
+    }
+
+    /* ================================================================
+       TYPOGRAPHY
+       ================================================================ */
+
+    .display {
+      font-family: var(--font-serif);
+      font-weight: 300;
+      font-size: clamp(32px, 5vw, 56px);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    .h1 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.15;
+      letter-spacing: -0.005em;
+      color: var(--ink);
+    }
+
+    .h2 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(24px, 3.5vw, 34px);
+      line-height: 1.2;
+      color: var(--ink);
+    }
+
+    .h3 {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: clamp(18px, 2.5vw, 20px);
+      line-height: 1.3;
+      letter-spacing: 0.01em;
+      color: var(--ink);
+    }
+
+    .h4 {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: clamp(16px, 2vw, 17px);
+      line-height: 1.4;
+      letter-spacing: 0.015em;
+      color: var(--ink);
+    }
+
+    .body {
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: clamp(15px, 1.5vw, 16px);
+      line-height: 1.7;
+      letter-spacing: 0.01em;
+      color: var(--ink);
+    }
+
+    .body-small {
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: clamp(13px, 1.3vw, 14px);
+      line-height: 1.6;
+      letter-spacing: 0.015em;
+      color: var(--stone);
+    }
+
+    .caption {
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: clamp(11px, 1.1vw, 12px);
+      line-height: 1.5;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--mist);
+    }
+
+    .tagline {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(14px, 1.5vw, 16px);
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+      color: var(--stone);
+    }
+
+    .wordmark {
+      font-family: var(--font-sans);
+      font-weight: 200;
+      font-size: clamp(20px, 2.5vw, 24px);
+      line-height: 1;
+      letter-spacing: 0.15em;
+      color: var(--ink);
+    }
+
+    /* ================================================================
+       BUTTONS
+       ================================================================ */
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 28px;
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      transition: all 150ms ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--teal);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background: var(--teal-deep);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-primary:active {
+      background: var(--teal-dark);
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--silk);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--ink);
+      background: var(--snow);
+    }
+
+    .btn-tertiary {
+      background: transparent;
+      color: var(--teal);
+      border: none;
+      padding: 10px 16px;
+    }
+
+    .btn-tertiary:hover {
+      background: var(--teal-mist);
+    }
+
+    .btn-gold {
+      background: transparent;
+      color: var(--gold-deep);
+      border: 1px solid var(--gold);
+    }
+
+    .btn-gold:hover {
+      background: var(--gold-mist);
+    }
+
+    /* ================================================================
+       CARDS
+       ================================================================ */
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--silk);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-lg);
+      transition: all 200ms ease;
+    }
+
+    .card-gold-thread {
+      position: relative;
+      overflow: hidden;
+      background: var(--white);
+      border: 1px solid var(--silk);
+      border-radius: var(--radius-lg);
+      padding: 0;
+      transition: transform 200ms ease, box-shadow 200ms ease;
+    }
+
+    .card-gold-thread::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 300ms ease;
+    }
+
+    .card-gold-thread:hover::before {
+      transform: scaleX(1);
+    }
+
+    .card-gold-thread:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* ================================================================
+       BADGES
+       ================================================================ */
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 12px;
+      letter-spacing: 0.03em;
+      border-radius: var(--radius-full);
+    }
+
+    .badge-verified {
+      background: transparent;
+      color: var(--gold-deep);
+      border: 1px solid var(--gold);
+    }
+
+    .badge-verified::before {
+      content: '✓';
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      background: var(--gold);
+      color: var(--white);
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .badge-acw {
+      background: var(--teal-mist);
+      color: var(--teal);
+    }
+
+    .badge-category {
+      background: transparent;
+      color: var(--stone);
+      border: none;
+      padding: 0;
+    }
+
+    /* ================================================================
+       LAYOUT UTILITIES
+       ================================================================ */
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .section {
+      padding: var(--spacing-4xl) 0;
+    }
+
+    .section-sm {
+      padding: var(--spacing-2xl) 0;
+    }
+
+    .grid {
+      display: grid;
+      gap: var(--spacing-lg);
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .flex {
+      display: flex;
+    }
+
+    .flex-col {
+      flex-direction: column;
+    }
+
+    .items-center {
+      align-items: center;
+    }
+
+    .justify-center {
+      justify-content: center;
+    }
+
+    .justify-between {
+      justify-content: space-between;
+    }
+
+    .gap-xs { gap: var(--spacing-xs); }
+    .gap-sm { gap: var(--spacing-sm); }
+    .gap-md { gap: var(--spacing-md); }
+    .gap-lg { gap: var(--spacing-lg); }
+    .gap-xl { gap: var(--spacing-xl); }
+    .gap-2xl { gap: var(--spacing-2xl); }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .bg-white { background-color: var(--white); }
+    .bg-snow { background-color: var(--snow); }
+    .bg-gold-mist { background-color: var(--gold-mist); }
+    .bg-teal { background-color: var(--teal); }
+    .bg-obsidian { background-color: var(--obsidian); }
+
+    .text-ink { color: var(--ink); }
+    .text-stone { color: var(--stone); }
+    .text-mist { color: var(--mist); }
+    .text-gold { color: var(--gold); }
+    .text-gold-deep { color: var(--gold-deep); }
+    .text-teal { color: var(--teal); }
+    .text-white { color: var(--white); }
+    .text-linen { color: var(--linen); }
+
+    /* ================================================================
+       MOCKUP SPECIFIC STYLES
+       ================================================================ */
+
+    .mockup-section {
+      margin-bottom: var(--spacing-4xl);
+      padding-bottom: var(--spacing-4xl);
+      border-bottom: 1px solid var(--whisper);
+    }
+
+    .mockup-section:last-child {
+      border-bottom: none;
+    }
+
+    .mockup-title {
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mist);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .color-swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+
+    .color-box {
+      width: 100%;
+      height: 80px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--whisper);
+    }
+
+    .color-label {
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 13px;
+      color: var(--ink);
+    }
+
+    .color-hex {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: var(--stone);
+    }
+
+    .type-sample {
+      margin-bottom: var(--spacing-lg);
+    }
+
+    /* Navbar mockup */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--spacing-lg) var(--spacing-xl);
+      background: var(--white);
+      border-bottom: 1px solid var(--whisper);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: var(--spacing-xl);
+      list-style: none;
+    }
+
+    .nav-link {
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: 14px;
+      letter-spacing: 0.05em;
+      color: var(--stone);
+      text-decoration: none;
+      transition: color 150ms ease;
+    }
+
+    .nav-link:hover {
+      color: var(--ink);
+    }
+
+    .nav-link.active {
+      color: var(--ink);
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 4px;
+    }
+
+    /* Hero mockup */
+    .hero {
+      text-align: center;
+      padding: 120px 24px 80px;
+      background: var(--white);
+    }
+
+    .hero-title {
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .hero-ornament {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: var(--spacing-xl) auto;
+      max-width: 120px;
+    }
+
+    .hero-ornament::before,
+    .hero-ornament::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .hero-diamond {
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      transform: rotate(45deg);
+    }
+
+    .hero-tagline {
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: var(--spacing-md);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* How it works */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--spacing-2xl);
+    }
+
+    .step {
+      text-align: center;
+    }
+
+    .step-number {
+      font-family: var(--font-serif);
+      font-weight: 300;
+      font-size: 56px;
+      line-height: 1;
+      color: var(--gold);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .step-title {
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .step-desc {
+      color: var(--stone);
+    }
+
+    /* Vendor cards */
+    .vendor-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--spacing-lg);
+    }
+
+    .vendor-card {
+      background: var(--white);
+      border: 1px solid var(--silk);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+      transition: transform 200ms ease, box-shadow 200ms ease;
+    }
+
+    .vendor-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 300ms ease;
+    }
+
+    .vendor-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .vendor-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .vendor-image {
+      width: 100%;
+      height: 200px;
+      background: var(--snow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--mist);
+      font-size: 14px;
+      border-bottom: 1px solid var(--whisper);
+    }
+
+    .vendor-content {
+      padding: var(--spacing-lg);
+    }
+
+    .vendor-category {
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .vendor-name {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 18px;
+      color: var(--ink);
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .vendor-location {
+      font-size: 14px;
+      color: var(--stone);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .vendor-rating {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      font-size: 14px;
+      color: var(--stone);
+    }
+
+    .stars {
+      color: var(--gold);
+    }
+
+    /* CTA Section */
+    .cta-section {
+      background: var(--teal);
+      padding: var(--spacing-3xl) var(--spacing-lg);
+      text-align: center;
+      color: var(--white);
+    }
+
+    .cta-section .h2 {
+      color: var(--white);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .cta-section .body {
+      color: var(--white);
+      opacity: 0.95;
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .btn-white {
+      background: var(--white);
+      color: var(--teal);
+    }
+
+    .btn-white:hover {
+      background: var(--snow);
+      transform: translateY(-1px);
+    }
+
+    /* Footer mockup */
+    .footer {
+      background: var(--obsidian);
+      color: var(--linen);
+      padding: var(--spacing-3xl) var(--spacing-lg) var(--spacing-xl);
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--spacing-2xl);
+    }
+
+    .footer-col h4 {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--linen);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-sm);
+    }
+
+    .footer-link {
+      color: var(--linen);
+      opacity: 0.8;
+      text-decoration: none;
+      font-size: 14px;
+      transition: opacity 150ms ease;
+    }
+
+    .footer-link:hover {
+      opacity: 1;
+      color: var(--gold-bright);
+    }
+
+    .footer-bottom {
+      margin-top: var(--spacing-2xl);
+      padding-top: var(--spacing-lg);
+      border-top: 1px solid rgba(245, 242, 237, 0.1);
+      text-align: center;
+    }
+
+    .footer-tagline {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 16px;
+      color: var(--gold-bright);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .footer-copyright {
+      font-size: 13px;
+      color: var(--linen);
+      opacity: 0.6;
+    }
+
+    /* Form elements */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-xs);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .form-label {
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    .form-input {
+      padding: 12px 16px;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      background: var(--snow);
+      border: 1px solid var(--silk);
+      border-radius: var(--radius-md);
+      color: var(--ink);
+      transition: all 150ms ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px var(--teal-mist);
+    }
+
+    .form-input::placeholder {
+      color: var(--mist);
+    }
+
+    /* Component library grid */
+    .component-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--spacing-lg);
+      margin-top: var(--spacing-lg);
+    }
+
+    .component-sample {
+      padding: var(--spacing-lg);
+      background: var(--snow);
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+
+    .component-label {
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 12px;
+      color: var(--stone);
+      text-align: center;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 80px 24px 60px;
+      }
+
+      .section {
+        padding: var(--spacing-2xl) 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================================================================
+       HEADER
+       ================================================================ -->
+  <header style="background: var(--white); padding: var(--spacing-2xl) var(--spacing-lg); border-bottom: 1px solid var(--whisper);">
+    <div class="container">
+      <div style="text-align: center;">
+        <h1 class="wordmark" style="margin-bottom: var(--spacing-sm);">everaftr</h1>
+        <p class="tagline">Heritage Gold — Visual Brand Mockup</p>
+        <p class="body-small" style="margin-top: var(--spacing-md);">
+          Gold thread on white canvas. One accent. Maximum breathing room. Filipino soul.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <div class="gold-thread"></div>
+
+  <!-- ================================================================
+       1. BRAND BOARD -- COLOR PALETTE
+       ================================================================ -->
+  <section class="section bg-white">
+    <div class="container">
+      <div class="mockup-section">
+        <div class="mockup-title">1. Brand Board — Color Palette</div>
+
+        <!-- Canvas Colors -->
+        <h3 class="h4" style="margin-bottom: var(--spacing-md);">Canvas</h3>
+        <div class="grid grid-3" style="margin-bottom: var(--spacing-2xl);">
+          <div class="color-swatch">
+            <div class="color-box" style="background: #FFFFFF; border: 1px solid var(--silk);"></div>
+            <div class="color-label">White</div>
+            <div class="color-hex">#FFFFFF</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-box" style="background: #FAFAFA;"></div>
+            <div class="color-label">Snow</div>
+            <div class="color-hex">#FAFAFA</div>
+          </div>
+        </div>
+
+        <!-- Heritage Gold -->
+        <h3 class="h4" style="margin-bottom: var(--spacing-md);">Heritage Gold (Signature)</h3>
+        <div class="grid grid-3" style="margin-bottom: var(--spacing-2xl);">
+          <div class="color-swatch">
+            <div class="color-box" style="background: #B8960C;"></div>
+            <div class="color-label">Gold</div>
+            <div class="color-hex">#B8960C</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-box" style="background: #F7F3E8;"></div>
+            <div class="color-label">Gold Mist</div>
+            <div class="color-hex">#F7F3E8</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-box" style="background: #96790A;"></div>
+            <div class="color-label">Deep Gold</div>
+            <div class="color-hex">#96790A</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-box" style="background: #D4AC16;"></div>
+            <div class="color-label">Bright Gold</div>
+            <div class="color-hex">#D4AC16</div>
+          </div>
+        </div>
+
+        <!-- CTA Teal -->
+        <h3 class="h4" style="margin-bottom: var(--spacing-md);">CTA Teal (Interactive)</h3>
+        <div class="grid grid-3" style="margin-bottom: var(--spacing-2xl);">
+          <div class="color-swatch">
+            <div class="color-box" style="background: #1A7A6D;"></div>
+            <div class="color-label">Teal</div>
+            <div class="color-hex">#1A7A6D</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-box" style="background: #14635A;"></div>
+            <div class="color-label">Teal Deep</div>
+            <div class="color-hex">#14635A</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-box" style="background: #0E4C44;"></div>
+            <div class="color-label">Teal Dark</div>
+            <div class="color-hex">#0E4C44</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-box" style="background: #EFF8F6;"></div>
+            <div class="color-label">Teal Mist</div>
+            <div class="color-hex">#EFF8F6</div>
+          </div>
+        </div>
+
+        <!-- Text Colors -->
+        <h3 class="h4" style="margin-bottom: var(--spacing-md);">Text</h3>
+        <div class="grid grid-3" style="margin-bottom: var(--spacing-2xl);">
+          <div class="color-swatch">
+            <div class="color-box" style="background: #1A1613;"></div>
+            <div class="color-label">Ink</div>
+            <div class="color-hex">#1A1613</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-box" style="background: #6B6560;"></div>
+            <div class="color-label">Stone</div>
+            <div class="color-hex">#6B6560</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-box" style="background: #9C9590;"></div>
+            <div class="color-label">Mist</div>
+            <div class="color-hex">#9C9590</div>
+          </div>
+        </div>
+
+        <!-- Borders -->
+        <h3 class="h4" style="margin-bottom: var(--spacing-md);">Borders</h3>
+        <div class="grid grid-3" style="margin-bottom: var(--spacing-2xl);">
+          <div class="color-swatch">
+            <div class="color-box" style="background: #E8E5E0;"></div>
+            <div class="color-label">Silk</div>
+            <div class="color-hex">#E8E5E0</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-box" style="background: #F0EEEB;"></div>
+            <div class="color-label">Whisper</div>
+            <div class="color-hex">#F0EEEB</div>
+          </div>
+        </div>
+
+        <!-- Dark -->
+        <h3 class="h4" style="margin-bottom: var(--spacing-md);">Dark Surfaces</h3>
+        <div class="grid grid-3" style="margin-bottom: var(--spacing-2xl);">
+          <div class="color-swatch">
+            <div class="color-box" style="background: #141210;"></div>
+            <div class="color-label">Obsidian</div>
+            <div class="color-hex">#141210</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-box" style="background: #1E1B18;"></div>
+            <div class="color-label">Charcoal</div>
+            <div class="color-hex">#1E1B18</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-box" style="background: #F5F2ED;"></div>
+            <div class="color-label">Linen (on dark)</div>
+            <div class="color-hex">#F5F2ED</div>
+          </div>
+        </div>
+
+        <!-- States -->
+        <h3 class="h4" style="margin-bottom: var(--spacing-md);">Semantic States</h3>
+        <div class="grid grid-3">
+          <div class="color-swatch">
+            <div class="color-box" style="background: #2D8659;"></div>
+            <div class="color-label">Fern (Success)</div>
+            <div class="color-hex">#2D8659</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-box" style="background: #C47F17;"></div>
+            <div class="color-label">Amber (Warning)</div>
+            <div class="color-hex">#C47F17</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-box" style="background: #C4392E;"></div>
+            <div class="color-label">Ember (Error)</div>
+            <div class="color-hex">#C4392E</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-box" style="background: #3D6B8F;"></div>
+            <div class="color-label">Slate (Info)</div>
+            <div class="color-hex">#3D6B8F</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       2. TYPOGRAPHY SHOWCASE
+       ================================================================ -->
+  <section class="section bg-snow">
+    <div class="container">
+      <div class="mockup-section">
+        <div class="mockup-title">2. Typography Showcase</div>
+
+        <div style="margin-bottom: var(--spacing-2xl);">
+          <p class="caption" style="margin-bottom: var(--spacing-xs);">Headings: Cormorant Garamond</p>
+          <p class="caption" style="margin-bottom: var(--spacing-lg);">Body: Plus Jakarta Sans</p>
+        </div>
+
+        <div class="type-sample">
+          <div class="display">The best way to plan a Filipino celebration</div>
+          <p class="body-small" style="margin-top: var(--spacing-sm);">Display — Cormorant Garamond Light, clamp(32px, 5vw, 56px)</p>
+        </div>
+
+        <div class="type-sample">
+          <div class="h1">One golden thread. Every celebration.</div>
+          <p class="body-small" style="margin-top: var(--spacing-sm);">H1 — Cormorant Garamond Regular, clamp(28px, 4vw, 42px)</p>
+        </div>
+
+        <div class="type-sample">
+          <div class="h2">Trusted vendors for your celebration</div>
+          <p class="body-small" style="margin-top: var(--spacing-sm);">H2 — Cormorant Garamond Regular, clamp(24px, 3.5vw, 34px)</p>
+        </div>
+
+        <div class="type-sample">
+          <div class="h3">How it works</div>
+          <p class="body-small" style="margin-top: var(--spacing-sm);">H3 — Plus Jakarta Sans SemiBold, 18-20px</p>
+        </div>
+
+        <div class="type-sample">
+          <div class="h4">Featured Vendors</div>
+          <p class="body-small" style="margin-top: var(--spacing-sm);">H4 — Plus Jakarta Sans SemiBold, 16-17px</p>
+        </div>
+
+        <div class="type-sample">
+          <div class="body">everaftr is built on a single golden thread: the idea that planning a celebration should feel precious, intentional, and unmistakably Filipino. Our design draws from the same principle as a barong tagalog — gold thread on a clean, luminous canvas.</div>
+          <p class="body-small" style="margin-top: var(--spacing-sm);">Body — Plus Jakarta Sans Regular, 15-16px, line-height 1.7</p>
+        </div>
+
+        <div class="type-sample">
+          <div class="tagline">plan together, celebrate forevr</div>
+          <p class="body-small" style="margin-top: var(--spacing-sm);">Tagline — Cormorant Garamond Italic, 14-16px</p>
+        </div>
+
+        <div class="type-sample">
+          <button class="btn btn-primary">Find Vendors</button>
+          <p class="body-small" style="margin-top: var(--spacing-sm);">Button — Plus Jakarta Sans Medium, 14px, tracking 0.04em</p>
+        </div>
+
+        <div class="type-sample">
+          <div class="wordmark">everaftr</div>
+          <p class="body-small" style="margin-top: var(--spacing-sm);">Wordmark — Plus Jakarta Sans ExtraLight, tracking 0.15em</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       3. GOLD THREAD ELEMENT (Signature)
+       ================================================================ -->
+  <section class="section bg-white">
+    <div class="container">
+      <div class="mockup-section">
+        <div class="mockup-title">3. Gold Thread Element (Signature)</div>
+
+        <div style="margin-bottom: var(--spacing-2xl);">
+          <p class="h4" style="margin-bottom: var(--spacing-md);">Standard Thread (1px solid)</p>
+          <div class="gold-thread"></div>
+          <p class="body-small" style="margin-top: var(--spacing-sm); color: var(--stone);">
+            <code style="background: var(--snow); padding: 2px 6px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 12px;">.gold-thread</code>
+          </p>
+        </div>
+
+        <div style="margin-bottom: var(--spacing-2xl);">
+          <p class="h4" style="margin-bottom: var(--spacing-md);">Thread with Glow (2px with shadow)</p>
+          <div class="gold-thread-glow"></div>
+          <p class="body-small" style="margin-top: var(--spacing-sm); color: var(--stone);">
+            <code style="background: var(--snow); padding: 2px 6px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 12px;">.gold-thread-glow</code>
+          </p>
+        </div>
+
+        <div style="margin-bottom: var(--spacing-2xl);">
+          <p class="h4" style="margin-bottom: var(--spacing-md);">Shimmer Animation (loading states)</p>
+          <div class="gold-thread-shimmer"></div>
+          <p class="body-small" style="margin-top: var(--spacing-sm); color: var(--stone);">
+            <code style="background: var(--snow); padding: 2px 6px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 12px;">.gold-thread-shimmer</code>
+          </p>
+        </div>
+
+        <div style="margin-bottom: var(--spacing-2xl);">
+          <p class="h4" style="margin-bottom: var(--spacing-md);">Section Divider Ornament</p>
+          <div class="section-thread">
+            <div class="section-thread-diamond"></div>
+          </div>
+          <p class="body-small" style="margin-top: var(--spacing-sm); color: var(--stone); text-align: center;">
+            Two fading gold lines with a rotated diamond between them
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       4. HOMEPAGE MOCKUP
+       ================================================================ -->
+  <section class="section bg-snow">
+    <div class="container">
+      <div class="mockup-section">
+        <div class="mockup-title">4. Homepage Mockup</div>
+
+        <!-- Navbar -->
+        <div style="margin-bottom: var(--spacing-2xl);">
+          <p class="h4" style="margin-bottom: var(--spacing-md);">Navigation</p>
+          <div class="navbar">
+            <div class="wordmark">everaftr</div>
+            <ul class="nav-links">
+              <li><a href="#" class="nav-link active">Vendors</a></li>
+              <li><a href="#" class="nav-link">Plan</a></li>
+              <li><a href="#" class="nav-link">Celebrations</a></li>
+              <li><a href="#" class="nav-link">About</a></li>
+            </ul>
+            <button class="btn btn-primary">Sign Up</button>
+          </div>
+          <div class="gold-thread"></div>
+        </div>
+
+        <!-- Hero -->
+        <div style="margin-bottom: var(--spacing-3xl);">
+          <p class="h4" style="margin-bottom: var(--spacing-md);">Hero Section</p>
+          <div class="hero">
+            <h1 class="display hero-title">The best way to plan<br>a Filipino celebration</h1>
+
+            <div class="hero-ornament">
+              <div class="hero-diamond"></div>
+            </div>
+
+            <p class="tagline hero-tagline">plan together, celebrate forevr</p>
+
+            <div class="hero-ctas">
+              <button class="btn btn-primary">Find Vendors</button>
+              <button class="btn btn-secondary">Start Planning</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-thread">
+          <div class="section-thread-diamond"></div>
+        </div>
+
+        <!-- How It Works -->
+        <div style="margin-bottom: var(--spacing-3xl); padding: var(--spacing-3xl) 0; background: var(--snow); margin-left: -24px; margin-right: -24px; padding-left: 24px; padding-right: 24px;">
+          <p class="h4" style="margin-bottom: var(--spacing-md); text-align: center;">How It Works</p>
+          <h2 class="h2" style="margin-bottom: var(--spacing-2xl); text-align: center;">Three steps to your perfect celebration</h2>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <h3 class="h4 step-title">Explore Vendors</h3>
+              <p class="body step-desc">Browse trusted, verified vendors across every category for your celebration.</p>
+            </div>
+            <div class="step">
+              <div class="step-number">2</div>
+              <h3 class="h4 step-title">Plan Together</h3>
+              <p class="body step-desc">Use our checklist, budget tracker, and guest list tools built for Filipino celebrations.</p>
+            </div>
+            <div class="step">
+              <div class="step-number">3</div>
+              <h3 class="h4 step-title">Celebrate Forevr</h3>
+              <p class="body step-desc">Everything in one place. No scams. No stress. Just your perfect day.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-thread">
+          <div class="section-thread-diamond"></div>
+        </div>
+
+        <!-- Featured Vendors -->
+        <div style="margin-bottom: var(--spacing-3xl);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-xl);">
+            <h2 class="h2">Trusted vendors for your celebration</h2>
+            <a href="#" class="text-teal" style="font-size: 14px; font-weight: 500; text-decoration: none;">View all vendors →</a>
+          </div>
+
+          <div class="vendor-cards">
+            <div class="vendor-card">
+              <div class="vendor-image">Photo: 4:3 aspect</div>
+              <div class="vendor-content">
+                <div class="vendor-category">VENUES</div>
+                <div class="vendor-name">Casa de Memoria</div>
+                <div class="vendor-location">Tagaytay City</div>
+                <div class="vendor-rating">
+                  <span class="stars">★★★★★</span>
+                  <span>4.9</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="vendor-card">
+              <div class="vendor-image">Photo: 4:3 aspect</div>
+              <div class="vendor-content">
+                <div class="vendor-category">PHOTO & VIDEO</div>
+                <div class="vendor-name">LensLove Studio</div>
+                <div class="vendor-location">Makati City</div>
+                <div class="vendor-rating">
+                  <span class="stars">★★★★★</span>
+                  <span>4.8</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="vendor-card">
+              <div class="vendor-image">Photo: 4:3 aspect</div>
+              <div class="vendor-content">
+                <div class="vendor-category">CATERING</div>
+                <div class="vendor-name">Kusina ni Lola</div>
+                <div class="vendor-location">Quezon City</div>
+                <div class="vendor-rating">
+                  <span class="stars">★★★★☆</span>
+                  <span>4.7</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="body-small" style="margin-top: var(--spacing-md); text-align: center; color: var(--stone);">
+            On hover, gold thread appears at top of card + subtle lift + shadow
+          </p>
+        </div>
+
+        <div class="section-thread">
+          <div class="section-thread-diamond"></div>
+        </div>
+
+        <!-- Matchmaker CTA -->
+        <div class="cta-section">
+          <h2 class="h2">Not sure where to start?</h2>
+          <p class="body">Take our 5-question matchmaker quiz and get personalized vendor recommendations.</p>
+          <button class="btn btn-white">Take the Quiz</button>
+        </div>
+        <p class="body-small" style="margin-top: var(--spacing-md); text-align: center; color: var(--stone);">
+          The ONE color moment — full-width teal section
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       5. COMPONENT LIBRARY
+       ================================================================ -->
+  <section class="section bg-white">
+    <div class="container">
+      <div class="mockup-section">
+        <div class="mockup-title">5. Component Library</div>
+
+        <!-- Buttons -->
+        <div style="margin-bottom: var(--spacing-2xl);">
+          <h3 class="h4" style="margin-bottom: var(--spacing-md);">Buttons</h3>
+          <div class="component-grid">
+            <div class="component-sample">
+              <button class="btn btn-primary">Primary</button>
+              <span class="component-label">Teal — Primary CTA</span>
+            </div>
+            <div class="component-sample">
+              <button class="btn btn-secondary">Secondary</button>
+              <span class="component-label">Outline — Secondary</span>
+            </div>
+            <div class="component-sample">
+              <button class="btn btn-tertiary">Tertiary</button>
+              <span class="component-label">Ghost — Tertiary</span>
+            </div>
+            <div class="component-sample">
+              <button class="btn btn-gold">Premium</button>
+              <span class="component-label">Gold — Premium Actions</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Badges -->
+        <div style="margin-bottom: var(--spacing-2xl);">
+          <h3 class="h4" style="margin-bottom: var(--spacing-md);">Badges</h3>
+          <div class="component-grid">
+            <div class="component-sample">
+              <span class="badge badge-verified">Verified</span>
+              <span class="component-label">Gold Circle + Checkmark</span>
+            </div>
+            <div class="component-sample">
+              <span class="badge badge-acw">All Celebrations Welcome</span>
+              <span class="component-label">Teal Mist Background</span>
+            </div>
+            <div class="component-sample">
+              <span class="badge badge-category">Photo & Video</span>
+              <span class="component-label">Text Only — Stone</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cards -->
+        <div style="margin-bottom: var(--spacing-2xl);">
+          <h3 class="h4" style="margin-bottom: var(--spacing-md);">Cards</h3>
+          <div class="grid grid-2">
+            <div class="card">
+              <h4 class="h4" style="margin-bottom: var(--spacing-sm);">Base Card</h4>
+              <p class="body">White background, Silk border, 12px radius. Clean and minimal.</p>
+            </div>
+            <div class="card-gold-thread" style="padding: var(--spacing-lg);">
+              <h4 class="h4" style="margin-bottom: var(--spacing-sm);">Gold Thread Card</h4>
+              <p class="body">Hover to see gold thread scale in from top edge. Used for vendor cards.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Inputs -->
+        <div style="margin-bottom: var(--spacing-2xl);">
+          <h3 class="h4" style="margin-bottom: var(--spacing-md);">Form Elements</h3>
+          <div class="grid grid-2">
+            <div class="form-group">
+              <label class="form-label">Your Name</label>
+              <input type="text" class="form-input" placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-input" placeholder="you@example.com">
+            </div>
+          </div>
+          <p class="body-small" style="color: var(--stone);">
+            Snow background, Silk border, teal focus ring. Click to see focus state.
+          </p>
+        </div>
+
+        <!-- Star Rating -->
+        <div style="margin-bottom: var(--spacing-2xl);">
+          <h3 class="h4" style="margin-bottom: var(--spacing-md);">Star Rating</h3>
+          <div style="display: flex; gap: var(--spacing-xl); align-items: center;">
+            <div style="font-size: 24px; color: var(--gold);">★★★★★</div>
+            <div style="font-size: 18px; color: var(--gold);">★★★★☆</div>
+            <div style="font-size: 14px; color: var(--gold);">★★★☆☆</div>
+          </div>
+          <p class="body-small" style="margin-top: var(--spacing-sm); color: var(--stone);">
+            Gold stars in multiple sizes
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       6. NAVBAR MOCKUP
+       ================================================================ -->
+  <section class="section bg-snow">
+    <div class="container">
+      <div class="mockup-section">
+        <div class="mockup-title">6. Navigation Bar</div>
+
+        <div style="border: 1px solid var(--whisper); border-radius: var(--radius-lg); overflow: hidden;">
+          <div class="navbar">
+            <div class="wordmark">everaftr</div>
+            <ul class="nav-links">
+              <li><a href="#" class="nav-link active">Vendors</a></li>
+              <li><a href="#" class="nav-link">Plan</a></li>
+              <li><a href="#" class="nav-link">Matchmaker</a></li>
+              <li><a href="#" class="nav-link">Celebrations</a></li>
+              <li><a href="#" class="nav-link">About</a></li>
+            </ul>
+            <button class="btn btn-primary">Sign Up</button>
+          </div>
+          <div class="gold-thread"></div>
+        </div>
+
+        <p class="body-small" style="margin-top: var(--spacing-md); color: var(--stone);">
+          White background with 98% opacity + backdrop blur. Plus Jakarta Sans ExtraLight wordmark with wide tracking.
+          Active link has gold underline. Gold thread sits below the navbar.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       7. FOOTER MOCKUP
+       ================================================================ -->
+  <section class="section bg-white">
+    <div class="container">
+      <div class="mockup-section">
+        <div class="mockup-title">7. Footer</div>
+
+        <div style="border: 1px solid var(--whisper); border-radius: var(--radius-lg); overflow: hidden;">
+          <div class="gold-thread" style="background: var(--gold-bright);"></div>
+
+          <div class="footer">
+            <div class="footer-content">
+              <div class="footer-col">
+                <div class="wordmark" style="color: var(--gold-bright); margin-bottom: var(--spacing-md);">everaftr</div>
+                <p class="body-small" style="color: var(--linen); opacity: 0.8;">
+                  The Philippines' first inclusive wedding planning platform.
+                </p>
+              </div>
+
+              <div class="footer-col">
+                <h4>For Couples</h4>
+                <ul class="footer-links">
+                  <li><a href="#" class="footer-link">Find Vendors</a></li>
+                  <li><a href="#" class="footer-link">Planning Tools</a></li>
+                  <li><a href="#" class="footer-link">Matchmaker Quiz</a></li>
+                  <li><a href="#" class="footer-link">Real Celebrations</a></li>
+                </ul>
+              </div>
+
+              <div class="footer-col">
+                <h4>For Vendors</h4>
+                <ul class="footer-links">
+                  <li><a href="#" class="footer-link">List Your Business</a></li>
+                  <li><a href="#" class="footer-link">Vendor Dashboard</a></li>
+                  <li><a href="#" class="footer-link">Pricing</a></li>
+                  <li><a href="#" class="footer-link">Success Stories</a></li>
+                </ul>
+              </div>
+
+              <div class="footer-col">
+                <h4>Company</h4>
+                <ul class="footer-links">
+                  <li><a href="#" class="footer-link">About Us</a></li>
+                  <li><a href="#" class="footer-link">Contact</a></li>
+                  <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                  <li><a href="#" class="footer-link">Terms of Service</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="footer-bottom">
+              <p class="footer-tagline">where forevr begins</p>
+              <p class="footer-copyright">© 2026 everaftr. All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+
+        <p class="body-small" style="margin-top: var(--spacing-md); color: var(--stone);">
+          Obsidian background (#141210), gold logo in Bright Gold (#D4AC16), gold thread line above footer.
+          Links hover to gold. Tagline in Cormorant Garamond italic.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       TYPE SCALE REFERENCE
+       ================================================================ -->
+  <section class="section bg-snow">
+    <div class="container">
+      <div class="mockup-section">
+        <div class="mockup-title">8. Complete Type Scale</div>
+
+        <div style="background: var(--white); padding: var(--spacing-2xl); border-radius: var(--radius-lg); border: 1px solid var(--whisper);">
+          <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--gold);">
+                <th style="text-align: left; padding: var(--spacing-sm); font-family: var(--font-sans); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--stone);">Element</th>
+                <th style="text-align: left; padding: var(--spacing-sm); font-family: var(--font-sans); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--stone);">Font</th>
+                <th style="text-align: left; padding: var(--spacing-sm); font-family: var(--font-sans); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--stone);">Weight</th>
+                <th style="text-align: left; padding: var(--spacing-sm); font-family: var(--font-sans); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--stone);">Size</th>
+                <th style="text-align: left; padding: var(--spacing-sm); font-family: var(--font-sans); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--stone);">Line Height</th>
+                <th style="text-align: left; padding: var(--spacing-sm); font-family: var(--font-sans); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--stone);">Tracking</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--whisper);">
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--ink);">Display</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">Cormorant Garamond</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">300</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">32px / 56px</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">1.1</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">-0.01em</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--whisper);">
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--ink);">H1</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">Cormorant Garamond</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">400</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">28px / 42px</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">1.15</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">-0.005em</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--whisper);">
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--ink);">H2</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">Cormorant Garamond</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">400</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">24px / 34px</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">1.2</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">0</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--whisper);">
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--ink);">H3</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">Plus Jakarta Sans</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">600</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">18px / 20px</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">1.3</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">0.01em</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--whisper);">
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--ink);">H4</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">Plus Jakarta Sans</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">600</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">16px / 17px</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">1.4</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">0.015em</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--whisper);">
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--ink);">Body</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">Plus Jakarta Sans</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">400</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">15px / 16px</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">1.7</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">0.01em</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--whisper);">
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--ink);">Body Small</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">Plus Jakarta Sans</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">400</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">13px / 14px</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">1.6</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">0.015em</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--whisper);">
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--ink);">Caption</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">Plus Jakarta Sans</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">500</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">11px / 12px</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">1.5</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">0.04em</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--whisper);">
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--ink);">Button</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">Plus Jakarta Sans</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">500</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">14px</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">1</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">0.04em</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--whisper);">
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--ink);">Wordmark</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">Plus Jakarta Sans</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">200</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">20px / 24px</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">1</td>
+                <td style="padding: var(--spacing-sm); font-family: var(--font-sans); font-size: 14px; color: var(--stone);">0.15em</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       FOOTER (Actual)
+       ================================================================ -->
+  <div class="gold-thread" style="background: var(--gold-bright);"></div>
+  <footer class="footer">
+    <div class="footer-bottom" style="margin-top: 0; padding-top: 0; border-top: none;">
+      <div class="wordmark" style="color: var(--gold-bright); margin-bottom: var(--spacing-md);">everaftr</div>
+      <p class="footer-tagline">where forevr begins</p>
+      <p class="footer-copyright" style="margin-top: var(--spacing-sm);">
+        Heritage Gold Visual Direction — February 2026
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>

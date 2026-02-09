@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concept E: Woven Heritage Reimagined | everaftr</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ================================
+           RESET & BASE STYLES
+           ================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #1A1A2E;
+            background: #FFFFFF;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ================================
+           CSS VARIABLES (DESIGN TOKENS)
+           ================================ */
+        :root {
+            /* Colors */
+            --color-canvas: #FFFFFF;
+            --color-midnight: #1A1A2E;
+            --color-terracotta: #C75B3F;
+            --color-golden: #D4A574;
+            --color-indigo: #4A5D7C;
+            --color-weaver-gray: #F8F9FA;
+            --color-loom-shadow: #E5E7EB;
+            --color-thread-gray: #6B7280;
+
+            /* Typography */
+            --font-serif: 'DM Serif Display', Georgia, serif;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-accent: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+            /* Spacing */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 0.75rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --spacing-3xl: 4rem;
+
+            /* Shadows */
+            --shadow-thread: 0 1px 2px rgba(26, 26, 46, 0.04);
+            --shadow-weave: 0 2px 8px rgba(26, 26, 46, 0.08);
+            --shadow-loom: 0 4px 16px rgba(26, 26, 46, 0.12);
+
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+
+            /* Animation */
+            --duration-thread: 150ms;
+            --duration-weave: 300ms;
+            --duration-loom: 500ms;
+        }
+
+        /* ================================
+           TYPOGRAPHY
+           ================================ */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-serif);
+            line-height: 1.2;
+            font-weight: 400;
+        }
+
+        h1 { font-size: 3rem; }
+        h2 { font-size: 2.25rem; }
+        h3 { font-size: 1.875rem; }
+        h4 { font-size: 1.5rem; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.75rem; }
+            h3 { font-size: 1.5rem; }
+            h4 { font-size: 1.25rem; }
+        }
+
+        /* ================================
+           WEAVE PATTERNS & ANIMATIONS
+           ================================ */
+        .weave-texture {
+            position: relative;
+        }
+
+        .weave-texture::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(26, 26, 46, 0.02) 2px,
+                    rgba(26, 26, 46, 0.02) 4px
+                ),
+                repeating-linear-gradient(
+                    -45deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(26, 26, 46, 0.02) 2px,
+                    rgba(26, 26, 46, 0.02) 4px
+                );
+            background-size: 8px 8px;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .weave-on-hover {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .weave-on-hover::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(26, 26, 46, 0.03) 2px,
+                    rgba(26, 26, 46, 0.03) 4px
+                ),
+                repeating-linear-gradient(
+                    -45deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(26, 26, 46, 0.03) 2px,
+                    rgba(26, 26, 46, 0.03) 4px
+                );
+            background-size: 8px 8px;
+            opacity: 0;
+            transition: opacity var(--duration-weave) ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .weave-on-hover:hover::before {
+            opacity: 1;
+        }
+
+        /* Thread Border Animation */
+        .thread-border {
+            position: relative;
+        }
+
+        .thread-border::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 2px solid transparent;
+            border-radius: var(--radius-md);
+            opacity: 0;
+            transition: all var(--duration-weave) ease;
+            pointer-events: none;
+        }
+
+        .thread-border:hover::after {
+            border-color: var(--color-terracotta);
+            border-style: dashed;
+            opacity: 1;
+        }
+
+        /* Stitched Divider */
+        .stitched-divider {
+            height: 2px;
+            background-image: repeating-linear-gradient(
+                to right,
+                var(--color-terracotta) 0,
+                var(--color-terracotta) 12px,
+                transparent 12px,
+                transparent 24px
+            );
+            margin: var(--spacing-xl) 0;
+        }
+
+        /* Thread Underline Animation */
+        .thread-underline {
+            position: relative;
+            display: inline-block;
+        }
+
+        .thread-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--color-terracotta);
+            transition: width var(--duration-loom) ease;
+        }
+
+        .thread-underline.animate::after {
+            width: 100%;
+        }
+
+        /* Loading Thread */
+        @keyframes thread-weave {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .loading-thread {
+            position: relative;
+            height: 2px;
+            background: var(--color-loom-shadow);
+            overflow: hidden;
+        }
+
+        .loading-thread::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: var(--color-terracotta);
+            animation: thread-weave 1.5s infinite ease-in-out;
+        }
+
+        /* ================================
+           LAYOUT COMPONENTS
+           ================================ */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+
+        .section {
+            padding: var(--spacing-3xl) 0;
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: var(--spacing-2xl) 0;
+            }
+        }
+
+        /* ================================
+           NAVIGATION
+           ================================ */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--color-loom-shadow);
+            z-index: 100;
+            padding: var(--spacing-md) 0;
+        }
+
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            color: var(--color-midnight);
+            text-decoration: none;
+            font-style: italic;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-xl);
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: var(--font-accent);
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-midnight);
+            text-decoration: none;
+            position: relative;
+            padding-bottom: 4px;
+            transition: color var(--duration-thread) ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--color-terracotta);
+            transition: width var(--duration-weave) ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* ================================
+           BUTTONS
+           ================================ */
+        .btn {
+            font-family: var(--font-accent);
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 0.875rem 2rem;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all var(--duration-weave) ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+        }
+
+        .btn-primary {
+            background: var(--color-terracotta);
+            color: white;
+            box-shadow: var(--shadow-thread);
+        }
+
+        .btn-primary:hover {
+            background: #B04E34;
+            box-shadow: var(--shadow-weave);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: var(--radius-md);
+            opacity: 0;
+            transition: opacity var(--duration-weave) ease;
+        }
+
+        .btn-primary:hover::after {
+            opacity: 1;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--color-terracotta);
+            border: 2px solid var(--color-terracotta);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-weaver-gray);
+            border-style: dashed;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--color-midnight);
+            border: 1px solid var(--color-loom-shadow);
+        }
+
+        .btn-ghost:hover {
+            background: var(--color-weaver-gray);
+            border-color: var(--color-terracotta);
+        }
+
+        /* ================================
+           BADGES
+           ================================ */
+        .badge {
+            font-family: var(--font-accent);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-sm);
+            display: inline-block;
+            border: 1px solid transparent;
+        }
+
+        .badge-golden {
+            background: var(--color-golden);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .badge-terracotta {
+            background: var(--color-terracotta);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .badge-indigo {
+            background: var(--color-indigo);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ================================
+           CARDS
+           ================================ */
+        .card {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-thread);
+            transition: all var(--duration-weave) ease;
+            border: 1px solid var(--color-loom-shadow);
+            height: 100%;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-weave);
+            transform: translateY(-2px);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: var(--color-weaver-gray);
+        }
+
+        .card-content {
+            padding: var(--spacing-lg);
+        }
+
+        .card-title {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-xs);
+            color: var(--color-midnight);
+        }
+
+        .card-description {
+            font-size: 0.875rem;
+            color: var(--color-thread-gray);
+            line-height: 1.5;
+        }
+
+        /* ================================
+           GRID LAYOUTS
+           ================================ */
+        .grid {
+            display: grid;
+            gap: var(--spacing-lg);
+        }
+
+        .grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+        @media (max-width: 1024px) {
+            .grid-4 { grid-template-columns: repeat(2, 1fr); }
+            .grid-3 { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 640px) {
+            .grid-4,
+            .grid-3,
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+
+        /* ================================
+           BRAND BOARD SECTION
+           ================================ */
+        .brand-board {
+            background: var(--color-weaver-gray);
+            padding: var(--spacing-3xl) 0;
+        }
+
+        .brand-section {
+            background: white;
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-thread);
+        }
+
+        .brand-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-lg);
+            color: var(--color-midnight);
+        }
+
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .color-swatch {
+            text-align: center;
+        }
+
+        .color-box {
+            width: 100%;
+            height: 100px;
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-xs);
+            border: 1px solid var(--color-loom-shadow);
+        }
+
+        .color-name {
+            font-family: var(--font-accent);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 0.25rem;
+        }
+
+        .color-hex {
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            color: var(--color-thread-gray);
+        }
+
+        .typography-sample h1,
+        .typography-sample h2,
+        .typography-sample h3 {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .typography-sample p {
+            color: var(--color-thread-gray);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .weave-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .weave-example {
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-loom-shadow);
+            text-align: center;
+        }
+
+        .weave-example-title {
+            font-family: var(--font-accent);
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-top: var(--spacing-md);
+            color: var(--color-midnight);
+        }
+
+        /* ================================
+           HERO SECTION
+           ================================ */
+        .hero {
+            position: relative;
+            text-align: center;
+            padding: var(--spacing-3xl) 0;
+        }
+
+        .hero h1 {
+            max-width: 900px;
+            margin: 0 auto var(--spacing-lg);
+            color: var(--color-midnight);
+        }
+
+        .hero-tagline {
+            font-family: var(--font-accent);
+            font-size: 1.25rem;
+            color: var(--color-thread-gray);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: var(--spacing-2xl) 0;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* ================================
+           FEATURES SECTION
+           ================================ */
+        .feature-card {
+            text-align: center;
+            padding: var(--spacing-xl);
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto var(--spacing-md);
+            background: var(--color-weaver-gray);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .feature-title {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-midnight);
+        }
+
+        .feature-description {
+            color: var(--color-thread-gray);
+            font-size: 0.875rem;
+        }
+
+        /* ================================
+           FOOTER
+           ================================ */
+        .footer {
+            background: var(--color-midnight);
+            color: white;
+            position: relative;
+            padding: var(--spacing-2xl) 0 var(--spacing-xl);
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.02) 2px,
+                    rgba(255, 255, 255, 0.02) 4px
+                ),
+                repeating-linear-gradient(
+                    -45deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.02) 2px,
+                    rgba(255, 255, 255, 0.02) 4px
+                );
+            background-size: 8px 8px;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .footer-column h4 {
+            font-family: var(--font-accent);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--spacing-md);
+            color: var(--color-golden);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color var(--duration-thread) ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--color-terracotta);
+        }
+
+        .footer-bottom {
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ================================
+           PROGRESS TRACKER (Weaving Visual)
+           ================================ */
+        .progress-weave {
+            background: var(--color-weaver-gray);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .progress-title {
+            font-family: var(--font-accent);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .progress-threads {
+            display: flex;
+            height: 32px;
+            gap: 4px;
+        }
+
+        .thread {
+            flex: 1;
+            background: var(--color-loom-shadow);
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .thread.woven {
+            background: linear-gradient(135deg,
+                var(--color-terracotta) 0%,
+                var(--color-terracotta) 48%,
+                var(--color-golden) 48%,
+                var(--color-golden) 52%,
+                var(--color-terracotta) 52%,
+                var(--color-terracotta) 100%);
+            background-size: 8px 8px;
+        }
+
+        /* ================================
+           COMPONENT SHOWCASE
+           ================================ */
+        .component-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        /* ================================
+           UTILITIES
+           ================================ */
+        .text-center { text-align: center; }
+        .mb-xs { margin-bottom: var(--spacing-xs); }
+        .mb-sm { margin-bottom: var(--spacing-sm); }
+        .mb-md { margin-bottom: var(--spacing-md); }
+        .mb-lg { margin-bottom: var(--spacing-lg); }
+        .mb-xl { margin-bottom: var(--spacing-xl); }
+        .mb-2xl { margin-bottom: var(--spacing-2xl); }
+
+        .mt-xl { margin-top: var(--spacing-xl); }
+        .mt-2xl { margin-top: var(--spacing-2xl); }
+    </style>
+</head>
+<body>
+
+    <!-- ================================
+         NAVIGATION
+         ================================ -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="#" class="logo">everaftr</a>
+                <ul class="nav-links">
+                    <li><a href="#vendors" class="active">Vendors</a></li>
+                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================================
+         BRAND BOARD
+         ================================ -->
+    <section class="brand-board">
+        <div class="container">
+            <h2 class="text-center mb-2xl">Concept E: Woven Heritage Reimagined</h2>
+
+            <!-- Color Palette -->
+            <div class="brand-section">
+                <h3>Color Palette: Unified Threads</h3>
+                <p class="mb-lg" style="color: var(--color-thread-gray);">
+                    Distilled from all 6 Filipino textiles into ONE cohesive palette
+                </p>
+                <div class="color-palette">
+                    <div class="color-swatch">
+                        <div class="color-box" style="background: #FFFFFF; border: 2px solid var(--color-loom-shadow);"></div>
+                        <div class="color-name">Canvas White</div>
+                        <div class="color-hex">#FFFFFF</div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="color-box" style="background: #1A1A2E;"></div>
+                        <div class="color-name">Midnight Weave</div>
+                        <div class="color-hex">#1A1A2E</div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="color-box" style="background: #C75B3F;"></div>
+                        <div class="color-name">Terracotta Thread</div>
+                        <div class="color-hex">#C75B3F</div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="color-box" style="background: #D4A574;"></div>
+                        <div class="color-name">Golden Warp</div>
+                        <div class="color-hex">#D4A574</div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="color-box" style="background: #4A5D7C;"></div>
+                        <div class="color-name">Indigo Weft</div>
+                        <div class="color-hex">#4A5D7C</div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="color-box" style="background: #F8F9FA;"></div>
+                        <div class="color-name">Weaver's Gray</div>
+                        <div class="color-hex">#F8F9FA</div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="color-box" style="background: #E5E7EB;"></div>
+                        <div class="color-name">Loom Shadow</div>
+                        <div class="color-hex">#E5E7EB</div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="color-box" style="background: #6B7280;"></div>
+                        <div class="color-name">Thread Gray</div>
+                        <div class="color-hex">#6B7280</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typography -->
+            <div class="brand-section">
+                <h3>Typography</h3>
+                <div class="typography-sample">
+                    <h1>DM Serif Display for Headlines</h1>
+                    <p style="font-family: var(--font-serif); font-size: 1rem;">
+                        Elegant serif with Filipino publication heritage
+                    </p>
+
+                    <h3 style="font-family: var(--font-sans); font-weight: 600;">Inter for Body Text</h3>
+                    <p>
+                        Clean, highly legible sans-serif for body text, UI elements, and forms.
+                        Ensures accessibility and mobile readability with weights from 400 to 600.
+                    </p>
+
+                    <div style="font-family: var(--font-accent); font-weight: 700; font-size: 1.125rem; margin-top: var(--spacing-md);">
+                        DM Sans for Accents & CTAs
+                    </div>
+                    <p>
+                        Geometric sans for labels, buttons, and navigation. Provides structure and clarity.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Weave Elements Showcase -->
+            <div class="brand-section">
+                <h3>The Reimagined Woven Elements</h3>
+                <p class="mb-lg" style="color: var(--color-thread-gray);">
+                    Weaving concept refined into subtle, functional design patterns
+                </p>
+                <div class="weave-showcase">
+                    <div class="weave-example weave-texture">
+                        <div style="height: 80px; background: white; border-radius: var(--radius-md);"></div>
+                        <div class="weave-example-title">Subtle Weave Texture</div>
+                        <p style="font-size: 0.75rem; color: var(--color-thread-gray); margin-top: 0.5rem;">
+                            2% opacity background
+                        </p>
+                    </div>
+
+                    <div class="weave-example">
+                        <div class="thread-border" style="height: 80px; background: white; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--color-thread-gray); font-size: 0.75rem;">
+                            Hover me
+                        </div>
+                        <div class="weave-example-title">Thread Border on Hover</div>
+                        <p style="font-size: 0.75rem; color: var(--color-thread-gray); margin-top: 0.5rem;">
+                            Dashed terracotta line
+                        </p>
+                    </div>
+
+                    <div class="weave-example">
+                        <div class="loading-thread" style="width: 100%; margin-top: 36px;"></div>
+                        <div class="weave-example-title" style="margin-top: var(--spacing-lg);">Loading Thread</div>
+                        <p style="font-size: 0.75rem; color: var(--color-thread-gray); margin-top: 0.5rem;">
+                            Animated weaving
+                        </p>
+                    </div>
+
+                    <div class="weave-example">
+                        <div class="stitched-divider" style="margin: 36px 0;"></div>
+                        <div class="weave-example-title">Stitched Divider</div>
+                        <p style="font-size: 0.75rem; color: var(--color-thread-gray); margin-top: 0.5rem;">
+                            Section separator
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Weave -->
+            <div class="brand-section">
+                <h3>Progressive Weaving Visual</h3>
+                <p class="mb-lg" style="color: var(--color-thread-gray);">
+                    Planning progress visualized as threads weaving together
+                </p>
+                <div class="progress-weave">
+                    <div class="progress-title">Your Planning Progress: 60%</div>
+                    <div class="progress-threads">
+                        <div class="thread woven"></div>
+                        <div class="thread woven"></div>
+                        <div class="thread woven"></div>
+                        <div class="thread woven"></div>
+                        <div class="thread woven"></div>
+                        <div class="thread woven"></div>
+                        <div class="thread"></div>
+                        <div class="thread"></div>
+                        <div class="thread"></div>
+                        <div class="thread"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Component Showcase -->
+            <div class="brand-section">
+                <h3>Component Showcase</h3>
+
+                <h4 style="font-family: var(--font-accent); font-size: 1rem; margin: var(--spacing-lg) 0 var(--spacing-md);">
+                    Buttons
+                </h4>
+                <div class="component-row">
+                    <button class="btn btn-primary">Primary Button</button>
+                    <button class="btn btn-secondary">Secondary Button</button>
+                    <button class="btn btn-ghost">Ghost Button</button>
+                </div>
+
+                <h4 style="font-family: var(--font-accent); font-size: 1rem; margin: var(--spacing-lg) 0 var(--spacing-md);">
+                    Badges
+                </h4>
+                <div class="component-row">
+                    <span class="badge badge-golden">Featured</span>
+                    <span class="badge badge-terracotta">New</span>
+                    <span class="badge badge-indigo">Verified</span>
+                </div>
+
+                <h4 style="font-family: var(--font-accent); font-size: 1rem; margin: var(--spacing-lg) 0 var(--spacing-md);">
+                    Cards with Thread Border Effect
+                </h4>
+                <div class="grid grid-3">
+                    <div class="card weave-on-hover thread-border">
+                        <div class="card-image"></div>
+                        <div class="card-content">
+                            <div class="card-title">Hover to see effects</div>
+                            <p class="card-description">
+                                Thread border and weave texture appear on hover
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card weave-on-hover thread-border">
+                        <div class="card-image"></div>
+                        <div class="card-content">
+                            <div class="card-title">Clean white canvas</div>
+                            <p class="card-description">
+                                Default state is minimal and focused
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card weave-on-hover thread-border">
+                        <div class="card-image"></div>
+                        <div class="card-content">
+                            <div class="card-title">Subtle interactions</div>
+                            <p class="card-description">
+                                Weaving appears functionally, not decoratively
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================
+         HOMEPAGE MOCKUP
+         ================================ -->
+
+    <!-- Hero Section -->
+    <section class="hero weave-texture">
+        <div class="container">
+            <h1>
+                Your <span class="thread-underline animate">Woven</span> Celebration Starts Here
+            </h1>
+            <p class="hero-tagline">
+                plan together, celebrate forevr
+            </p>
+            <div class="hero-cta">
+                <button class="btn btn-primary">Start Planning</button>
+                <button class="btn btn-secondary">Browse Vendors</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="stitched-divider container"></div>
+
+    <!-- Features Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="text-center mb-xl">Plan Every Thread of Your Celebration</h2>
+            <div class="grid grid-3">
+                <div class="feature-card">
+                    <div class="feature-icon">💒</div>
+                    <h3 class="feature-title">All Celebrations Welcome</h3>
+                    <p class="feature-description">
+                        Catholic, civil, Muslim, commitment ceremonies — we celebrate all love stories.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤝</div>
+                    <h3 class="feature-title">Plan Together</h3>
+                    <p class="feature-description">
+                        Collaborative tools that let you and your partner weave your celebration together.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">Mobile-First</h3>
+                    <p class="feature-description">
+                        Plan on the go with a seamless mobile experience designed for Filipino couples.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="stitched-divider container"></div>
+
+    <!-- Featured Vendors Section -->
+    <section class="section" id="vendors">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-xl);">
+                <h2>Featured Vendors</h2>
+                <a href="#" class="btn btn-ghost">View All</a>
+            </div>
+            <div class="grid grid-4">
+                <div class="card weave-on-hover thread-border">
+                    <div class="card-image"></div>
+                    <div class="card-content">
+                        <span class="badge badge-golden mb-sm">Featured</span>
+                        <h3 class="card-title">Manila Gardens</h3>
+                        <p class="card-description">
+                            Elegant garden venue in the heart of Manila. Capacity: 200 guests.
+                        </p>
+                    </div>
+                </div>
+                <div class="card weave-on-hover thread-border">
+                    <div class="card-image"></div>
+                    <div class="card-content">
+                        <span class="badge badge-terracotta mb-sm">New</span>
+                        <h3 class="card-title">Aperture Studios</h3>
+                        <p class="card-description">
+                            Award-winning wedding photography capturing your authentic moments.
+                        </p>
+                    </div>
+                </div>
+                <div class="card weave-on-hover thread-border">
+                    <div class="card-image"></div>
+                    <div class="card-content">
+                        <span class="badge badge-indigo mb-sm">Verified</span>
+                        <h3 class="card-title">Sweet Beginnings</h3>
+                        <p class="card-description">
+                            Custom wedding cakes that taste as good as they look. Made to order.
+                        </p>
+                    </div>
+                </div>
+                <div class="card weave-on-hover thread-border">
+                    <div class="card-image"></div>
+                    <div class="card-content">
+                        <span class="badge badge-golden mb-sm">Featured</span>
+                        <h3 class="card-title">Bloom & Co.</h3>
+                        <p class="card-description">
+                            Fresh floral arrangements using local and imported blooms.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="stitched-divider container"></div>
+
+    <!-- Categories Section -->
+    <section class="section" id="categories" style="background: var(--color-weaver-gray);">
+        <div class="container">
+            <h2 class="text-center mb-xl">Browse by Category</h2>
+            <div class="grid grid-3">
+                <div class="card weave-on-hover thread-border">
+                    <div class="card-content">
+                        <div style="font-size: 2.5rem; margin-bottom: var(--spacing-sm);">🏛️</div>
+                        <h3 class="card-title">Venues</h3>
+                        <p class="card-description">
+                            Gardens, hotels, beaches, and unique celebration spaces.
+                        </p>
+                    </div>
+                </div>
+                <div class="card weave-on-hover thread-border">
+                    <div class="card-content">
+                        <div style="font-size: 2.5rem; margin-bottom: var(--spacing-sm);">📸</div>
+                        <h3 class="card-title">Photography</h3>
+                        <p class="card-description">
+                            Capture every moment with professional photographers.
+                        </p>
+                    </div>
+                </div>
+                <div class="card weave-on-hover thread-border">
+                    <div class="card-content">
+                        <div style="font-size: 2.5rem; margin-bottom: var(--spacing-sm);">🍰</div>
+                        <h3 class="card-title">Catering</h3>
+                        <p class="card-description">
+                            Filipino, international, and fusion cuisine options.
+                        </p>
+                    </div>
+                </div>
+                <div class="card weave-on-hover thread-border">
+                    <div class="card-content">
+                        <div style="font-size: 2.5rem; margin-bottom: var(--spacing-sm);">💐</div>
+                        <h3 class="card-title">Flowers</h3>
+                        <p class="card-description">
+                            Bouquets, centerpieces, and ceremony decorations.
+                        </p>
+                    </div>
+                </div>
+                <div class="card weave-on-hover thread-border">
+                    <div class="card-content">
+                        <div style="font-size: 2.5rem; margin-bottom: var(--spacing-sm);">💄</div>
+                        <h3 class="card-title">Hair & Makeup</h3>
+                        <p class="card-description">
+                            Look your best on your special day with professionals.
+                        </p>
+                    </div>
+                </div>
+                <div class="card weave-on-hover thread-border">
+                    <div class="card-content">
+                        <div style="font-size: 2.5rem; margin-bottom: var(--spacing-sm);">🎵</div>
+                        <h3 class="card-title">Entertainment</h3>
+                        <p class="card-description">
+                            Bands, DJs, and performers to keep the party going.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section weave-texture">
+        <div class="container text-center">
+            <h2 class="mb-lg">Ready to Weave Your Story?</h2>
+            <p style="font-size: 1.125rem; color: var(--color-thread-gray); max-width: 600px; margin: 0 auto var(--spacing-xl);">
+                Join thousands of Filipino couples planning their celebrations with everaftr.
+                Start building your dream celebration, one thread at a time.
+            </p>
+            <button class="btn btn-primary">Start Your Journey</button>
+        </div>
+    </section>
+
+    <!-- ================================
+         FOOTER
+         ================================ -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Vendors</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">List Your Business</a></li>
+                        <li><a href="#">Vendor Login</a></li>
+                        <li><a href="#">Resources</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">Accessibility</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 everaftr. All rights reserved. Made with love in the Philippines.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animate thread underline on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const underlineElements = document.querySelectorAll('.thread-underline');
+            underlineElements.forEach(el => {
+                setTimeout(() => {
+                    el.classList.add('animate');
+                }, 500);
+            });
+        });
+    </script>
+
+</body>
+</html>

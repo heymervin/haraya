@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concept D: Fiesta — everaftr Design System</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Instrument+Serif:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ================================================================
+           DESIGN TOKENS -- Concept D: Fiesta
+           ================================================================ */
+        :root {
+            /* Canvas */
+            --color-white: #FFFFFF;
+            --color-linen: #FAFAF8;
+
+            /* Fiesta Palette */
+            --color-coral: #E8533F;
+            --color-coral-dark: #D6402D;
+            --color-coral-blush: #FEF2F0;
+
+            --color-blue: #2B6CB0;
+            --color-blue-dark: #1E5A94;
+            --color-sky-mist: #EFF6FB;
+
+            --color-gold: #F5A623;
+            --color-gold-dark: #E09515;
+            --color-gold-shimmer: #FFF8E7;
+
+            --color-green: #2D7A3E;
+            --color-green-dark: #236331;
+            --color-leaf-whisper: #F0F8F2;
+
+            --color-purple: #7C3F94;
+            --color-purple-dark: #663380;
+            --color-ube-cream: #F7F0FA;
+
+            /* Text */
+            --color-ink: #1A1614;
+            --color-stone: #6B6862;
+            --color-mist: #9C9894;
+
+            /* Borders */
+            --color-silk: #E8E5E2;
+            --color-whisper: #F0EEEB;
+
+            /* Fonts */
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-serif: 'Instrument Serif', Georgia, serif;
+        }
+
+        /* ================================================================
+           BASE STYLES
+           ================================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--color-ink);
+            background-color: var(--color-white);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ================================================================
+           BANDERITA SIGNATURE ELEMENT
+           ================================================================ */
+        .banderita-line {
+            height: 3px;
+            display: flex;
+            width: 100%;
+        }
+
+        .banderita-line span {
+            flex: 1;
+            height: 100%;
+        }
+
+        .banderita-line span:nth-child(1) { background: var(--color-coral); }
+        .banderita-line span:nth-child(2) { background: var(--color-blue); }
+        .banderita-line span:nth-child(3) { background: var(--color-gold); }
+        .banderita-line span:nth-child(4) { background: var(--color-green); }
+        .banderita-line span:nth-child(5) { background: var(--color-purple); }
+
+        .banderita-line-thin {
+            height: 2px;
+            max-width: 120px;
+            margin: 48px auto;
+        }
+
+        .banderita-line.loading span {
+            animation: shimmer 1.5s ease-in-out infinite;
+        }
+        .banderita-line.loading span:nth-child(1) { animation-delay: 0s; }
+        .banderita-line.loading span:nth-child(2) { animation-delay: 0.2s; }
+        .banderita-line.loading span:nth-child(3) { animation-delay: 0.4s; }
+        .banderita-line.loading span:nth-child(4) { animation-delay: 0.6s; }
+        .banderita-line.loading span:nth-child(5) { animation-delay: 0.8s; }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* Floating Flags */
+        .floating-flags {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            align-items: center;
+            padding: 24px 0;
+        }
+
+        .flag {
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 12px solid;
+        }
+
+        .flag:nth-child(1) { border-top-color: var(--color-coral); }
+        .flag:nth-child(2) { border-top-color: var(--color-blue); }
+        .flag:nth-child(3) { border-top-color: var(--color-gold); }
+        .flag:nth-child(4) { border-top-color: var(--color-green); }
+        .flag:nth-child(5) { border-top-color: var(--color-purple); }
+
+        /* ================================================================
+           TYPOGRAPHY
+           ================================================================ */
+        h1, h2, h3 {
+            font-family: var(--font-serif);
+            font-weight: 500;
+            line-height: 1.1;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            letter-spacing: -0.01em;
+            margin-bottom: 0.75rem;
+        }
+
+        h3 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            margin-bottom: 0.5rem;
+        }
+
+        h4 {
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 1.25rem;
+            line-height: 1.3;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        .tagline {
+            font-family: var(--font-sans);
+            font-weight: 400;
+            font-size: 1.125rem;
+            color: var(--color-stone);
+            font-style: italic;
+        }
+
+        .label {
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.6875rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--color-stone);
+        }
+
+        /* ================================================================
+           LAYOUT UTILITIES
+           ================================================================ */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section {
+            padding: 64px 24px;
+        }
+
+        .section-linen {
+            background: var(--color-linen);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .grid {
+            display: grid;
+            gap: 24px;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        }
+
+        .flex-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .mb-1 { margin-bottom: 8px; }
+        .mb-2 { margin-bottom: 16px; }
+        .mb-3 { margin-bottom: 24px; }
+        .mb-4 { margin-bottom: 32px; }
+        .mb-6 { margin-bottom: 48px; }
+
+        /* ================================================================
+           BUTTONS
+           ================================================================ */
+        .btn {
+            display: inline-block;
+            padding: 12px 32px;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 15px;
+            letter-spacing: 0.03em;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 200ms ease;
+        }
+
+        .btn-primary {
+            background: var(--color-coral);
+            color: white;
+            box-shadow: 0 4px 12px rgba(232, 83, 63, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-coral-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(232, 83, 63, 0.35);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-blue);
+            border: 2px solid var(--color-blue);
+            padding: 10px 30px;
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-sky-mist);
+        }
+
+        .btn-tertiary {
+            background: transparent;
+            color: var(--color-coral);
+            padding: 12px 20px;
+        }
+
+        .btn-tertiary:hover {
+            background: var(--color-coral-blush);
+        }
+
+        .btn-gold {
+            background: var(--color-gold);
+            color: white;
+            padding: 10px 28px;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            box-shadow: 0 0 16px rgba(245, 166, 35, 0.4);
+        }
+
+        .btn-gold:hover {
+            background: var(--color-gold-dark);
+        }
+
+        /* ================================================================
+           BADGES
+           ================================================================ */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            border-radius: 6px;
+        }
+
+        .badge-verified {
+            background: var(--color-green);
+            color: white;
+        }
+
+        .badge-acw {
+            background: var(--color-ube-cream);
+            color: var(--color-purple);
+        }
+
+        .badge-featured {
+            background: var(--color-gold);
+            color: white;
+            box-shadow: 0 0 12px rgba(245, 166, 35, 0.3);
+        }
+
+        .badge-category {
+            background: var(--color-linen);
+            color: var(--color-stone);
+            border: 1px solid var(--color-silk);
+        }
+
+        /* ================================================================
+           CARDS
+           ================================================================ */
+        .card {
+            background: white;
+            border: 1px solid var(--color-silk);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 200ms ease;
+            position: relative;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(
+                90deg,
+                var(--color-coral) 0%, var(--color-coral) 20%,
+                var(--color-blue) 20%, var(--color-blue) 40%,
+                var(--color-gold) 40%, var(--color-gold) 60%,
+                var(--color-green) 60%, var(--color-green) 80%,
+                var(--color-purple) 80%, var(--color-purple) 100%
+            );
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 300ms ease;
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(26, 22, 20, 0.08);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: var(--color-linen);
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--color-ink);
+            margin-bottom: 8px;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--color-stone);
+            margin-bottom: 12px;
+        }
+
+        .card-price {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--color-ink);
+            margin-bottom: 8px;
+        }
+
+        /* ================================================================
+           NAVBAR
+           ================================================================ */
+        .navbar {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--color-whisper);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 72px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-sans);
+            font-weight: 300;
+            font-size: 24px;
+            letter-spacing: 0.16em;
+            color: var(--color-ink);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 15px;
+            letter-spacing: 0.02em;
+            color: var(--color-stone);
+            text-decoration: none;
+            transition: color 150ms ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--color-coral);
+        }
+
+        .nav-links a.active {
+            border-bottom: 3px solid var(--color-coral);
+            padding-bottom: 4px;
+        }
+
+        /* ================================================================
+           FOOTER
+           ================================================================ */
+        .footer {
+            background: var(--color-ink);
+            color: var(--color-linen);
+            padding: 64px 24px 32px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-family: var(--font-sans);
+            font-weight: 300;
+            font-size: 28px;
+            letter-spacing: 0.16em;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .footer-tagline {
+            font-family: var(--font-sans);
+            font-style: italic;
+            font-size: 16px;
+            color: var(--color-mist);
+            margin-bottom: 32px;
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+            margin-bottom: 48px;
+        }
+
+        .footer-section h4 {
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--color-silk);
+            margin-bottom: 16px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-section a {
+            color: var(--color-silk);
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 150ms ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--color-coral);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(232, 229, 226, 0.1);
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: var(--color-mist);
+        }
+
+        /* ================================================================
+           BRAND BOARD SECTION
+           ================================================================ */
+        .brand-board {
+            padding: 64px 24px;
+            background: var(--color-white);
+        }
+
+        .color-swatch {
+            border-radius: 12px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 16px;
+            color: white;
+            font-family: var(--font-sans);
+            border: 1px solid var(--color-whisper);
+        }
+
+        .color-swatch .color-name {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .color-swatch .color-hex {
+            font-weight: 400;
+            font-size: 12px;
+            opacity: 0.9;
+            font-family: 'Courier New', monospace;
+        }
+
+        .color-coral { background: var(--color-coral); }
+        .color-blue { background: var(--color-blue); }
+        .color-gold { background: var(--color-gold); }
+        .color-green { background: var(--color-green); }
+        .color-purple { background: var(--color-purple); }
+        .color-ink { background: var(--color-ink); }
+        .color-stone { background: var(--color-stone); }
+
+        .type-sample {
+            margin-bottom: 32px;
+        }
+
+        .type-sample .sample-text {
+            margin-bottom: 8px;
+        }
+
+        .type-sample .meta {
+            font-size: 13px;
+            color: var(--color-stone);
+            font-family: 'Courier New', monospace;
+        }
+
+        /* ================================================================
+           STARS
+           ================================================================ */
+        .stars {
+            display: inline-flex;
+            gap: 2px;
+        }
+
+        .star {
+            color: var(--color-gold);
+            font-size: 16px;
+        }
+
+        .star.empty {
+            color: var(--color-silk);
+        }
+
+        /* ================================================================
+           RESPONSIVE
+           ================================================================ */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .section {
+                padding: 48px 20px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+        }
+
+        /* ================================================================
+           HERO SECTION SPECIFIC
+           ================================================================ */
+        .hero {
+            padding: 96px 24px;
+            text-align: center;
+            background: var(--color-white);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            margin-bottom: 24px;
+        }
+
+        .hero .tagline {
+            margin-bottom: 48px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ================================================================
+           CATEGORY ICONS
+           ================================================================ */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 24px;
+        }
+
+        .category-item {
+            text-align: center;
+            padding: 24px 16px;
+            border-radius: 12px;
+            transition: all 200ms ease;
+            cursor: pointer;
+        }
+
+        .category-item:hover {
+            background: var(--color-linen);
+            transform: translateY(-2px);
+        }
+
+        .category-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 12px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .category-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--color-ink);
+        }
+
+        .icon-coral { background: var(--color-coral); color: white; }
+        .icon-blue { background: var(--color-blue); color: white; }
+        .icon-gold { background: var(--color-gold); color: white; }
+        .icon-green { background: var(--color-green); color: white; }
+        .icon-purple { background: var(--color-purple); color: white; }
+
+        /* Component Showcase Specific */
+        .component-grid {
+            display: grid;
+            gap: 48px;
+        }
+
+        .component-demo {
+            padding: 32px;
+            background: var(--color-linen);
+            border-radius: 12px;
+        }
+
+        .component-demo h4 {
+            margin-bottom: 20px;
+            color: var(--color-stone);
+        }
+
+        .button-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .badge-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="#" class="logo">everaftr</a>
+            <ul class="nav-links">
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#">Vendors</a></li>
+                <li><a href="#">Plan</a></li>
+                <li><a href="#">Celebrations</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Banderita Line Below Navbar -->
+    <div class="banderita-line">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- BRAND BOARD SECTION -->
+    <section class="brand-board">
+        <div class="container">
+            <div class="text-center mb-6">
+                <div class="label mb-2">Design System</div>
+                <h2>Concept D: Fiesta</h2>
+                <p class="tagline">Banderita vibrancy meets premium white space</p>
+            </div>
+
+            <!-- Color Palette -->
+            <div class="mb-6">
+                <h3 class="mb-3">The Banderita Palette</h3>
+                <p class="mb-4" style="color: var(--color-stone);">Five vibrant fiesta colors inspired by Filipino celebrations — bright enough to energize, refined enough for weddings.</p>
+                <div class="grid grid-3">
+                    <div class="color-swatch color-coral">
+                        <div class="color-name">Sunset Coral</div>
+                        <div class="color-hex">#E8533F</div>
+                    </div>
+                    <div class="color-swatch color-blue">
+                        <div class="color-name">Fiesta Blue</div>
+                        <div class="color-hex">#2B6CB0</div>
+                    </div>
+                    <div class="color-swatch color-gold">
+                        <div class="color-name">Mango Gold</div>
+                        <div class="color-hex">#F5A623</div>
+                    </div>
+                    <div class="color-swatch color-green">
+                        <div class="color-name">Sampaguita Leaf</div>
+                        <div class="color-hex">#2D7A3E</div>
+                    </div>
+                    <div class="color-swatch color-purple">
+                        <div class="color-name">Ube</div>
+                        <div class="color-hex">#7C3F94</div>
+                    </div>
+                    <div class="color-swatch color-ink">
+                        <div class="color-name">Ink</div>
+                        <div class="color-hex">#1A1614</div>
+                    </div>
+                    <div class="color-swatch color-stone">
+                        <div class="color-name">Stone</div>
+                        <div class="color-hex">#6B6862</div>
+                    </div>
+                    <div class="color-swatch" style="background: var(--color-white); border: 2px solid var(--color-silk); color: var(--color-ink);">
+                        <div class="color-name">White Canvas</div>
+                        <div class="color-hex">#FFFFFF</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typography -->
+            <div class="mb-6">
+                <h3 class="mb-3">Typography</h3>
+                <div class="type-sample">
+                    <h1 class="sample-text">The best way to plan a Filipino celebration</h1>
+                    <div class="meta">Instrument Serif / 500 / Display</div>
+                </div>
+                <div class="type-sample">
+                    <h2 class="sample-text">Trusted vendors for your celebration</h2>
+                    <div class="meta">Instrument Serif / 500 / H2</div>
+                </div>
+                <div class="type-sample">
+                    <h4 class="sample-text">Featured Vendor Name</h4>
+                    <div class="meta">Inter / 700 / H4</div>
+                </div>
+                <div class="type-sample">
+                    <p class="sample-text">Built for every couple, rooted in Filipino tradition. Plan together, celebrate forevr.</p>
+                    <div class="meta">Inter / 400 / Body</div>
+                </div>
+            </div>
+
+            <!-- Signature Element -->
+            <div class="mb-4">
+                <h3 class="mb-3">The Banderita Accent</h3>
+                <p class="mb-3" style="color: var(--color-stone);">Inspired by the colorful flag bunting that lines Filipino fiesta streets. Five colors, one celebration.</p>
+
+                <div class="mb-4">
+                    <div class="label mb-2">Full Width (Navbar/Footer)</div>
+                    <div class="banderita-line">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <div class="label mb-2">Section Divider (Thin)</div>
+                    <div class="banderita-line banderita-line-thin">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <div class="label mb-2">Loading State (Animated)</div>
+                    <div class="banderita-line loading">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="label mb-2">Floating Flags (Optional Decorative Element)</div>
+                    <div class="floating-flags">
+                        <div class="flag"></div>
+                        <div class="flag"></div>
+                        <div class="flag"></div>
+                        <div class="flag"></div>
+                        <div class="flag"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="banderita-line banderita-line-thin">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>The best way to plan a Filipino celebration</h1>
+
+            <div class="floating-flags">
+                <div class="flag"></div>
+                <div class="flag"></div>
+                <div class="flag"></div>
+                <div class="flag"></div>
+                <div class="flag"></div>
+            </div>
+
+            <p class="tagline">plan together, celebrate forevr</p>
+
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary">Find Vendors</a>
+                <a href="#" class="btn btn-secondary">Start Planning</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="banderita-line banderita-line-thin">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- FEATURED VENDORS SECTION -->
+    <section class="section">
+        <div class="container">
+            <div class="text-center mb-4">
+                <h2>Trusted vendors for your celebration</h2>
+            </div>
+
+            <div class="grid grid-3">
+                <!-- Vendor Card 1 -->
+                <div class="card">
+                    <div class="card-img" style="background: linear-gradient(135deg, #E8533F 0%, #F5A623 100%);"></div>
+                    <div class="card-content">
+                        <div class="badge-row mb-2">
+                            <span class="badge badge-category">Photo & Video</span>
+                            <span class="badge badge-verified">✓ Verified</span>
+                        </div>
+                        <h4 class="card-title">Studio Lumina</h4>
+                        <div class="card-meta">
+                            <span>📍 Manila</span>
+                            <span class="stars">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span style="color: var(--color-stone); margin-left: 4px;">4.9 (87)</span>
+                            </span>
+                        </div>
+                        <div class="card-price">₱45,000 - ₱120,000</div>
+                        <div class="badge-row">
+                            <span class="badge badge-acw">All Celebrations Welcome</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vendor Card 2 -->
+                <div class="card">
+                    <div class="card-img" style="background: linear-gradient(135deg, #2B6CB0 0%, #7C3F94 100%);"></div>
+                    <div class="card-content">
+                        <div class="badge-row mb-2">
+                            <span class="badge badge-category">Venues</span>
+                            <span class="badge badge-featured">★ Featured</span>
+                        </div>
+                        <h4 class="card-title">Hacienda Esperanza</h4>
+                        <div class="card-meta">
+                            <span>📍 Tagaytay</span>
+                            <span class="stars">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span style="color: var(--color-stone); margin-left: 4px;">5.0 (124)</span>
+                            </span>
+                        </div>
+                        <div class="card-price">₱80,000 - ₱200,000</div>
+                        <div class="badge-row">
+                            <span class="badge badge-acw">All Celebrations Welcome</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vendor Card 3 -->
+                <div class="card">
+                    <div class="card-img" style="background: linear-gradient(135deg, #2D7A3E 0%, #F5A623 100%);"></div>
+                    <div class="card-content">
+                        <div class="badge-row mb-2">
+                            <span class="badge badge-category">Catering</span>
+                            <span class="badge badge-verified">✓ Verified</span>
+                        </div>
+                        <h4 class="card-title">Kusina ni Lola</h4>
+                        <div class="card-meta">
+                            <span>📍 Quezon City</span>
+                            <span class="stars">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star empty">★</span>
+                                <span style="color: var(--color-stone); margin-left: 4px;">4.7 (63)</span>
+                            </span>
+                        </div>
+                        <div class="card-price">₱650 - ₱1,200 per head</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center" style="margin-top: 32px;">
+                <a href="#" class="btn btn-tertiary">View All Vendors →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATEGORIES SECTION -->
+    <section class="section section-linen">
+        <div class="container">
+            <div class="text-center mb-4">
+                <h2>Find the perfect vendor for every need</h2>
+            </div>
+
+            <div class="category-grid">
+                <div class="category-item">
+                    <div class="category-icon icon-blue">🏛️</div>
+                    <div class="category-name">Venues</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon icon-coral">📸</div>
+                    <div class="category-name">Photo & Video</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon icon-gold">🍽️</div>
+                    <div class="category-name">Catering</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon icon-green">📋</div>
+                    <div class="category-name">Coordination</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon icon-purple">💐</div>
+                    <div class="category-name">Flowers</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon icon-gold">💡</div>
+                    <div class="category-name">Lights & Sound</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon icon-coral">💄</div>
+                    <div class="category-name">Hair & Makeup</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-icon icon-blue">👔</div>
+                    <div class="category-name">Attire</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS SECTION -->
+    <section class="section">
+        <div class="container">
+            <div class="text-center mb-6">
+                <h2>Plan your celebration in three steps</h2>
+            </div>
+
+            <div class="grid grid-3">
+                <div class="text-center">
+                    <div style="font-family: var(--font-serif); font-size: 64px; font-weight: 500; color: var(--color-coral); line-height: 1; margin-bottom: 16px;">1</div>
+                    <h4>Discover Vendors</h4>
+                    <p style="color: var(--color-stone);">Browse verified vendors with real reviews and transparent pricing.</p>
+                </div>
+                <div class="text-center">
+                    <div style="font-family: var(--font-serif); font-size: 64px; font-weight: 500; color: var(--color-blue); line-height: 1; margin-bottom: 16px;">2</div>
+                    <h4>Plan Together</h4>
+                    <p style="color: var(--color-stone);">Track your budget, manage your checklist, and stay organized in one place.</p>
+                </div>
+                <div class="text-center">
+                    <div style="font-family: var(--font-serif); font-size: 64px; font-weight: 500; color: var(--color-gold); line-height: 1; margin-bottom: 16px;">3</div>
+                    <h4>Celebrate Your Way</h4>
+                    <p style="color: var(--color-stone);">Church, civil, Muslim, or commitment celebration — we're here for you.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="section" style="background: linear-gradient(135deg, var(--color-coral-blush) 0%, var(--color-sky-mist) 100%);">
+        <div class="container text-center">
+            <h2 class="mb-3">Not sure where to start?</h2>
+            <p class="mb-4" style="font-size: 1.125rem; color: var(--color-stone); max-width: 600px; margin: 0 auto 32px;">Take our 2-minute matchmaker quiz and get personalized vendor recommendations.</p>
+            <a href="#" class="btn btn-primary" style="font-size: 16px; padding: 14px 40px;">Start the Quiz</a>
+        </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="banderita-line banderita-line-thin">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- COMPONENT SHOWCASE SECTION -->
+    <section class="section section-linen">
+        <div class="container">
+            <div class="text-center mb-6">
+                <h2>Component Showcase</h2>
+                <p class="tagline">Buttons, badges, and UI elements</p>
+            </div>
+
+            <div class="component-grid">
+                <!-- Buttons -->
+                <div class="component-demo">
+                    <h4>Buttons</h4>
+                    <div class="button-row">
+                        <button class="btn btn-primary">Primary Button</button>
+                        <button class="btn btn-secondary">Secondary Button</button>
+                        <button class="btn btn-tertiary">Tertiary Button</button>
+                        <button class="btn btn-gold">Featured</button>
+                    </div>
+                </div>
+
+                <!-- Badges -->
+                <div class="component-demo">
+                    <h4>Badges</h4>
+                    <div class="badge-row">
+                        <span class="badge badge-verified">✓ Verified</span>
+                        <span class="badge badge-acw">♥ All Celebrations Welcome</span>
+                        <span class="badge badge-featured">★ Featured</span>
+                        <span class="badge badge-category">Category</span>
+                    </div>
+                </div>
+
+                <!-- Cards Preview -->
+                <div class="component-demo">
+                    <h4>Card Hover States</h4>
+                    <p style="color: var(--color-stone); margin-bottom: 20px; font-size: 14px;">Hover over vendor cards to reveal the banderita accent line at the top.</p>
+                    <div class="grid grid-2">
+                        <div class="card">
+                            <div class="card-img" style="background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-coral) 100%);"></div>
+                            <div class="card-content">
+                                <h4 class="card-title">Hover Me</h4>
+                                <p style="color: var(--color-stone); font-size: 14px;">Watch the banderita accent appear</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-img" style="background: linear-gradient(135deg, var(--color-green) 0%, var(--color-blue) 100%);"></div>
+                            <div class="card-content">
+                                <h4 class="card-title">And Me Too</h4>
+                                <p style="color: var(--color-stone); font-size: 14px;">Lift effect + shadow + color accent</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Banderita Line Above Footer -->
+    <div class="banderita-line">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">everaftr</div>
+            <div class="footer-tagline">where forevr begins</div>
+
+            <div class="footer-links">
+                <div class="footer-section">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="#">Find Vendors</a></li>
+                        <li><a href="#">Planning Tools</a></li>
+                        <li><a href="#">Matchmaker Quiz</a></li>
+                        <li><a href="#">Real Celebrations</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>For Vendors</h4>
+                    <ul>
+                        <li><a href="#">List Your Business</a></li>
+                        <li><a href="#">Vendor Dashboard</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div>© 2026 everaftr. All rights reserved.</div>
+                <div>
+                    <a href="#" style="color: var(--color-mist); margin: 0 8px;">Instagram</a>
+                    <a href="#" style="color: var(--color-mist); margin: 0 8px;">Facebook</a>
+                    <a href="#" style="color: var(--color-mist); margin: 0 8px;">TikTok</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
