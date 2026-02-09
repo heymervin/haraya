@@ -33,16 +33,16 @@ export default function Home() {
   ];
 
   const features = [
-    { icon: Heart, title: 'Filipino-First', description: 'We understand ninongs, Pre-Cana, CENOMAR, and lechon debates. This is wedding planning that speaks your language.' },
-    { icon: Globe, title: 'Every Couple Welcome', description: 'Whether you\'re planning a church wedding, civil ceremony, Muslim nikah, or commitment celebration — this platform is for you.' },
-    { icon: Shield, title: 'Trusted Vendors', description: 'Real reviews from real couples. Verified vendors. Transparent pricing. No more scam anxiety.' },
-    { icon: Star, title: 'Your Way, Always', description: 'Customize everything. Your labels, your roles, your timeline. We adapt to you, not the other way around.' },
+    { icon: Heart, title: 'Filipino-First', description: 'We understand ninongs, Pre-Cana, CENOMAR, and lechon debates. This is wedding planning that actually speaks your language.' },
+    { icon: Globe, title: 'Every Couple Welcome', description: 'Church wedding, civil ceremony, Muslim nikah, or intimate celebration — whatever your love story looks like, we\'re here for it.' },
+    { icon: Shield, title: 'Trusted Wedding Vendors', description: 'Real reviews from real couples. Verified vendors with transparent pricing. No more scam anxiety from random Facebook pages.' },
+    { icon: Star, title: 'Your Wedding, Your Way', description: 'Customize everything — your labels, your roles, your timeline. We adapt to how you plan, not the other way around.' },
   ];
 
   const stats = [
-    { value: '13', label: 'Pages & Features' },
-    { value: '317', label: 'Verified Vendors' },
-    { value: '20', label: 'Vendor Categories' },
+    { value: '300+', label: 'Wedding Vendors' },
+    { value: '8', label: 'Vendor Categories' },
+    { value: '100%', label: 'Free for Couples' },
   ];
 
   // Get top-rated vendors for featured section
@@ -63,14 +63,14 @@ export default function Home() {
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto max-w-4xl text-center">
             <h1 className="font-serif text-[clamp(2.25rem,5vw,4rem)] font-light leading-[1.1] text-text-primary">
-              The best way to plan a Filipino celebration
+              The best way to plan a Filipino wedding
             </h1>
             <p className="mt-6 font-serif text-[clamp(1.125rem,2.5vw,1.375rem)] italic leading-[1.3] text-dream-lavender">
               where dreams take shape
             </p>
             <p className="mx-auto mt-6 max-w-2xl font-sans text-base font-light leading-relaxed text-text-primary md:text-lg">
-              Find trusted vendors, track your budget, manage your guest list, and plan your
-              celebration — your way. Built for every couple, rooted in Filipino tradition.
+              Find trusted wedding vendors, track your budget, manage your guest list, and plan your
+              dream wedding — your way. Built for every Filipino couple.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
@@ -94,7 +94,7 @@ export default function Home() {
       <section className="bg-pearl py-16 px-6 md:py-24 md:px-10">
         <div className="mx-auto max-w-7xl">
           <h2 className="text-center font-serif text-[clamp(1.75rem,4vw,2.625rem)] font-normal leading-[1.2] text-text-primary">
-            Plan your celebration in three simple steps
+            Plan your wedding in three simple steps
           </h2>
           <div className="mt-12 grid gap-8 md:grid-cols-3">
             <div className="group rounded-lg border border-whisper bg-pearl p-8 transition hover:-translate-y-0.5 hover:shadow-lg">
@@ -103,7 +103,7 @@ export default function Home() {
               </div>
               <h3 className="mb-3 font-sans text-xl font-medium text-text-primary">Discover Vendors</h3>
               <p className="font-sans text-sm font-light leading-relaxed text-text-secondary">
-                Find trusted vendors verified by real couples. Filter by location, budget, and style.
+                Browse wedding vendors verified by real couples. Filter by location, budget, and style.
               </p>
             </div>
             <div className="group rounded-lg border border-whisper bg-pearl p-8 transition hover:-translate-y-0.5 hover:shadow-lg">
@@ -112,7 +112,7 @@ export default function Home() {
               </div>
               <h3 className="mb-3 font-sans text-xl font-medium text-text-primary">Plan Together</h3>
               <p className="font-sans text-sm font-light leading-relaxed text-text-secondary">
-                Track your budget, manage your checklist, and coordinate everything in one place.
+                Track your wedding budget, manage your checklist, and coordinate everything in one place.
               </p>
             </div>
             <div className="group rounded-lg border border-whisper bg-pearl p-8 transition hover:-translate-y-0.5 hover:shadow-lg">
@@ -151,7 +151,7 @@ export default function Home() {
       <section className="bg-pearl py-16 px-6 md:py-24 md:px-10">
         <div className="mx-auto max-w-7xl">
           <h2 className="text-center font-serif text-[clamp(1.75rem,4vw,2.625rem)] font-normal leading-[1.2] text-text-primary">
-            Find the right team for your celebration
+            Find the right team for your wedding
           </h2>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {categories.map((category) => {
@@ -233,7 +233,7 @@ export default function Home() {
             Not sure where to start?
           </h2>
           <p className="mx-auto mt-4 max-w-2xl font-sans text-base font-light leading-relaxed text-text-primary md:text-lg">
-            Take our 2-minute matchmaker quiz and we'll recommend the perfect vendors for your celebration.
+            Take our 2-minute matchmaker quiz and we'll recommend the perfect wedding vendors for you.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
@@ -256,7 +256,7 @@ export default function Home() {
       <section className="bg-pearl py-16 px-6 md:py-24 md:px-10">
         <div className="mx-auto max-w-7xl">
           <h2 className="mb-12 text-center font-serif text-[clamp(1.5rem,3.5vw,2rem)] font-normal leading-[1.2] text-text-primary">
-            Building the best vendor network in the Philippines
+            The Philippines' wedding vendor network
           </h2>
           <div className="grid gap-8 sm:grid-cols-3">
             {stats.map((stat, index) => (

@@ -1,11 +1,12 @@
-# everaftr — Brand Guide v2: Woven Heritage
+# [ARCHIVED] everaftr — Brand Guide v2: Woven Heritage
 
-> **For developers, designers, and AI agents building the everaftr platform.**
-> This document is the single source of truth for all visual and brand decisions.
-> Every page, component, email, and marketing asset must follow this guide.
+> **THIS DOCUMENT IS ARCHIVED.** The Woven Heritage design system has been retired.
+> The active brand guide is `HARAYA-BRAND-STRATEGY.md`.
+> This file is preserved for historical reference only. Do not use for new development.
 
-**Version:** 2.0 — Woven Heritage
+**Version:** 2.0 — Woven Heritage (ARCHIVED)
 **Last Updated:** February 7, 2026
+**Superseded:** February 9, 2026 by HARAYA-BRAND-STRATEGY.md
 
 ---
 

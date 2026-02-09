@@ -69,7 +69,7 @@ const Plan = () => {
       {/* Page Header */}
       <div className="max-w-7xl mx-auto px-6 py-12 md:py-16">
         <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-light text-text-primary mb-3">
-          Plan Your Celebration
+          Plan Your Wedding
         </h1>
         <p className="text-lg text-text-secondary font-light mb-8">
           Everything you need, all in one place

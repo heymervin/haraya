@@ -47,7 +47,7 @@ export default function About() {
       icon: Globe,
       title: 'Filipino-First',
       description:
-        "We speak your language. We know your traditions. From ninongs and ninangs to Pre-Cana seminars, lechon debates to Viber group chats — we understand the reality of planning a Filipino celebration.",
+        "We speak your language. We know your traditions. From ninongs and ninangs to Pre-Cana seminars, lechon debates to Viber group chats — we understand the reality of planning a Filipino wedding.",
     },
     {
       icon: Heart,
@@ -65,7 +65,7 @@ export default function About() {
       icon: Users,
       title: 'Community',
       description:
-        'Built with and for Filipino couples and wedding professionals. Your feedback shapes the platform. Your stories inspire others. Together, we create something better.',
+        'Built with and for Filipino couples and wedding professionals. Your feedback shapes the platform. Your stories inspire others. Together, we\'re changing how Filipinos plan weddings.',
     },
   ];
 
@@ -78,8 +78,8 @@ export default function About() {
             Dream it. Plan it. Celebrate it.
           </h1>
           <p className="mx-auto mt-8 max-w-2xl font-sans text-base font-light leading-relaxed text-text-primary md:text-lg">
-            haraya is the Philippines' first celebration planning platform built
-            for every couple — where dreams take shape.
+            haraya is the Philippines' first inclusive wedding planning platform —
+            built for every couple, rooted in Filipino tradition.
           </p>
         </div>
       </section>
@@ -93,7 +93,7 @@ export default function About() {
 
           <div className="mt-8 space-y-6 font-sans text-base font-light leading-relaxed text-text-primary md:text-lg">
             <p>
-              Filipino couples deserve a celebration planning platform that
+              Filipino couples deserve a wedding planning platform that
               understands their culture — ninongs and ninangs, Pre-Cana
               seminars, lechon debates, and Viber group chats. We built
               haraya because no one else has.
@@ -206,10 +206,10 @@ export default function About() {
         <div className="mx-auto max-w-4xl text-center">
           <Sparkles className="mx-auto mb-6 h-12 w-12 text-dream-lavender" />
           <h2 className="font-serif text-[clamp(1.75rem,4vw,2.625rem)] font-normal leading-[1.2] text-text-primary">
-            Are you a celebration vendor?
+            Are you a wedding vendor?
           </h2>
           <p className="mx-auto mt-4 max-w-2xl font-sans text-base font-light leading-relaxed text-text-primary md:text-lg">
-            Join the platform built to help Filipino celebration professionals
+            Join the platform built to help Filipino wedding professionals
             thrive. Free listings, real leads, and a community that values your
             craft.
           </p>

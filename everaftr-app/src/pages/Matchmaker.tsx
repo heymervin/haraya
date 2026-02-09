@@ -180,7 +180,7 @@ export default function Matchmaker() {
   // Get personalized tip based on answers
   const getPersonalizedTip = (): string => {
     if (answers.location === 'tagaytay-cavite' && answers.style === 'garden') {
-      return 'For garden weddings in Tagaytay, book your venue 12+ months ahead — popular spots fill up fast!';
+      return 'For garden weddings in Tagaytay, book your venue 12+ months ahead — the most popular spots fill up fast!';
     }
     if (answers.budget === '100-300k') {
       return 'Budget-friendly tip: Consider off-peak months (July-September) for better vendor availability and pricing.';
@@ -189,12 +189,12 @@ export default function Matchmaker() {
       return 'Pro tip: Allocate 15-20% of your budget to photography & video — these memories last forever.';
     }
     if (answers.guestCount === 'intimate') {
-      return 'Intimate celebrations give you more budget flexibility for premium experiences and personalized touches.';
+      return 'Intimate weddings give you more budget flexibility for premium experiences and personalized touches.';
     }
     if (answers.style === 'classic') {
       return 'For classic elegance, focus on timeless details: fresh flowers, candlelight, and quality linens make all the difference.';
     }
-    return 'Start planning 9-12 months ahead to secure your dream vendors and get the best availability.';
+    return 'Start wedding planning 9-12 months ahead to secure your dream vendors and get the best availability.';
   };
 
   // Get style label
@@ -258,11 +258,11 @@ export default function Matchmaker() {
           <div className="w-full max-w-2xl text-center">
             <Sparkles className="mx-auto mb-8 h-16 w-16 text-dream-lavender" />
             <h1 className="font-serif text-[clamp(2rem,5vw,3.5rem)] font-light leading-[1.1] text-text-primary">
-              Find Your Perfect Celebration Team
+              Find Your Perfect Wedding Team
             </h1>
             <p className="mx-auto mt-6 max-w-xl font-sans text-lg font-light leading-relaxed text-text-primary">
               Answer 5 quick questions and we'll match you with the right
-              vendors for your celebration.
+              wedding vendors for your big day.
             </p>
             <p className="mt-4 font-sans text-sm font-light text-text-secondary">
               Takes about 2 minutes
@@ -506,7 +506,7 @@ export default function Matchmaker() {
           {currentStep === 1 && (
             <div className="fade-in">
               <h2 className="mb-8 text-center font-serif text-[clamp(1.75rem,4vw,2.5rem)] font-light leading-[1.2] text-text-primary">
-                What's your celebration vibe?
+                What's your wedding vibe?
               </h2>
 
               <div className="grid gap-4 sm:grid-cols-2">

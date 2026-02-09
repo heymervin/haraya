@@ -15,12 +15,31 @@ import {
   ChevronDown,
   ImagePlus,
   X,
+  Gift,
+  Shirt,
+  Upload,
+  Loader2,
+  Globe,
 } from 'lucide-react';
+import { supabase } from '../lib/supabase';
+import RsvpDashboard from '../components/CelebrationWebsite/RsvpDashboard';
+import PhotoDashboard from '../components/CelebrationWebsite/PhotoDashboard';
+import ShareSection from '../components/CelebrationWebsite/ShareSection';
 
 // ─── Types ────────────────────────────────────────────────────
 
 type ColorTheme = 'classic-ivory' | 'modern-blush' | 'garden-green' | 'midnight';
 type CeremonyType = 'Catholic' | 'Civil' | 'Civil Union' | 'Muslim' | 'Other';
+type TabMode = 'edit' | 'preview' | 'rsvps' | 'photos' | 'share';
+
+const DRESS_CODE_OPTIONS = [
+  'Barong Tagalog & Filipiniana',
+  'Formal',
+  'Semi-Formal',
+  'Smart Casual',
+  'Casual',
+  'No dress code',
+] as const;
 
 interface ScheduleEvent {
   id: string;
@@ -42,6 +61,18 @@ interface RsvpEntry {
   message: string;
 }
 
+interface GiftInfo {
+  enabled: boolean;
+  introText: string;
+  gcashNumber: string;
+  gcashQrUrl: string;
+  mayaNumber: string;
+  mayaQrUrl: string;
+  bankName: string;
+  bankAccountName: string;
+  bankAccountNumber: string;
+}
+
 interface WebsiteData {
   partner1Name: string;
   partner2Name: string;
@@ -57,6 +88,10 @@ interface WebsiteData {
   hashtag: string;
   entourage: EntourageMember[];
   rsvpEnabled: boolean;
+  dressCode: string;
+  guestPhotosEnabled: boolean;
+  guestPhotosAutoApprove: boolean;
+  giftInfo: GiftInfo;
 }
 
 // ─── Theme definitions ────────────────────────────────────────
@@ -126,8 +161,28 @@ const THEME_CONFIG: Record<ColorTheme, {
 // ─── Helpers ──────────────────────────────────────────────────
 
 const STORAGE_KEY = 'haraya-celebration-website';
+const WEBSITE_ID_KEY = 'haraya-website-id';
+const WEBSITE_SLUG_KEY = 'haraya-website-slug';
 
 const uid = () => Math.random().toString(36).slice(2, 9);
+
+function generateSlug(p1: string, p2: string): string {
+  const clean = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+  const base = `${clean(p1)}-and-${clean(p2)}`;
+  return base || 'our-celebration';
+}
+
+const defaultGiftInfo: GiftInfo = {
+  enabled: false,
+  introText: 'Your presence is the greatest gift. For those who wish to give, monetary gifts are lovingly appreciated.',
+  gcashNumber: '',
+  gcashQrUrl: '',
+  mayaNumber: '',
+  mayaQrUrl: '',
+  bankName: '',
+  bankAccountName: '',
+  bankAccountNumber: '',
+};
 
 const defaultData: WebsiteData = {
   partner1Name: '',
@@ -144,12 +199,23 @@ const defaultData: WebsiteData = {
   hashtag: '',
   entourage: [],
   rsvpEnabled: true,
+  dressCode: '',
+  guestPhotosEnabled: true,
+  guestPhotosAutoApprove: true,
+  giftInfo: { ...defaultGiftInfo },
 };
 
 function loadData(): WebsiteData {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return { ...defaultData, ...JSON.parse(raw) };
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      return {
+        ...defaultData,
+        ...parsed,
+        giftInfo: { ...defaultGiftInfo, ...(parsed.giftInfo || {}) },
+      };
+    }
   } catch {
     // ignore
   }
@@ -196,6 +262,9 @@ function EditMode({
   const update = <K extends keyof WebsiteData>(key: K, val: WebsiteData[K]) =>
     onChange({ ...data, [key]: val });
 
+  const updateGift = <K extends keyof GiftInfo>(key: K, val: GiftInfo[K]) =>
+    update('giftInfo', { ...data.giftInfo, [key]: val });
+
   // Schedule helpers
   const addScheduleEvent = () =>
     update('schedule', [...data.schedule, { id: uid(), time: '', event: '', location: '' }]);
@@ -237,6 +306,20 @@ function EditMode({
     'w-full rounded border border-border bg-bg-primary px-4 py-3 font-sans text-sm text-text-primary placeholder:text-text-secondary/50 focus:border-accent-primary focus:outline-none transition';
   const labelCls = 'block font-sans text-xs font-medium uppercase tracking-wider text-text-secondary mb-2';
   const sectionCls = 'space-y-4';
+
+  const ToggleSwitch = ({ checked, onChange: onToggle, label }: { checked: boolean; onChange: () => void; label: string }) => (
+    <label className="flex cursor-pointer items-center gap-3">
+      <div
+        className={`relative h-6 w-11 rounded-full transition ${checked ? 'bg-accent-primary' : 'bg-border'}`}
+        onClick={onToggle}
+      >
+        <div
+          className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition ${checked ? 'left-5' : 'left-0.5'}`}
+        />
+      </div>
+      <span className="font-sans text-sm text-text-primary">{label}</span>
+    </label>
+  );
 
   return (
     <div className="mx-auto max-w-3xl space-y-10 px-6 py-10">
@@ -405,6 +488,27 @@ function EditMode({
         </div>
       </section>
 
+      {/* Section: Dress Code */}
+      <section className={sectionCls}>
+        <h2 className="flex items-center gap-2 font-serif text-2xl font-light text-text-primary">
+          <Shirt className="h-5 w-5 text-accent-primary" />
+          Dress Code
+        </h2>
+        <div className="relative">
+          <select
+            className={`${inputCls} appearance-none pr-10`}
+            value={data.dressCode}
+            onChange={(e) => update('dressCode', e.target.value)}
+          >
+            <option value="">No dress code specified</option>
+            {DRESS_CODE_OPTIONS.map((opt) => (
+              <option key={opt} value={opt}>{opt}</option>
+            ))}
+          </select>
+          <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-secondary" />
+        </div>
+      </section>
+
       {/* Section: Event Schedule */}
       <section className={sectionCls}>
         <h2 className="flex items-center gap-2 font-serif text-2xl font-light text-text-primary">
@@ -540,29 +644,138 @@ function EditMode({
         </div>
       </section>
 
+      {/* Section: Gift Information */}
+      <section className={sectionCls}>
+        <h2 className="flex items-center gap-2 font-serif text-2xl font-light text-text-primary">
+          <Gift className="h-5 w-5 text-accent-primary" />
+          Gift Information
+        </h2>
+        <ToggleSwitch
+          checked={data.giftInfo.enabled}
+          onChange={() => updateGift('enabled', !data.giftInfo.enabled)}
+          label="Enable gift section on your website"
+        />
+        {data.giftInfo.enabled && (
+          <div className="space-y-4 rounded-lg border border-border p-5">
+            <div>
+              <label className={labelCls}>Intro Text</label>
+              <textarea
+                className={`${inputCls} min-h-[80px] resize-y`}
+                value={data.giftInfo.introText}
+                onChange={(e) => updateGift('introText', e.target.value)}
+              />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className={labelCls}>GCash Number</label>
+                <input
+                  type="text"
+                  className={inputCls}
+                  placeholder="09XX XXX XXXX"
+                  value={data.giftInfo.gcashNumber}
+                  onChange={(e) => updateGift('gcashNumber', e.target.value)}
+                />
+              </div>
+              <div>
+                <label className={labelCls}>GCash QR URL (optional)</label>
+                <input
+                  type="text"
+                  className={inputCls}
+                  placeholder="https://..."
+                  value={data.giftInfo.gcashQrUrl}
+                  onChange={(e) => updateGift('gcashQrUrl', e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className={labelCls}>Maya Number</label>
+                <input
+                  type="text"
+                  className={inputCls}
+                  placeholder="09XX XXX XXXX"
+                  value={data.giftInfo.mayaNumber}
+                  onChange={(e) => updateGift('mayaNumber', e.target.value)}
+                />
+              </div>
+              <div>
+                <label className={labelCls}>Maya QR URL (optional)</label>
+                <input
+                  type="text"
+                  className={inputCls}
+                  placeholder="https://..."
+                  value={data.giftInfo.mayaQrUrl}
+                  onChange={(e) => updateGift('mayaQrUrl', e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-3">
+              <div>
+                <label className={labelCls}>Bank Name</label>
+                <input
+                  type="text"
+                  className={inputCls}
+                  placeholder="e.g. BDO, BPI"
+                  value={data.giftInfo.bankName}
+                  onChange={(e) => updateGift('bankName', e.target.value)}
+                />
+              </div>
+              <div>
+                <label className={labelCls}>Account Name</label>
+                <input
+                  type="text"
+                  className={inputCls}
+                  placeholder="Full name on account"
+                  value={data.giftInfo.bankAccountName}
+                  onChange={(e) => updateGift('bankAccountName', e.target.value)}
+                />
+              </div>
+              <div>
+                <label className={labelCls}>Account Number</label>
+                <input
+                  type="text"
+                  className={inputCls}
+                  placeholder="Account number"
+                  value={data.giftInfo.bankAccountNumber}
+                  onChange={(e) => updateGift('bankAccountNumber', e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+      </section>
+
       {/* Section: RSVP */}
       <section className={sectionCls}>
         <h2 className="flex items-center gap-2 font-serif text-2xl font-light text-text-primary">
           <CheckCircle2 className="h-5 w-5 text-accent-primary" />
           RSVP
         </h2>
-        <label className="flex cursor-pointer items-center gap-3">
-          <div
-            className={`relative h-6 w-11 rounded-full transition ${
-              data.rsvpEnabled ? 'bg-accent-primary' : 'bg-border'
-            }`}
-            onClick={() => update('rsvpEnabled', !data.rsvpEnabled)}
-          >
-            <div
-              className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition ${
-                data.rsvpEnabled ? 'left-5' : 'left-0.5'
-              }`}
-            />
-          </div>
-          <span className="font-sans text-sm text-text-primary">
-            Enable RSVP form on your website
-          </span>
-        </label>
+        <ToggleSwitch
+          checked={data.rsvpEnabled}
+          onChange={() => update('rsvpEnabled', !data.rsvpEnabled)}
+          label="Enable RSVP form on your website"
+        />
+      </section>
+
+      {/* Section: Guest Photos */}
+      <section className={sectionCls}>
+        <h2 className="flex items-center gap-2 font-serif text-2xl font-light text-text-primary">
+          <Camera className="h-5 w-5 text-accent-primary" />
+          Guest Photos
+        </h2>
+        <ToggleSwitch
+          checked={data.guestPhotosEnabled}
+          onChange={() => update('guestPhotosEnabled', !data.guestPhotosEnabled)}
+          label="Let guests upload photos at your celebration"
+        />
+        {data.guestPhotosEnabled && (
+          <ToggleSwitch
+            checked={data.guestPhotosAutoApprove}
+            onChange={() => update('guestPhotosAutoApprove', !data.guestPhotosAutoApprove)}
+            label="Auto-approve uploaded photos"
+          />
+        )}
       </section>
     </div>
   );
@@ -609,7 +822,6 @@ function PreviewMode({ data }: { data: WebsiteData }) {
     return `${hour}:${String(m).padStart(2, '0')} ${ampm}`;
   };
 
-  // Inline styles for theme-dependent inputs in midnight mode
   const isDark = data.colorTheme === 'midnight';
   const previewInputStyle: React.CSSProperties = isDark
     ? { backgroundColor: '#1A2340', borderColor: '#2A3555', color: '#E8DCC8' }
@@ -617,57 +829,40 @@ function PreviewMode({ data }: { data: WebsiteData }) {
 
   return (
     <div className={`${theme.bg} min-h-screen`}>
-      {/* ── Hero Section ─────────────────────────── */}
+      {/* Hero Section */}
       <section
         className={`relative flex min-h-[70vh] flex-col items-center justify-center px-6 py-20 text-center ${theme.hero}`}
       >
         {data.coverPhotoUrl && (
           <div className="absolute inset-0 overflow-hidden">
-            <img
-              src={data.coverPhotoUrl}
-              alt=""
-              className="h-full w-full object-cover"
-            />
-            <div
-              className={`absolute inset-0 ${
-                isDark
-                  ? 'bg-[#0F1628]/75'
-                  : 'bg-white/60'
-              }`}
-            />
+            <img src={data.coverPhotoUrl} alt="" className="h-full w-full object-cover" />
+            <div className={`absolute inset-0 ${isDark ? 'bg-[#0F1628]/75' : 'bg-white/60'}`} />
           </div>
         )}
         <div className="relative z-10">
-          <p
-            className={`mb-4 font-sans text-xs font-medium uppercase tracking-[0.25em] ${theme.textSecondary}`}
-          >
-            {data.ceremonyType
-              ? `${data.ceremonyType} Celebration`
-              : 'We\'re Getting Married'}
+          <p className={`mb-4 font-sans text-xs font-medium uppercase tracking-[0.25em] ${theme.textSecondary}`}>
+            {data.ceremonyType ? `${data.ceremonyType} Celebration` : 'We\'re Getting Married'}
           </p>
-          <h1
-            className={`font-serif text-[clamp(2.5rem,7vw,5rem)] font-light leading-[1.05] ${theme.text}`}
-          >
+          <h1 className={`font-serif text-[clamp(2.5rem,7vw,5rem)] font-light leading-[1.05] ${theme.text}`}>
             {displayNames}
           </h1>
           {formattedDate && (
-            <p
-              className={`mt-6 font-sans text-lg font-light tracking-wide ${theme.textSecondary}`}
-            >
+            <p className={`mt-6 font-sans text-lg font-light tracking-wide ${theme.textSecondary}`}>
               {formattedDate}
             </p>
           )}
           {data.venueName && (
-            <p
-              className={`mt-2 flex items-center justify-center gap-1.5 font-sans text-sm font-light ${theme.textSecondary}`}
-            >
+            <p className={`mt-2 flex items-center justify-center gap-1.5 font-sans text-sm font-light ${theme.textSecondary}`}>
               <MapPin className="h-3.5 w-3.5" />
-              {data.venueName}
-              {data.venueLocation ? `, ${data.venueLocation}` : ''}
+              {data.venueName}{data.venueLocation ? `, ${data.venueLocation}` : ''}
             </p>
           )}
-
-          {/* Countdown */}
+          {data.dressCode && (
+            <p className={`mt-3 inline-flex items-center gap-1.5 rounded-full border px-4 py-1.5 font-sans text-xs font-medium ${theme.border} ${theme.textSecondary}`}>
+              <Shirt className="h-3 w-3" />
+              Dress Code: {data.dressCode}
+            </p>
+          )}
           {data.celebrationDate && (
             <div className="mt-10 flex items-center justify-center gap-4 sm:gap-6">
               {[
@@ -677,16 +872,8 @@ function PreviewMode({ data }: { data: WebsiteData }) {
                 { val: countdown.seconds, label: 'Sec' },
               ].map((u) => (
                 <div key={u.label} className="text-center">
-                  <div
-                    className={`font-serif text-3xl font-light sm:text-4xl ${theme.text}`}
-                  >
-                    {u.val}
-                  </div>
-                  <div
-                    className={`font-sans text-[10px] font-medium uppercase tracking-widest ${theme.textSecondary}`}
-                  >
-                    {u.label}
-                  </div>
+                  <div className={`font-serif text-3xl font-light sm:text-4xl ${theme.text}`}>{u.val}</div>
+                  <div className={`font-sans text-[10px] font-medium uppercase tracking-widest ${theme.textSecondary}`}>{u.label}</div>
                 </div>
               ))}
             </div>
@@ -694,70 +881,34 @@ function PreviewMode({ data }: { data: WebsiteData }) {
         </div>
       </section>
 
-      {/* ── Our Story ────────────────────────────── */}
+      {/* Our Story */}
       {data.ourStory && (
         <section className="mx-auto max-w-2xl px-6 py-16 text-center sm:py-20">
-          <h2
-            className={`mb-2 font-sans text-xs font-medium uppercase tracking-[0.2em] ${theme.textSecondary}`}
-          >
-            Our Story
-          </h2>
-          <div
-            className={`mx-auto mb-6 h-px w-12 ${theme.accent}`}
-          />
-          <p
-            className={`font-sans text-base font-light leading-relaxed whitespace-pre-line ${theme.text}`}
-          >
-            {data.ourStory}
-          </p>
+          <h2 className={`mb-2 font-sans text-xs font-medium uppercase tracking-[0.2em] ${theme.textSecondary}`}>Our Story</h2>
+          <div className={`mx-auto mb-6 h-px w-12 ${theme.accent}`} />
+          <p className={`font-sans text-base font-light leading-relaxed whitespace-pre-line ${theme.text}`}>{data.ourStory}</p>
         </section>
       )}
 
-      {/* ── Event Schedule ────────────────────────── */}
+      {/* Event Schedule */}
       {data.schedule.length > 0 && (
         <section className={`${theme.bgAlt} px-6 py-16 sm:py-20`}>
           <div className="mx-auto max-w-2xl text-center">
-            <h2
-              className={`mb-2 font-sans text-xs font-medium uppercase tracking-[0.2em] ${theme.textSecondary}`}
-            >
-              Schedule of Events
-            </h2>
-            <div
-              className={`mx-auto mb-10 h-px w-12 ${theme.accent}`}
-            />
+            <h2 className={`mb-2 font-sans text-xs font-medium uppercase tracking-[0.2em] ${theme.textSecondary}`}>Schedule of Events</h2>
+            <div className={`mx-auto mb-10 h-px w-12 ${theme.accent}`} />
             <div className="space-y-0">
               {data.schedule.map((item, idx) => (
-                <div
-                  key={item.id}
-                  className="relative flex items-start gap-6 pb-8 text-left"
-                >
-                  {/* Timeline line */}
+                <div key={item.id} className="relative flex items-start gap-6 pb-8 text-left">
                   {idx < data.schedule.length - 1 && (
-                    <div
-                      className={`absolute left-[15px] top-8 h-full w-px ${theme.border} border-l`}
-                    />
+                    <div className={`absolute left-[15px] top-8 h-full w-px ${theme.border} border-l`} />
                   )}
-                  {/* Dot */}
-                  <div
-                    className={`relative z-10 mt-1 h-[10px] w-[10px] flex-shrink-0 rounded-full ${theme.accent}`}
-                  />
+                  <div className={`relative z-10 mt-1 h-[10px] w-[10px] flex-shrink-0 rounded-full ${theme.accent}`} />
                   <div className="flex-1">
-                    <p
-                      className={`font-sans text-sm font-medium ${theme.accentText}`}
-                    >
-                      {formatTime(item.time)}
-                    </p>
-                    <p
-                      className={`font-serif text-xl font-normal ${theme.text}`}
-                    >
-                      {item.event}
-                    </p>
+                    <p className={`font-sans text-sm font-medium ${theme.accentText}`}>{formatTime(item.time)}</p>
+                    <p className={`font-serif text-xl font-normal ${theme.text}`}>{item.event}</p>
                     {item.location && (
-                      <p
-                        className={`mt-0.5 flex items-center gap-1 font-sans text-sm font-light ${theme.textSecondary}`}
-                      >
-                        <MapPin className="h-3 w-3" />
-                        {item.location}
+                      <p className={`mt-0.5 flex items-center gap-1 font-sans text-sm font-light ${theme.textSecondary}`}>
+                        <MapPin className="h-3 w-3" />{item.location}
                       </p>
                     )}
                   </div>
@@ -768,67 +919,37 @@ function PreviewMode({ data }: { data: WebsiteData }) {
         </section>
       )}
 
-      {/* ── Entourage ─────────────────────────────── */}
+      {/* Entourage */}
       {data.entourage.length > 0 && (
         <section className="mx-auto max-w-3xl px-6 py-16 sm:py-20">
           <div className="text-center">
-            <h2
-              className={`mb-2 font-sans text-xs font-medium uppercase tracking-[0.2em] ${theme.textSecondary}`}
-            >
-              Wedding Party
-            </h2>
-            <div
-              className={`mx-auto mb-10 h-px w-12 ${theme.accent}`}
-            />
+            <h2 className={`mb-2 font-sans text-xs font-medium uppercase tracking-[0.2em] ${theme.textSecondary}`}>Wedding Party</h2>
+            <div className={`mx-auto mb-10 h-px w-12 ${theme.accent}`} />
           </div>
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
             {data.entourage.map((m) => (
-              <div
-                key={m.id}
-                className={`rounded-lg border ${theme.border} ${theme.card} p-5 text-center`}
-              >
-                <div
-                  className={`mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full ${theme.accent} text-white font-sans text-sm font-medium`}
-                >
+              <div key={m.id} className={`rounded-lg border ${theme.border} ${theme.card} p-5 text-center`}>
+                <div className={`mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full ${theme.accent} text-white font-sans text-sm font-medium`}>
                   {m.name.charAt(0).toUpperCase()}
                 </div>
-                <p className={`font-serif text-lg font-normal ${theme.text}`}>
-                  {m.name}
-                </p>
-                <p
-                  className={`font-sans text-xs font-medium uppercase tracking-wider ${theme.textSecondary}`}
-                >
-                  {m.role}
-                </p>
+                <p className={`font-serif text-lg font-normal ${theme.text}`}>{m.name}</p>
+                <p className={`font-sans text-xs font-medium uppercase tracking-wider ${theme.textSecondary}`}>{m.role}</p>
               </div>
             ))}
           </div>
         </section>
       )}
 
-      {/* ── Gallery ───────────────────────────────── */}
+      {/* Gallery */}
       {data.gallery.length > 0 && (
         <section className={`${theme.bgAlt} px-6 py-16 sm:py-20`}>
           <div className="mx-auto max-w-4xl text-center">
-            <h2
-              className={`mb-2 font-sans text-xs font-medium uppercase tracking-[0.2em] ${theme.textSecondary}`}
-            >
-              Gallery
-            </h2>
-            <div
-              className={`mx-auto mb-10 h-px w-12 ${theme.accent}`}
-            />
+            <h2 className={`mb-2 font-sans text-xs font-medium uppercase tracking-[0.2em] ${theme.textSecondary}`}>Gallery</h2>
+            <div className={`mx-auto mb-10 h-px w-12 ${theme.accent}`} />
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
               {data.gallery.map((url, i) => (
-                <div
-                  key={i}
-                  className="aspect-square overflow-hidden rounded-lg"
-                >
-                  <img
-                    src={url}
-                    alt=""
-                    className="h-full w-full object-cover transition hover:scale-105"
-                  />
+                <div key={i} className="aspect-square overflow-hidden rounded-lg">
+                  <img src={url} alt="" className="h-full w-full object-cover transition hover:scale-105" />
                 </div>
               ))}
             </div>
@@ -836,88 +957,84 @@ function PreviewMode({ data }: { data: WebsiteData }) {
         </section>
       )}
 
-      {/* ── RSVP ──────────────────────────────────── */}
+      {/* Gift Information */}
+      {data.giftInfo.enabled && (
+        <section className="mx-auto max-w-lg px-6 py-16 sm:py-20">
+          <div className="text-center">
+            <h2 className={`mb-2 font-sans text-xs font-medium uppercase tracking-[0.2em] ${theme.textSecondary}`}>Gift Information</h2>
+            <div className={`mx-auto mb-6 h-px w-12 ${theme.accent}`} />
+            <p className={`mb-8 font-sans text-sm font-light leading-relaxed ${theme.text}`}>{data.giftInfo.introText}</p>
+          </div>
+          <div className="space-y-4">
+            {data.giftInfo.gcashNumber && (
+              <div className={`rounded-lg border ${theme.border} ${theme.card} p-5`}>
+                <p className={`mb-1 font-sans text-xs font-medium uppercase tracking-wider ${theme.textSecondary}`}>GCash</p>
+                <p className={`font-sans text-base font-medium ${theme.text}`}>{data.giftInfo.gcashNumber}</p>
+                {data.giftInfo.gcashQrUrl && (
+                  <img src={data.giftInfo.gcashQrUrl} alt="GCash QR" className="mt-3 mx-auto h-40 w-40 rounded" />
+                )}
+              </div>
+            )}
+            {data.giftInfo.mayaNumber && (
+              <div className={`rounded-lg border ${theme.border} ${theme.card} p-5`}>
+                <p className={`mb-1 font-sans text-xs font-medium uppercase tracking-wider ${theme.textSecondary}`}>Maya</p>
+                <p className={`font-sans text-base font-medium ${theme.text}`}>{data.giftInfo.mayaNumber}</p>
+                {data.giftInfo.mayaQrUrl && (
+                  <img src={data.giftInfo.mayaQrUrl} alt="Maya QR" className="mt-3 mx-auto h-40 w-40 rounded" />
+                )}
+              </div>
+            )}
+            {data.giftInfo.bankName && (
+              <div className={`rounded-lg border ${theme.border} ${theme.card} p-5`}>
+                <p className={`mb-1 font-sans text-xs font-medium uppercase tracking-wider ${theme.textSecondary}`}>Bank Transfer</p>
+                <p className={`font-sans text-sm ${theme.text}`}>{data.giftInfo.bankName}</p>
+                {data.giftInfo.bankAccountName && (
+                  <p className={`font-sans text-base font-medium ${theme.text}`}>{data.giftInfo.bankAccountName}</p>
+                )}
+                {data.giftInfo.bankAccountNumber && (
+                  <p className={`font-mono text-sm ${theme.textSecondary}`}>{data.giftInfo.bankAccountNumber}</p>
+                )}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* RSVP */}
       {data.rsvpEnabled && (
         <section className="mx-auto max-w-lg px-6 py-16 sm:py-20">
           <div className="text-center">
-            <h2
-              className={`mb-2 font-sans text-xs font-medium uppercase tracking-[0.2em] ${theme.textSecondary}`}
-            >
-              RSVP
-            </h2>
-            <div
-              className={`mx-auto mb-8 h-px w-12 ${theme.accent}`}
-            />
+            <h2 className={`mb-2 font-sans text-xs font-medium uppercase tracking-[0.2em] ${theme.textSecondary}`}>RSVP</h2>
+            <div className={`mx-auto mb-8 h-px w-12 ${theme.accent}`} />
           </div>
-
           {rsvpSubmitted ? (
             <div className={`rounded-lg border ${theme.border} ${theme.card} p-8 text-center`}>
               <CheckCircle2 className={`mx-auto mb-4 h-10 w-10 ${theme.accentText}`} />
-              <p className={`font-serif text-xl ${theme.text}`}>
-                Thank you for your response!
-              </p>
-              <p className={`mt-2 font-sans text-sm font-light ${theme.textSecondary}`}>
-                We look forward to celebrating with you.
-              </p>
+              <p className={`font-serif text-xl ${theme.text}`}>Thank you for your response!</p>
+              <p className={`mt-2 font-sans text-sm font-light ${theme.textSecondary}`}>We look forward to celebrating with you.</p>
             </div>
           ) : (
             <form onSubmit={handleRsvpSubmit} className="space-y-4">
               <div>
-                <input
-                  type="text"
-                  required
-                  placeholder="Your full name"
-                  className={`w-full rounded border px-4 py-3 font-sans text-sm focus:outline-none transition ${theme.border}`}
-                  style={previewInputStyle}
-                  value={rsvp.name}
-                  onChange={(e) => setRsvp({ ...rsvp, name: e.target.value })}
-                />
+                <input type="text" required placeholder="Your full name" className={`w-full rounded border px-4 py-3 font-sans text-sm focus:outline-none transition ${theme.border}`} style={previewInputStyle} value={rsvp.name} onChange={(e) => setRsvp({ ...rsvp, name: e.target.value })} />
               </div>
               <div>
-                <p className={`mb-2 font-sans text-sm ${theme.text}`}>
-                  Will you be attending?
-                </p>
+                <p className={`mb-2 font-sans text-sm ${theme.text}`}>Will you be attending?</p>
                 <div className="flex gap-3">
                   {(['yes', 'no'] as const).map((opt) => (
-                    <button
-                      key={opt}
-                      type="button"
-                      onClick={() => setRsvp({ ...rsvp, attending: opt })}
-                      className={`flex-1 rounded border px-4 py-3 font-sans text-sm capitalize transition ${theme.border} ${
-                        rsvp.attending === opt
-                          ? `${theme.accent} text-white`
-                          : ''
-                      }`}
-                      style={rsvp.attending !== opt ? previewInputStyle : {}}
-                    >
+                    <button key={opt} type="button" onClick={() => setRsvp({ ...rsvp, attending: opt })} className={`flex-1 rounded border px-4 py-3 font-sans text-sm capitalize transition ${theme.border} ${rsvp.attending === opt ? `${theme.accent} text-white` : ''}`} style={rsvp.attending !== opt ? previewInputStyle : {}}>
                       {opt === 'yes' ? 'Joyfully Accept' : 'Respectfully Decline'}
                     </button>
                   ))}
                 </div>
               </div>
               <div>
-                <input
-                  type="text"
-                  placeholder="Dietary restrictions (optional)"
-                  className={`w-full rounded border px-4 py-3 font-sans text-sm focus:outline-none transition ${theme.border}`}
-                  style={previewInputStyle}
-                  value={rsvp.dietary}
-                  onChange={(e) => setRsvp({ ...rsvp, dietary: e.target.value })}
-                />
+                <input type="text" placeholder="Dietary restrictions (optional)" className={`w-full rounded border px-4 py-3 font-sans text-sm focus:outline-none transition ${theme.border}`} style={previewInputStyle} value={rsvp.dietary} onChange={(e) => setRsvp({ ...rsvp, dietary: e.target.value })} />
               </div>
               <div>
-                <textarea
-                  placeholder="Leave a message for the couple (optional)"
-                  className={`w-full rounded border px-4 py-3 font-sans text-sm focus:outline-none transition min-h-[80px] resize-y ${theme.border}`}
-                  style={previewInputStyle}
-                  value={rsvp.message}
-                  onChange={(e) => setRsvp({ ...rsvp, message: e.target.value })}
-                />
+                <textarea placeholder="Leave a message for the couple (optional)" className={`w-full rounded border px-4 py-3 font-sans text-sm focus:outline-none transition min-h-[80px] resize-y ${theme.border}`} style={previewInputStyle} value={rsvp.message} onChange={(e) => setRsvp({ ...rsvp, message: e.target.value })} />
               </div>
-              <button
-                type="submit"
-                className={`w-full rounded px-6 py-3 font-sans text-sm font-medium tracking-wide text-white transition ${theme.accent} hover:opacity-90`}
-              >
+              <button type="submit" className={`w-full rounded px-6 py-3 font-sans text-sm font-medium tracking-wide text-white transition ${theme.accent} hover:opacity-90`}>
                 Send RSVP
               </button>
             </form>
@@ -925,18 +1042,14 @@ function PreviewMode({ data }: { data: WebsiteData }) {
         </section>
       )}
 
-      {/* ── Footer ────────────────────────────────── */}
+      {/* Footer */}
       <footer className={`${theme.bgAlt} px-6 py-10 text-center`}>
         {data.hashtag && (
-          <p className={`mb-3 font-sans text-lg font-light ${theme.accentText}`}>
-            #{data.hashtag}
-          </p>
+          <p className={`mb-3 font-sans text-lg font-light ${theme.accentText}`}>#{data.hashtag}</p>
         )}
         <p className={`font-sans text-xs font-light ${theme.textSecondary}`}>
           Made with{' '}
-          <span className="font-sans text-xs font-extralight tracking-[0.1em]">
-            haraya
-          </span>
+          <span className="font-sans text-xs font-extralight tracking-[0.1em]">haraya</span>
         </p>
       </footer>
     </div>
@@ -946,78 +1059,240 @@ function PreviewMode({ data }: { data: WebsiteData }) {
 // ─── Main Page ────────────────────────────────────────────────
 
 export default function CoupleWebsite() {
-  const [mode, setMode] = useState<'edit' | 'preview'>('edit');
+  const [activeTab, setActiveTab] = useState<TabMode>('edit');
   const [data, setData] = useState<WebsiteData>(loadData);
-  const [copied, setCopied] = useState(false);
+  const [websiteId, setWebsiteId] = useState<string | null>(() => localStorage.getItem(WEBSITE_ID_KEY));
+  const [websiteSlug, setWebsiteSlug] = useState<string | null>(() => localStorage.getItem(WEBSITE_SLUG_KEY));
+  const [publishing, setPublishing] = useState(false);
+  const [publishStatus, setPublishStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  // Persist on every change
+  // Persist to localStorage on every change
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   }, [data]);
 
-  const handleShare = useCallback(() => {
-    const url = `${window.location.origin}/our-wedding`;
-    navigator.clipboard.writeText(url).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-    });
+  const handlePublish = useCallback(async () => {
+    if (!data.partner1Name || !data.partner2Name) {
+      setPublishStatus('error');
+      setTimeout(() => setPublishStatus('idle'), 3000);
+      return;
+    }
+
+    setPublishing(true);
+    setPublishStatus('idle');
+
+    try {
+      const slug = websiteSlug || generateSlug(data.partner1Name, data.partner2Name);
+      // Generate a temporary couple_id for MVP (no auth)
+      const mvpCoupleId = '00000000-0000-0000-0000-000000000001';
+
+      const websitePayload = {
+        couple_id: mvpCoupleId,
+        slug,
+        partner1_name: data.partner1Name,
+        partner2_name: data.partner2Name,
+        celebration_date: data.celebrationDate || null,
+        ceremony_type: data.ceremonyType || null,
+        venue_name: data.venueName || null,
+        venue_location: data.venueLocation || null,
+        our_story: data.ourStory || null,
+        cover_photo_url: data.coverPhotoUrl || null,
+        color_theme: data.colorTheme,
+        hashtag: data.hashtag || null,
+        dress_code: data.dressCode || null,
+        rsvp_enabled: data.rsvpEnabled,
+        guest_photos_enabled: data.guestPhotosEnabled,
+        guest_photos_auto_approve: data.guestPhotosAutoApprove,
+        gift_section_enabled: data.giftInfo.enabled,
+        gift_intro_text: data.giftInfo.introText || null,
+        gcash_number: data.giftInfo.gcashNumber || null,
+        gcash_qr_url: data.giftInfo.gcashQrUrl || null,
+        maya_number: data.giftInfo.mayaNumber || null,
+        maya_qr_url: data.giftInfo.mayaQrUrl || null,
+        bank_name: data.giftInfo.bankName || null,
+        bank_account_name: data.giftInfo.bankAccountName || null,
+        bank_account_number: data.giftInfo.bankAccountNumber || null,
+        is_published: true,
+      };
+
+      let savedId = websiteId;
+
+      if (websiteId) {
+        // Update existing
+        const { error } = await supabase
+          .from('celebration_websites')
+          .update(websitePayload)
+          .eq('id', websiteId);
+        if (error) throw error;
+      } else {
+        // Insert new
+        const { data: inserted, error } = await supabase
+          .from('celebration_websites')
+          .insert(websitePayload)
+          .select('id')
+          .single();
+        if (error) throw error;
+        savedId = inserted.id;
+        setWebsiteId(savedId);
+        localStorage.setItem(WEBSITE_ID_KEY, savedId);
+      }
+
+      // Save slug
+      setWebsiteSlug(slug);
+      localStorage.setItem(WEBSITE_SLUG_KEY, slug);
+
+      // Sync schedule events
+      if (savedId) {
+        // Delete existing and re-insert
+        await supabase.from('website_schedule_events').delete().eq('website_id', savedId);
+        if (data.schedule.length > 0) {
+          const scheduleRows = data.schedule.map((e, i) => ({
+            website_id: savedId,
+            event_time: e.time || null,
+            event_name: e.event || 'Event',
+            event_location: e.location || null,
+            sort_order: i,
+          }));
+          await supabase.from('website_schedule_events').insert(scheduleRows);
+        }
+
+        // Sync entourage
+        await supabase.from('website_entourage').delete().eq('website_id', savedId);
+        if (data.entourage.length > 0) {
+          const entourageRows = data.entourage.map((m, i) => ({
+            website_id: savedId,
+            member_name: m.name || 'Member',
+            role: m.role || 'Guest',
+            sort_order: i,
+          }));
+          await supabase.from('website_entourage').insert(entourageRows);
+        }
+
+        // Sync gallery
+        await supabase.from('website_gallery').delete().eq('website_id', savedId);
+        if (data.gallery.length > 0) {
+          const galleryRows = data.gallery.map((url, i) => ({
+            website_id: savedId,
+            photo_url: url,
+            sort_order: i,
+          }));
+          await supabase.from('website_gallery').insert(galleryRows);
+        }
+      }
+
+      setPublishStatus('success');
+      setTimeout(() => setPublishStatus('idle'), 4000);
+    } catch {
+      setPublishStatus('error');
+      setTimeout(() => setPublishStatus('idle'), 4000);
+    } finally {
+      setPublishing(false);
+    }
+  }, [data, websiteId, websiteSlug]);
+
+  const handleToggleAutoApprove = useCallback(() => {
+    setData((prev) => ({ ...prev, guestPhotosAutoApprove: !prev.guestPhotosAutoApprove }));
   }, []);
+
+  const tabs: { key: TabMode; label: string; icon: React.ReactNode; hideOnMobile?: boolean }[] = [
+    { key: 'edit', label: 'Edit', icon: <Pencil className="h-4 w-4" /> },
+    { key: 'preview', label: 'Preview', icon: <Eye className="h-4 w-4" /> },
+    { key: 'rsvps', label: 'RSVPs', icon: <Users className="h-4 w-4" /> },
+    { key: 'photos', label: 'Photos', icon: <Camera className="h-4 w-4" /> },
+    { key: 'share', label: 'Share', icon: <Share2 className="h-4 w-4" /> },
+  ];
 
   return (
     <div className="min-h-screen bg-bg-primary">
-      {/* ── Toolbar ──────────────────────────────── */}
+      {/* Toolbar */}
       <div className="sticky top-0 z-30 border-b border-border bg-bg-primary/95 backdrop-blur-sm">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
-          {/* Left: Title */}
-          <div>
-            <h1 className="font-serif text-lg font-normal text-text-primary sm:text-xl">
-              Your Celebration Website
-            </h1>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          {/* Top row: title + publish */}
+          <div className="flex items-center justify-between py-3">
+            <div>
+              <h1 className="font-serif text-lg font-normal text-text-primary sm:text-xl">
+                Your Celebration Website
+              </h1>
+              {websiteSlug && (
+                <p className="flex items-center gap-1 font-sans text-xs text-accent-primary">
+                  <Globe className="h-3 w-3" />
+                  {window.location.origin}/c/{websiteSlug}
+                </p>
+              )}
+            </div>
+            <button
+              onClick={handlePublish}
+              disabled={publishing}
+              className={`flex items-center gap-1.5 rounded px-4 py-2 font-sans text-xs font-medium tracking-wide transition sm:text-sm ${
+                publishStatus === 'success'
+                  ? 'bg-accent-success text-white'
+                  : publishStatus === 'error'
+                    ? 'bg-accent-error text-white'
+                    : 'bg-accent-primary text-text-on-dark hover:bg-accent-primary-hover'
+              }`}
+            >
+              {publishing ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Publishing...
+                </>
+              ) : publishStatus === 'success' ? (
+                <>
+                  <CheckCircle2 className="h-4 w-4" />
+                  Published!
+                </>
+              ) : publishStatus === 'error' ? (
+                <>
+                  <X className="h-4 w-4" />
+                  {!data.partner1Name || !data.partner2Name ? 'Add partner names first' : 'Error — try again'}
+                </>
+              ) : (
+                <>
+                  <Upload className="h-4 w-4" />
+                  {websiteId ? 'Update' : 'Publish'}
+                </>
+              )}
+            </button>
           </div>
 
-          {/* Right: Actions */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={handleShare}
-              className="flex items-center gap-1.5 rounded border border-border px-3 py-2 font-sans text-xs font-medium text-text-secondary transition hover:border-text-primary hover:text-text-primary sm:px-4 sm:text-sm"
-            >
-              {copied ? (
-                <>
-                  <CheckCircle2 className="h-4 w-4 text-accent-success" />
-                  <span className="hidden sm:inline">Copied!</span>
-                </>
-              ) : (
-                <>
-                  <Share2 className="h-4 w-4" />
-                  <span className="hidden sm:inline">Share Link</span>
-                </>
-              )}
-            </button>
-            <button
-              onClick={() => setMode(mode === 'edit' ? 'preview' : 'edit')}
-              className="flex items-center gap-1.5 rounded bg-accent-primary px-4 py-2 font-sans text-xs font-medium tracking-wide text-text-on-dark transition hover:bg-accent-primary-hover sm:text-sm"
-            >
-              {mode === 'edit' ? (
-                <>
-                  <Eye className="h-4 w-4" />
-                  Preview
-                </>
-              ) : (
-                <>
-                  <Pencil className="h-4 w-4" />
-                  Edit
-                </>
-              )}
-            </button>
+          {/* Tab bar */}
+          <div className="-mb-px flex gap-1 overflow-x-auto">
+            {tabs.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={`flex items-center gap-1.5 whitespace-nowrap border-b-2 px-3 py-2.5 font-sans text-xs font-medium transition sm:px-4 sm:text-sm ${
+                  activeTab === tab.key
+                    ? 'border-accent-primary text-accent-primary'
+                    : 'border-transparent text-text-secondary hover:border-border hover:text-text-primary'
+                }`}
+              >
+                {tab.icon}
+                <span className={tab.hideOnMobile ? 'hidden sm:inline' : ''}>{tab.label}</span>
+              </button>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* ── Content ──────────────────────────────── */}
-      {mode === 'edit' ? (
-        <EditMode data={data} onChange={setData} />
-      ) : (
-        <PreviewMode data={data} />
+      {/* Content */}
+      {activeTab === 'edit' && <EditMode data={data} onChange={setData} />}
+      {activeTab === 'preview' && <PreviewMode data={data} />}
+      {activeTab === 'rsvps' && <RsvpDashboard websiteId={websiteId} />}
+      {activeTab === 'photos' && (
+        <PhotoDashboard
+          websiteId={websiteId}
+          autoApprove={data.guestPhotosAutoApprove}
+          onToggleAutoApprove={handleToggleAutoApprove}
+        />
+      )}
+      {activeTab === 'share' && (
+        <ShareSection
+          slug={websiteSlug}
+          hashtag={data.hashtag}
+          partner1Name={data.partner1Name}
+          partner2Name={data.partner2Name}
+        />
       )}
     </div>
   );
