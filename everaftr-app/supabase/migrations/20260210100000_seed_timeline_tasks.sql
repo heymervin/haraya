@@ -7,6 +7,9 @@
 
 BEGIN;
 
+-- Fix column type: vendor_category[] -> TEXT[] for flexibility
+ALTER TABLE kasa_task_templates ALTER COLUMN vendor_categories TYPE TEXT[] USING vendor_categories::TEXT[];
+
 -- ============================================================================
 -- GOVERNMENT DOCUMENTS & LEGAL REQUIREMENTS (12+ months to 3 months before)
 -- ============================================================================

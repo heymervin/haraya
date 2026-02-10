@@ -73,7 +73,7 @@ CREATE TABLE kasa_task_templates (
   -- Guidance
   tips TEXT[], -- Array of helpful tips in Taglish
   common_mistakes TEXT[], -- Common pitfalls to avoid
-  vendor_categories vendor_category[], -- Which vendor categories are relevant
+  vendor_categories TEXT[], -- Which vendor categories are relevant (matches vendor_category enum names)
 
   -- Metadata
   sort_order INTEGER NOT NULL DEFAULT 0,
