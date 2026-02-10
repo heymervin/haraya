@@ -5,6 +5,8 @@ import DreamLine from './components/DreamLine';
 import Home from './pages/Home';
 import About from './pages/About';
 import Plan from './pages/Plan';
+import PlanChecklist from './pages/PlanChecklist';
+import PlanBudget from './pages/PlanBudget';
 import Vendors from './pages/Vendors';
 import VendorProfile from './pages/VendorProfile';
 import Matchmaker from './pages/Matchmaker';
@@ -48,6 +50,8 @@ function App() {
           <Route path="/vendors" element={<Vendors />} />
           <Route path="/vendors/:id" element={<VendorProfile />} />
           <Route path="/plan" element={<Plan />} />
+          <Route path="/plan/checklist" element={<PlanChecklist />} />
+          <Route path="/plan/budget" element={<PlanBudget />} />
           <Route path="/guests" element={<GuestList />} />
           <Route path="/matchmaker" element={<Matchmaker />} />
           <Route path="/celebrations" element={<Celebrations />} />

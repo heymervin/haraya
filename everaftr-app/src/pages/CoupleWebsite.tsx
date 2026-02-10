@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Eye,
   Pencil,
@@ -20,6 +21,7 @@ import {
   Upload,
   Loader2,
   Globe,
+  ArrowLeft,
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import RsvpDashboard from '../components/CelebrationWebsite/RsvpDashboard';
@@ -1207,6 +1209,14 @@ export default function CoupleWebsite() {
       {/* Toolbar */}
       <div className="sticky top-0 z-30 border-b border-border bg-bg-primary/95 backdrop-blur-sm">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          {/* Back link */}
+          <Link
+            to="/plan"
+            className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-accent-primary pt-3 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Planning Space
+          </Link>
           {/* Top row: title + publish */}
           <div className="flex items-center justify-between py-3">
             <div>

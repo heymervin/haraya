@@ -254,6 +254,15 @@ export default function Matchmaker() {
   if (currentStep === 0 && Object.keys(answers).length === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-cloud-white via-pearl to-whisper">
+        <div className="max-w-2xl mx-auto px-6 pt-8">
+          <Link
+            to="/plan"
+            className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-accent-primary transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Planning Space
+          </Link>
+        </div>
         <div className="flex min-h-screen items-center justify-center px-6 py-16">
           <div className="w-full max-w-2xl text-center">
             <Sparkles className="mx-auto mb-8 h-16 w-16 text-dream-lavender" />
@@ -287,7 +296,16 @@ export default function Matchmaker() {
     return (
       <div className="min-h-screen bg-bg-primary">
         {/* Results Header */}
-        <div className="bg-gradient-to-br from-pina-ivory via-pina-cream to-pina-sheen px-6 py-16">
+        <div className="bg-gradient-to-br from-pina-ivory via-pina-cream to-pina-sheen px-6 pt-8 pb-16">
+          <div className="mx-auto max-w-4xl mb-8">
+            <Link
+              to="/plan"
+              className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-accent-primary transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Planning Space
+            </Link>
+          </div>
           <div className="mx-auto max-w-4xl text-center">
             <h1 className="font-serif text-[clamp(2rem,5vw,3rem)] font-light leading-[1.1] text-text-primary">
               Your Celebration Profile
@@ -472,8 +490,17 @@ export default function Matchmaker() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pina-ivory via-pina-cream to-pina-sheen">
-      {/* Progress Bar */}
-      <div className="bg-bg-primary/50 px-6 py-4">
+      {/* Back link + Progress Bar */}
+      <div className="bg-bg-primary/50 px-6 pt-4 pb-4">
+        <div className="mx-auto max-w-2xl mb-3">
+          <Link
+            to="/plan"
+            className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-accent-primary transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Planning Space
+          </Link>
+        </div>
         <div className="mx-auto max-w-2xl">
           <div className="mb-2 flex items-center justify-between font-sans text-xs font-light uppercase tracking-wider text-text-secondary">
             <span>Question {currentStep} of 5</span>

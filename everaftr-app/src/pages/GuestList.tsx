@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Users,
   UserCheck,
@@ -15,6 +16,7 @@ import {
   Hash,
   UtensilsCrossed,
   UserPlus,
+  ArrowLeft,
 } from 'lucide-react';
 
 // ─── Types ───
@@ -344,6 +346,15 @@ export default function GuestList() {
   return (
     <div className="min-h-screen bg-bg-primary pattern-hablon">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-16">
+        {/* Back to Planning Space */}
+        <Link
+          to="/plan"
+          className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-accent-primary mb-6 transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Planning Space
+        </Link>
+
         {/* Header */}
         <div className="mb-8">
           <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-light text-text-primary mb-3">

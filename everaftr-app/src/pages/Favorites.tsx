@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Heart } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Heart, ArrowLeft } from 'lucide-react';
 import VendorCard from '../components/VendorCard';
 import { mockVendors } from '../data/mockVendors';
 
@@ -68,6 +69,13 @@ export default function Favorites() {
     return (
       <div className="min-h-screen bg-cloud-white py-12 px-4">
         <div className="max-w-7xl mx-auto">
+          <Link
+            to="/plan"
+            className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-accent-primary mb-6 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Planning Space
+          </Link>
           <h1 className="font-serif text-4xl font-bold text-midnight mb-8">
             Your Favorites
           </h1>
@@ -96,6 +104,13 @@ export default function Favorites() {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4">
       <div className="max-w-7xl mx-auto">
+        <Link
+          to="/plan"
+          className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-accent-primary mb-6 transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Planning Space
+        </Link>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
           <div>
             <h1 className="font-serif text-4xl font-bold text-midnight mb-2">
