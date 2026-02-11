@@ -76,12 +76,14 @@ export default function VendorCard({ vendor }: VendorCardProps) {
           </div>
 
           {/* Rating */}
-          <div className="flex items-center gap-2 mb-3">
-            <StarRating rating={vendor.rating} size="sm" />
-            <span className="text-text-secondary text-sm">
-              ({vendor.reviewCount} {vendor.reviewCount === 1 ? 'review' : 'reviews'})
-            </span>
-          </div>
+          {vendor.reviewCount > 0 && (
+            <div className="flex items-center gap-2 mb-3">
+              <StarRating rating={vendor.rating} size="sm" />
+              <span className="text-text-secondary text-sm">
+                ({vendor.reviewCount} {vendor.reviewCount === 1 ? 'review' : 'reviews'})
+              </span>
+            </div>
+          )}
 
           {/* Tags */}
           {vendor.tags.length > 0 && (

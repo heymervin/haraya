@@ -165,12 +165,14 @@ export default function VendorProfile() {
                     ₱{vendor.priceRange.min.toLocaleString('en-PH')}
                   </p>
                 </div>
-                <div className="flex items-center gap-2">
-                  <StarRating rating={vendor.rating} size="md" showNumber />
-                  <span className="text-text-secondary text-sm">
-                    ({vendor.reviewCount} {vendor.reviewCount === 1 ? 'review' : 'reviews'})
-                  </span>
-                </div>
+                {vendor.reviewCount > 0 && (
+                  <div className="flex items-center gap-2">
+                    <StarRating rating={vendor.rating} size="md" showNumber />
+                    <span className="text-text-secondary text-sm">
+                      ({vendor.reviewCount} {vendor.reviewCount === 1 ? 'review' : 'reviews'})
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
 
