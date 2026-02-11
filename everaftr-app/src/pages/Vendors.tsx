@@ -1,8 +1,8 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Search, SlidersHorizontal, X, ChevronDown } from 'lucide-react';
+import { Search, SlidersHorizontal, X, ChevronDown, Loader2 } from 'lucide-react';
 import VendorCard from '../components/VendorCard';
-import { mockVendors } from '../data/mockVendors';
+import { fetchAllVendors } from '../lib/vendors';
 import { vendorCategories } from '../data/categories';
 import type { Vendor } from '../types';
 
@@ -14,6 +14,8 @@ const METRO_MANILA_CITIES = [
 
 export default function Vendors() {
   const [searchParams] = useSearchParams();
+  const [allVendors, setAllVendors] = useState<Vendor[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [selectedLocation, setSelectedLocation] = useState<string>('All');
@@ -22,6 +24,14 @@ export default function Vendors() {
   const [showFilters, setShowFilters] = useState(false);
   const [displayCount, setDisplayCount] = useState(24);
   const VENDORS_PER_PAGE = 24;
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchAllVendors().then((vendors) => {
+      if (!cancelled) { setAllVendors(vendors); setLoading(false); }
+    });
+    return () => { cancelled = true; };
+  }, []);
 
   useEffect(() => {
     const cat = searchParams.get('category');
@@ -58,16 +68,16 @@ export default function Vendors() {
   // Get unique categories from vendor data with counts
   const categoriesWithCounts = useMemo(() => {
     const counts = new Map<string, number>();
-    mockVendors.forEach(vendor => {
+    allVendors.forEach(vendor => {
       counts.set(vendor.category, (counts.get(vendor.category) || 0) + 1);
     });
 
     const allCategories = ['All', ...vendorCategories.map(cat => cat.name)];
     return allCategories.map(cat => ({
       name: cat,
-      count: cat === 'All' ? mockVendors.length : (counts.get(cat) || 0)
+      count: cat === 'All' ? allVendors.length : (counts.get(cat) || 0)
     }));
-  }, []);
+  }, [allVendors]);
 
   const locations: string[] = [
     'All',
@@ -91,7 +101,7 @@ export default function Vendors() {
 
   // Filter vendors based on all criteria
   const filteredVendors = useMemo(() => {
-    return mockVendors.filter((vendor: Vendor) => {
+    return allVendors.filter((vendor: Vendor) => {
       // Search filter
       const matchesSearch = searchQuery.trim() === '' ||
         vendor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -122,7 +132,7 @@ export default function Vendors() {
 
       return matchesSearch && matchesCategory && matchesLocation && matchesPriceRange && matchesACW;
     });
-  }, [searchQuery, selectedCategory, selectedLocation, selectedPriceRange, onlyAllCelebrationsWelcome]);
+  }, [allVendors, searchQuery, selectedCategory, selectedLocation, selectedPriceRange, onlyAllCelebrationsWelcome]);
 
   const hasActiveFilters = selectedCategory !== 'All' ||
     selectedLocation !== 'All' ||
@@ -282,8 +292,12 @@ export default function Vendors() {
           </p>
         </div>
 
-        {/* Vendor Cards Grid */}
-        {filteredVendors.length > 0 ? (
+        {/* Loading State */}
+        {loading ? (
+          <div className="flex justify-center py-20">
+            <Loader2 className="w-8 h-8 animate-spin text-dream-lavender" />
+          </div>
+        ) : filteredVendors.length > 0 ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {vendorsToDisplay.map((vendor) => (

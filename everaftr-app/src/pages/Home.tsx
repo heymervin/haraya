@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Search,
@@ -16,11 +17,24 @@ import {
   MessageCircle,
   BookHeart,
   ArrowRight,
+  Loader2,
 } from 'lucide-react';
 import VendorCard from '../components/VendorCard';
-import { mockVendors } from '../data/mockVendors';
+import { fetchFeaturedVendors } from '../lib/vendors';
+import type { Vendor } from '../types';
 
 export default function Home() {
+  const [featuredVendors, setFeaturedVendors] = useState<Vendor[]>([]);
+  const [loadingVendors, setLoadingVendors] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchFeaturedVendors(6).then((vendors) => {
+      if (!cancelled) { setFeaturedVendors(vendors); setLoadingVendors(false); }
+    });
+    return () => { cancelled = true; };
+  }, []);
+
   const categories = [
     { icon: Building2, name: 'Venues', description: 'Garden venues, ballrooms, beach resorts, and celebration spaces', slug: 'venues' },
     { icon: Camera, name: 'Photo & Video', description: 'Photographers, videographers, and same-day edit specialists', slug: 'photo-video' },
@@ -44,17 +58,6 @@ export default function Home() {
     { value: '8', label: 'Vendor Categories' },
     { value: '100%', label: 'Free for Couples' },
   ];
-
-  // Get top-rated vendors for featured section
-  const featuredVendors = [...mockVendors]
-    .filter(v => v.rating >= 4.5 && v.image !== '')
-    .sort((a, b) => b.rating - a.rating)
-    .slice(0, 6);
-
-  // If not enough vendors with images, fall back to top-rated
-  const displayVendors = featuredVendors.length >= 3
-    ? featuredVendors
-    : [...mockVendors].sort((a, b) => b.rating - a.rating).slice(0, 6);
 
   return (
     <div className="min-h-screen bg-cloud-white">
@@ -139,11 +142,17 @@ export default function Home() {
               View all <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {displayVendors.map((vendor) => (
-              <VendorCard key={vendor.id} vendor={vendor} />
-            ))}
-          </div>
+          {loadingVendors ? (
+            <div className="flex justify-center py-12">
+              <Loader2 className="w-8 h-8 animate-spin text-dream-lavender" />
+            </div>
+          ) : (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {featuredVendors.map((vendor) => (
+                <VendorCard key={vendor.id} vendor={vendor} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

@@ -943,6 +943,56 @@ export type Database = {
           },
         ]
       }
+      vendor_claims: {
+        Row: {
+          id: string
+          vendor_id: string
+          vendor_slug: string
+          claimant_name: string
+          claimant_email: string
+          claimant_phone: string | null
+          claimant_role: string | null
+          message: string | null
+          status: string
+          reviewed_at: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          vendor_id: string
+          vendor_slug: string
+          claimant_name: string
+          claimant_email: string
+          claimant_phone?: string | null
+          claimant_role?: string | null
+          message?: string | null
+          status?: string
+          reviewed_at?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          vendor_id?: string
+          vendor_slug?: string
+          claimant_name?: string
+          claimant_email?: string
+          claimant_phone?: string | null
+          claimant_role?: string | null
+          message?: string | null
+          status?: string
+          reviewed_at?: string | null
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_claims_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       website_photo_stats: {

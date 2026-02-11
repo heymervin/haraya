@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Check, ChevronDown, ChevronUp, ChevronRight } from 'lucide-react';
+import { Check, ChevronDown, ChevronUp, ChevronRight, Sparkles, RotateCcw } from 'lucide-react';
 
 type CeremonyType = 'all' | 'catholic' | 'civil' | 'muslim' | 'other';
 type Timeframe = '12+' | '9-12' | '6-9' | '3-6' | '1-3' | 'final';
@@ -558,6 +558,13 @@ const Checklist = () => {
     return acc;
   }, {} as Record<Timeframe, ChecklistItem[]>);
 
+  const isKasaPersonalized = items.some((item) => item.id.startsWith('kasa-'));
+
+  const handleResetToDefaults = () => {
+    setItems(INITIAL_CHECKLIST_ITEMS);
+    localStorage.setItem('haraya-checklist', JSON.stringify(INITIAL_CHECKLIST_ITEMS));
+  };
+
   const completedCount = items.filter((item) => item.completed).length;
   const totalCount = items.length;
   const progressPercentage = (completedCount / totalCount) * 100;
@@ -592,6 +599,23 @@ const Checklist = () => {
               ))}
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Personalized by Kasa banner */}
+      {isKasaPersonalized && (
+        <div className="bg-gradient-to-r from-dream-lavender/10 to-twilight-blue/10 border border-dream-lavender/25 rounded-lg px-4 py-3 mb-4 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-dream-lavender" />
+            <span className="text-sm font-medium text-text-primary">Personalized by Kasa</span>
+          </div>
+          <button
+            onClick={handleResetToDefaults}
+            className="flex items-center gap-1.5 text-xs text-text-secondary hover:text-accent-error transition-colors"
+          >
+            <RotateCcw className="w-3 h-3" />
+            Reset to defaults
+          </button>
         </div>
       )}
 

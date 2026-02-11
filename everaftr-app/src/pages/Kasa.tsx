@@ -1,5 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
-import { Sparkles, Send, Trash2 } from 'lucide-react';
+import { useState, useEffect, useRef, useMemo } from 'react';
+import { Sparkles, Send, RotateCcw, ChevronDown, Calendar, Coins, Users, BookOpen, Heart, Landmark, ShieldCheck, Pen, Check, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { gatherKasaContext } from '../lib/kasaContext';
+import ChatVendorCard from '../components/ChatVendorCard';
+import type { ChatVendor } from '../components/ChatVendorCard';
 
 interface Message {
   id: string;
@@ -8,115 +12,240 @@ interface Message {
   timestamp: number;
 }
 
+interface PlanSavedInfo {
+  count: number;
+  ceremonyType?: string;
+  messageId: string;
+}
+
 const WELCOME_MESSAGE = "Kamusta! I'm Kasa, your wedding planning assistant. I'm here to help you navigate every step — from CENOMAR requirements to lechon debates. What can I help you with?";
 
 const QUICK_PROMPTS = [
-  "Plan my timeline",
-  "Filipino wedding budget",
-  "Pre-Cana guide",
-  "CENOMAR process",
-  "Ninong/Ninang etiquette",
-  "Muslim nikah checklist",
-  "Vendor selection tips",
-  "Write our story"
+  { label: "Plan my timeline", icon: Calendar },
+  { label: "Filipino wedding budget", icon: Coins },
+  { label: "Pre-Cana guide", icon: BookOpen },
+  { label: "CENOMAR process", icon: ShieldCheck },
+  { label: "Ninong/Ninang etiquette", icon: Users },
+  { label: "Muslim nikah checklist", icon: Landmark },
+  { label: "Vendor selection tips", icon: Heart },
+  { label: "Write our story", icon: Pen },
 ];
 
-const RESPONSE_MAP: Record<string, string> = {
-  timeline: "A traditional Filipino wedding needs 12 months to plan properly. Book your church and venue 10-12 months ahead, send Save the Dates at 6 months, and finalize everything 2 weeks before. Key milestones include Pre-Cana at 4-6 months, dress fittings at 3 months, and final vendor confirmations 1 month out. Don't forget to factor in PSA document processing time!",
-  budget: "Filipino weddings typically range from ₱100,000 for intimate celebrations to ₱1,000,000+ for grand receptions. Budget breakdown: venue & catering (40-50%), photography/video (15%), attire & styling (10%), church/ceremony (5%), and everything else (30%). Lechon, flowers, and souvenirs can add up quickly! Pro tip: weekday weddings save 20-30%.",
-  precana: "Pre-Cana is the Catholic marriage preparation seminar required before church weddings. Most dioceses require completion 4-6 months before your wedding date. It covers communication, finances, family planning, and sacramental grace. Sessions run 1-3 days, cost ₱500-₱2,000, and you'll receive a certificate valid for one year. Book early as slots fill fast!",
-  cenomar: "CENOMAR (Certificate of No Marriage Record) from PSA proves you're single. Apply online at psahelpline.ph or visit PSA offices nationwide. Processing takes 7-10 business days, costs around ₱210 per copy. You'll need valid ID and your full name as registered. Churches require this along with baptismal and confirmation certificates for wedding clearance.",
-  sponsor: "Ninong and ninang (sponsors) are mentors, not just witnesses. Traditionally, couples choose 3-5 pairs of married couples they respect. Principal sponsors stand during the ceremony and sign documents. They're not expected to give large gifts, but some help with specific expenses. Choose people who inspire your marriage, not just for status or gifts!",
-  nikah: "Muslim weddings in the Philippines require the nikah (marriage contract) officiated by an imam. Essential elements include mahr (bride gift), wali (bride's guardian consent), witnesses, and ijab-qabul (offer and acceptance). Complete requirements at the local mosque 2-3 months ahead. The walima (reception) celebrates after the nikah, often featuring traditional dishes and cultural performances.",
-  civil: "Civil weddings at city/municipal halls are budget-friendly at ₱1,000-₱3,000. Requirements: CENOMAR, birth certificates, barangay certificate, valid IDs, and two witnesses. Processing takes 10 days for marriage license (₱300-500), valid for 120 days. Ceremonies are short (15-20 minutes) but legally binding. You can have a church blessing later!",
-  vendor: "Choose vendors 6-8 months ahead and always check portfolios, reviews, and actual client photos. Red flags: no contract, asking full payment upfront, or no backup plan. Meet face-to-face, ask about overtime fees, and get everything in writing. Trust your gut — you'll work closely with them. Filipino vendor markets are tight, so book early especially for peak months (December-May)!",
-  guest: "Filipino weddings average 150-300 guests because family is everything! Start with immediate family, then close friends, godparents, and colleagues. Expect titos and titas to bring uninvited plus-ones. Budget tip: create A-list (must invite) and B-list (if budget allows). Send Save the Dates 6 months early for destination weddings. Track RSVPs religiously for final catering count!",
-  save: "Save big with these Pinoy wedding hacks: choose off-peak dates (June-November), have morning ceremonies with lunch reception, DIY invites and styling, ask talented friends for favors, rent instead of buy (arches, sound system), negotiate vendor packages, limit bar to beer/wine, and consider garden venues over hotels. Your ninongs might sponsor specific items — just ask gracefully!",
-  vow: "Write vows from the heart in Tagalog, English, or both! Reflect on your love story, inside jokes, and promises for the future. Keep them 1-2 minutes (150-200 words), balance humor with sincerity, and practice reading aloud. Many Filipino couples incorporate family values, faith, and cultural pride. Don't forget tissues — you and your guests will cry!",
-  lechon: "Lechon is the star of Filipino wedding receptions! Order 1kg per 10 guests from reputable lechoneros (₱7,000-₱15,000 per whole pig). Book 2-3 months ahead for peak season. Popular alternatives: lechon belly, grilled pork, or beef. Some modern couples skip it entirely for Italian or Asian fusion. Whatever you choose, make sure there's enough — hungry titos will remember!",
-  attire: "Barong Tagalog for grooms and Filipiniana ternos for brides showcase Filipino heritage beautifully. Barongs range from ₱3,000-₱30,000 depending on fabric (piña, jusi, organza). Ternos feature butterfly sleeves and intricate embroidery. Many couples mix traditional with modern — barong with suit pants, or Filipiniana-inspired gowns. Groom's entourage typically wears matching barongs. Order 3-4 months ahead for custom pieces!",
-  dayof: "Day-of timeline: Start hair/makeup 6 hours before ceremony. Photos at 4 hours before. Groom arrives at venue 1 hour early, bride 30 minutes. Ceremony lasts 1-1.5 hours. Cocktails during photo session (1 hour). Grand entrance, dinner, program with speeches, first dance, cake cutting, bouquet toss, then party time! Buffer 30 minutes between segments. Most Filipino receptions run 5-6 hours total."
-};
+/* ── Hidden payload helpers ── */
+const PLAN_REGEX = /<!--KASA_PLAN_START-->([\s\S]*?)<!--KASA_PLAN_END-->/;
+const VENDORS_REGEX = /<!--KASA_VENDORS_START-->([\s\S]*?)<!--KASA_VENDORS_END-->/;
 
-function getKasaResponse(userMessage: string): string {
-  const lowerMessage = userMessage.toLowerCase();
+function stripAllHiddenPayloads(text: string): string {
+  return text.replace(PLAN_REGEX, '').replace(VENDORS_REGEX, '').trim();
+}
 
-  if (lowerMessage.includes('timeline') || lowerMessage.includes('plan')) {
-    return RESPONSE_MAP.timeline;
-  }
-  if (lowerMessage.includes('budget') || lowerMessage.includes('cost') || lowerMessage.includes('how much')) {
-    return RESPONSE_MAP.budget;
-  }
-  if (lowerMessage.includes('pre-cana') || lowerMessage.includes('precana')) {
-    return RESPONSE_MAP.precana;
-  }
-  if (lowerMessage.includes('cenomar') || lowerMessage.includes('psa')) {
-    return RESPONSE_MAP.cenomar;
-  }
-  if (lowerMessage.includes('ninong') || lowerMessage.includes('ninang') || lowerMessage.includes('sponsor')) {
-    return RESPONSE_MAP.sponsor;
-  }
-  if (lowerMessage.includes('nikah') || lowerMessage.includes('muslim') || lowerMessage.includes('mahr')) {
-    return RESPONSE_MAP.nikah;
-  }
-  if (lowerMessage.includes('civil') || lowerMessage.includes('city hall')) {
-    return RESPONSE_MAP.civil;
-  }
-  if (lowerMessage.includes('vendor') || lowerMessage.includes('supplier')) {
-    return RESPONSE_MAP.vendor;
-  }
-  if (lowerMessage.includes('guest') || lowerMessage.includes('invite')) {
-    return RESPONSE_MAP.guest;
-  }
-  if (lowerMessage.includes('save') || lowerMessage.includes('cheap') || lowerMessage.includes('afford')) {
-    return RESPONSE_MAP.save;
-  }
-  if (lowerMessage.includes('vow') || lowerMessage.includes('speech')) {
-    return RESPONSE_MAP.vow;
-  }
-  if (lowerMessage.includes('lechon')) {
-    return RESPONSE_MAP.lechon;
-  }
-  if (lowerMessage.includes('barong') || lowerMessage.includes('filipiniana') || lowerMessage.includes('attire')) {
-    return RESPONSE_MAP.attire;
-  }
-  if (lowerMessage.includes('day of') || lowerMessage.includes('schedule')) {
-    return RESPONSE_MAP.dayof;
+/* ── Minimal markdown renderer ── */
+function renderMarkdown(text: string) {
+  if (!text) return null;
+
+  const lines = text.split('\n');
+  const elements: React.ReactNode[] = [];
+  let listItems: string[] = [];
+  let listType: 'ul' | 'ol' | null = null;
+  let key = 0;
+
+  const flushList = () => {
+    if (listItems.length > 0 && listType) {
+      const Tag = listType;
+      elements.push(
+        <Tag key={key++} className={`${listType === 'ul' ? 'list-disc' : 'list-decimal'} ml-5 my-2 space-y-1`}>
+          {listItems.map((item, i) => (
+            <li key={i} className="leading-relaxed">{renderInline(item)}</li>
+          ))}
+        </Tag>
+      );
+      listItems = [];
+      listType = null;
+    }
+  };
+
+  const renderInline = (str: string): React.ReactNode => {
+    // Bold + italic
+    const parts: React.ReactNode[] = [];
+    let remaining = str;
+    let inlineKey = 0;
+
+    // Process **bold** and *italic*
+    const regex = /(\*\*\*(.+?)\*\*\*|\*\*(.+?)\*\*|\*(.+?)\*|`(.+?)`)/g;
+    let lastIndex = 0;
+    let match;
+
+    while ((match = regex.exec(remaining)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push(remaining.slice(lastIndex, match.index));
+      }
+      if (match[2]) {
+        parts.push(<strong key={inlineKey++} className="font-semibold italic">{match[2]}</strong>);
+      } else if (match[3]) {
+        parts.push(<strong key={inlineKey++} className="font-semibold">{match[3]}</strong>);
+      } else if (match[4]) {
+        parts.push(<em key={inlineKey++}>{match[4]}</em>);
+      } else if (match[5]) {
+        parts.push(<code key={inlineKey++} className="px-1.5 py-0.5 bg-dream-lavender/10 text-dream-lavender rounded text-[0.9em] font-mono">{match[5]}</code>);
+      }
+      lastIndex = match.index + match[0].length;
+    }
+
+    if (lastIndex < remaining.length) {
+      parts.push(remaining.slice(lastIndex));
+    }
+
+    return parts.length === 1 ? parts[0] : parts;
+  };
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+
+    // Headers
+    if (trimmed.startsWith('### ')) {
+      flushList();
+      elements.push(
+        <h4 key={key++} className="font-serif text-base font-semibold text-text-primary mt-4 mb-1.5">{renderInline(trimmed.slice(4))}</h4>
+      );
+      continue;
+    }
+    if (trimmed.startsWith('## ')) {
+      flushList();
+      elements.push(
+        <h3 key={key++} className="font-serif text-lg font-semibold text-text-primary mt-4 mb-1.5">{renderInline(trimmed.slice(3))}</h3>
+      );
+      continue;
+    }
+
+    // Bullet list items
+    if (/^[-*•]\s/.test(trimmed)) {
+      if (listType !== 'ul') {
+        flushList();
+        listType = 'ul';
+      }
+      listItems.push(trimmed.replace(/^[-*•]\s/, ''));
+      continue;
+    }
+
+    // Numbered list items
+    if (/^\d+\.\s/.test(trimmed)) {
+      if (listType !== 'ol') {
+        flushList();
+        listType = 'ol';
+      }
+      listItems.push(trimmed.replace(/^\d+\.\s/, ''));
+      continue;
+    }
+
+    flushList();
+
+    // Empty line
+    if (!trimmed) {
+      elements.push(<div key={key++} className="h-2" />);
+      continue;
+    }
+
+    // Regular paragraph
+    elements.push(
+      <p key={key++} className="leading-relaxed">{renderInline(trimmed)}</p>
+    );
   }
 
-  return "I'm not sure about that specific topic yet, but you can ask our community at /community! I'm always learning. Try asking about timelines, budgets, Pre-Cana, CENOMAR, or vendor tips.";
+  flushList();
+  return elements;
+}
+
+/* ── Typing Indicator ── */
+function TypingIndicator() {
+  return (
+    <div className="flex items-center gap-1.5 px-1 py-1">
+      {[0, 1, 2].map(i => (
+        <div
+          key={i}
+          className="w-[6px] h-[6px] rounded-full bg-dream-lavender/60"
+          style={{
+            animation: 'kasaPulse 1.4s ease-in-out infinite',
+            animationDelay: `${i * 0.2}s`,
+          }}
+        />
+      ))}
+    </div>
+  );
 }
 
 export default function Kasa() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [isStreaming, setIsStreaming] = useState(false);
+  const [showScrollBtn, setShowScrollBtn] = useState(false);
+  const [planSaved, setPlanSaved] = useState<PlanSavedInfo | null>(null);
+  const [vendorsByMessage, setVendorsByMessage] = useState<Record<string, ChatVendor[]>>({});
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const hasInitialized = useRef(false);
+
+  const isWelcomeOnly = useMemo(
+    () => messages.length <= 1 && messages[0]?.id === 'welcome',
+    [messages]
+  );
 
   useEffect(() => {
     const savedMessages = localStorage.getItem('haraya-kasa');
     if (savedMessages) {
       setMessages(JSON.parse(savedMessages));
     } else {
-      const welcomeMsg: Message = {
+      setMessages([{
         id: 'welcome',
         text: WELCOME_MESSAGE,
         sender: 'kasa',
         timestamp: Date.now()
-      };
-      setMessages([welcomeMsg]);
+      }]);
     }
+    const savedVendors = localStorage.getItem('haraya-kasa-vendors');
+    if (savedVendors) {
+      try { setVendorsByMessage(JSON.parse(savedVendors)); } catch { /* ignore */ }
+    }
+    // Mark as initialized after first render
+    requestAnimationFrame(() => { hasInitialized.current = true; });
   }, []);
 
   useEffect(() => {
     if (messages.length > 0) {
       localStorage.setItem('haraya-kasa', JSON.stringify(messages));
     }
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    // Only auto-scroll after user has started interacting, not on initial load
+    if (hasInitialized.current) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
   }, [messages]);
 
-  const handleSendMessage = (text: string) => {
-    if (!text.trim()) return;
+  useEffect(() => {
+    if (Object.keys(vendorsByMessage).length > 0) {
+      localStorage.setItem('haraya-kasa-vendors', JSON.stringify(vendorsByMessage));
+    }
+  }, [vendorsByMessage]);
+
+  // Scroll-to-bottom detection
+  useEffect(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const distFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+      setShowScrollBtn(distFromBottom > 120);
+    };
+    el.addEventListener('scroll', onScroll);
+    return () => el.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleSendMessage = async (text: string) => {
+    if (!text.trim() || isTyping || isStreaming) return;
 
     const userMessage: Message = {
       id: `user-${Date.now()}`,
@@ -125,140 +254,365 @@ export default function Kasa() {
       timestamp: Date.now()
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
     setInputValue('');
     setIsTyping(true);
 
-    setTimeout(() => {
-      const kasaResponse: Message = {
-        id: `kasa-${Date.now()}`,
-        text: getKasaResponse(text),
+    const apiMessages = updatedMessages
+      .filter(m => m.id !== 'welcome')
+      .map(m => ({
+        role: m.sender === 'user' ? 'user' as const : 'assistant' as const,
+        content: m.text,
+      }));
+
+    const context = gatherKasaContext();
+    const kasaMessageId = `kasa-${Date.now()}`;
+
+    try {
+      abortControllerRef.current = new AbortController();
+
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: apiMessages, context }),
+        signal: abortControllerRef.current.signal,
+      });
+
+      if (!response.ok) throw new Error(`API error: ${response.status}`);
+
+      const reader = response.body?.getReader();
+      if (!reader) throw new Error('No response stream');
+
+      const decoder = new TextDecoder();
+      let accumulated = '';
+
+      setMessages(prev => [...prev, {
+        id: kasaMessageId,
+        text: '',
         sender: 'kasa',
-        timestamp: Date.now()
-      };
-      setMessages(prev => [...prev, kasaResponse]);
+        timestamp: Date.now(),
+      }]);
       setIsTyping(false);
-    }, 1000);
+      setIsStreaming(true);
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        accumulated += decoder.decode(value, { stream: true });
+        // Show text without hidden payloads during streaming
+        const displayText = stripAllHiddenPayloads(accumulated);
+        setMessages(prev =>
+          prev.map(m => m.id === kasaMessageId ? { ...m, text: displayText } : m)
+        );
+      }
+
+      // After streaming completes, check for plan payload
+      const planMatch = accumulated.match(PLAN_REGEX);
+      if (planMatch) {
+        try {
+          const payload = JSON.parse(planMatch[1]);
+          const cleanText = stripAllHiddenPayloads(accumulated);
+          // Update message to clean text
+          setMessages(prev =>
+            prev.map(m => m.id === kasaMessageId ? { ...m, text: cleanText } : m)
+          );
+          // Save to localStorage
+          if (payload.items && Array.isArray(payload.items)) {
+            // Preserve completion state from existing items
+            const existing = localStorage.getItem('haraya-checklist');
+            let completedTitles = new Set<string>();
+            if (existing) {
+              try {
+                const existingItems = JSON.parse(existing);
+                completedTitles = new Set(
+                  existingItems
+                    .filter((i: { completed?: boolean }) => i.completed)
+                    .map((i: { title?: string }) => (i.title || '').toLowerCase())
+                );
+              } catch { /* ignore */ }
+            }
+            // Merge completion state
+            const itemsWithState = payload.items.map((item: { title?: string; completed?: boolean }) => ({
+              ...item,
+              completed: completedTitles.has((item.title || '').toLowerCase()) ? true : item.completed || false,
+            }));
+            localStorage.setItem('haraya-checklist', JSON.stringify(itemsWithState));
+          }
+          if (payload.ceremonyType) {
+            localStorage.setItem('haraya-ceremony-type', payload.ceremonyType);
+          }
+          setPlanSaved({
+            count: payload.items?.length || 0,
+            ceremonyType: payload.ceremonyType,
+            messageId: kasaMessageId,
+          });
+        } catch (e) {
+          console.error('Failed to parse Kasa plan payload:', e);
+        }
+      }
+
+      // Check for vendor payload
+      const vendorMatch = accumulated.match(VENDORS_REGEX);
+      if (vendorMatch) {
+        try {
+          const vendors: ChatVendor[] = JSON.parse(vendorMatch[1]);
+          const cleanText = stripAllHiddenPayloads(accumulated);
+          setMessages(prev =>
+            prev.map(m => m.id === kasaMessageId ? { ...m, text: cleanText } : m)
+          );
+          setVendorsByMessage(prev => ({ ...prev, [kasaMessageId]: vendors }));
+        } catch (e) {
+          console.error('Failed to parse Kasa vendor payload:', e);
+        }
+      }
+
+      setIsStreaming(false);
+      inputRef.current?.focus();
+    } catch (error: unknown) {
+      if (error instanceof DOMException && error.name === 'AbortError') return;
+
+      console.error('Kasa chat error:', error);
+      setIsTyping(false);
+      setIsStreaming(false);
+
+      setMessages(prev => [...prev, {
+        id: kasaMessageId,
+        text: "Ay, sorry! May konting technical issue ako ngayon. Please try again in a moment — or check your internet connection. If it keeps happening, the team is probably working on it na!",
+        sender: 'kasa',
+        timestamp: Date.now(),
+      }]);
+    }
   };
 
   const handleClearChat = () => {
+    if (abortControllerRef.current) abortControllerRef.current.abort();
+    setIsTyping(false);
+    setIsStreaming(false);
+    setPlanSaved(null);
+    setVendorsByMessage({});
     localStorage.removeItem('haraya-kasa');
-    const welcomeMsg: Message = {
+    localStorage.removeItem('haraya-kasa-vendors');
+    setMessages([{
       id: 'welcome',
       text: WELCOME_MESSAGE,
       sender: 'kasa',
       timestamp: Date.now()
-    };
-    setMessages([welcomeMsg]);
+    }]);
   };
 
-  const handleQuickPrompt = (prompt: string) => {
-    handleSendMessage(prompt);
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage(inputValue);
     }
   };
 
+  const isBusy = isTyping || isStreaming;
+
   return (
-    <div className="flex flex-col bg-gray-50" style={{ height: 'calc(100vh - 64px)' }}>
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
+    <div className="flex flex-col bg-bg-primary" style={{ height: 'calc(100vh - 69px)' }}>
+      <style>{`
+        @keyframes kasaPulse {
+          0%, 100% { opacity: 0.3; transform: scale(0.85); }
+          50% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes kasaFadeUp {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .kasa-msg { animation: kasaFadeUp 0.3s ease-out both; }
+      `}</style>
+
+      {/* ── Header ── */}
+      <div className="bg-bg-secondary border-b border-border px-4 sm:px-6 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#A63D5C] to-[#5C4A7C] flex items-center justify-center">
-            <Sparkles className="w-5 h-5 text-white" />
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-dream-lavender to-twilight-blue flex items-center justify-center shadow-sm">
+            <Sparkles className="w-4 h-4 text-white" />
           </div>
-          <div>
-            <h1 className="text-lg font-semibold text-gray-900">Kasa</h1>
-            <p className="text-sm text-gray-500">Wedding Planning Assistant</p>
+          <div className="leading-tight">
+            <h1 className="font-serif text-lg font-medium text-text-primary tracking-wide">Kasa</h1>
+            <p className="text-[11px] tracking-[0.12em] text-text-secondary uppercase">
+              {isStreaming ? 'Thinking...' : 'Wedding Planning AI'}
+            </p>
           </div>
         </div>
-        <button
-          onClick={handleClearChat}
-          className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-          title="Clear Chat"
-        >
-          <Trash2 className="w-5 h-5" />
-        </button>
-      </div>
-
-      {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto px-4 py-6 space-y-6">
-        {messages.map((message) => (
-          <div key={message.id}>
-            {message.sender === 'kasa' ? (
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#A63D5C] to-[#5C4A7C] flex items-center justify-center flex-shrink-0">
-                  <Sparkles className="w-4 h-4 text-white" />
-                </div>
-                <div className="flex-1 bg-white border-l-4 border-[#5C4A7C] rounded-lg p-4 shadow-sm">
-                  <p className="text-gray-800 leading-relaxed">{message.text}</p>
-                </div>
-              </div>
-            ) : (
-              <div className="flex justify-end">
-                <div className="bg-[#A63D5C] text-white rounded-lg p-4 max-w-[80%] shadow-sm">
-                  <p className="leading-relaxed">{message.text}</p>
-                </div>
-              </div>
-            )}
-
-            {/* Show quick prompts after Kasa messages */}
-            {message.sender === 'kasa' && message.id === messages[messages.length - 1].id && !isTyping && (
-              <div className="flex flex-wrap gap-2 mt-4 ml-11">
-                {QUICK_PROMPTS.map((prompt) => (
-                  <button
-                    key={prompt}
-                    onClick={() => handleQuickPrompt(prompt)}
-                    className="px-3 py-1.5 text-sm bg-white border border-gray-300 text-gray-700 rounded-full hover:bg-[#5C4A7C] hover:text-white hover:border-[#5C4A7C] transition-colors"
-                  >
-                    {prompt}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-
-        {/* Typing Indicator */}
-        {isTyping && (
-          <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#A63D5C] to-[#5C4A7C] flex items-center justify-center flex-shrink-0">
-              <Sparkles className="w-4 h-4 text-white" />
-            </div>
-            <div className="bg-white border-l-4 border-[#5C4A7C] rounded-lg p-4 shadow-sm">
-              <div className="flex gap-1">
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-              </div>
-            </div>
-          </div>
+        {!isWelcomeOnly && (
+          <button
+            onClick={handleClearChat}
+            className="p-2 text-text-secondary hover:text-accent-error hover:bg-accent-error/8 rounded-lg transition-colors"
+            title="New conversation"
+          >
+            <RotateCcw className="w-4 h-4" />
+          </button>
         )}
-
-        <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Bar */}
-      <div className="bg-white border-t border-gray-200 p-4">
-        <div className="max-w-4xl mx-auto flex gap-2">
-          <input
-            type="text"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Ask about wedding planning..."
-            className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5C4A7C] focus:border-transparent"
-          />
+      {/* ── Messages ── */}
+      <div ref={scrollContainerRef} className="flex-1 overflow-y-auto relative">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 py-6 space-y-5">
+
+          {/* Welcome state */}
+          {isWelcomeOnly && (
+            <div className="pt-6 pb-2 kasa-msg">
+              {/* Kasa avatar + intro */}
+              <div className="text-center mb-8">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-dream-lavender to-twilight-blue flex items-center justify-center mx-auto mb-4 shadow-md">
+                  <Sparkles className="w-7 h-7 text-white" />
+                </div>
+                <h2 className="font-serif text-2xl sm:text-3xl font-medium text-text-primary mb-2">
+                  Kamusta!
+                </h2>
+                <p className="text-text-secondary text-sm max-w-md mx-auto leading-relaxed">
+                  I'm Kasa, your wedding planning assistant. From CENOMAR requirements to lechon debates — I've got you.
+                </p>
+              </div>
+
+              {/* Quick prompts grid */}
+              <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
+                {QUICK_PROMPTS.map((prompt, i) => {
+                  const Icon = prompt.icon;
+                  return (
+                    <button
+                      key={prompt.label}
+                      onClick={() => handleSendMessage(prompt.label)}
+                      disabled={isBusy}
+                      className="group flex items-start gap-2.5 p-3 sm:p-3.5 rounded-xl bg-bg-secondary border border-border text-left hover:border-dream-lavender/40 hover:shadow-sm transition-all disabled:opacity-50"
+                      style={{ animationDelay: `${i * 50}ms` }}
+                    >
+                      <Icon className="w-4 h-4 text-dream-lavender mt-0.5 shrink-0 group-hover:scale-110 transition-transform" />
+                      <span className="text-[13px] text-text-primary leading-snug font-medium">{prompt.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Conversation messages */}
+          {!isWelcomeOnly && messages.filter(m => m.id !== 'welcome').map((message) => (
+            <div key={message.id} className="kasa-msg">
+              {message.sender === 'kasa' ? (
+                <>
+                  <div className="flex items-start gap-2.5">
+                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-dream-lavender to-twilight-blue flex items-center justify-center shrink-0 mt-0.5">
+                      <Sparkles className="w-3.5 h-3.5 text-white" />
+                    </div>
+                    <div className="flex-1 min-w-0 text-[14.5px] text-text-primary space-y-1">
+                      {renderMarkdown(message.text)}
+                    </div>
+                  </div>
+                  {vendorsByMessage[message.id] && (
+                    <div className="mt-3 pl-9 space-y-2">
+                      {vendorsByMessage[message.id].map(vendor => (
+                        <ChatVendorCard key={vendor.id} vendor={vendor} />
+                      ))}
+                      <Link
+                        to="/vendors"
+                        className="inline-block text-xs text-text-secondary hover:text-dream-lavender transition-colors"
+                      >
+                        Browse all vendors →
+                      </Link>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="flex justify-end pl-10">
+                  <div className="bg-gradient-to-br from-dream-lavender to-[#8169C4] text-white rounded-2xl rounded-br-md px-4 py-2.5 max-w-[85%] shadow-sm">
+                    <p className="text-[14.5px] leading-relaxed">{message.text}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+
+          {/* Plan saved confirmation card */}
+          {planSaved && !isBusy && (
+            <div className="pl-9 kasa-msg">
+              <div className="border border-dream-lavender/30 bg-gradient-to-br from-dream-lavender/5 to-twilight-blue/5 rounded-xl p-4 space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-full bg-accent-success/15 flex items-center justify-center">
+                    <Check className="w-3.5 h-3.5 text-accent-success" />
+                  </div>
+                  <p className="text-sm font-medium text-text-primary">
+                    Your personalized checklist is ready — {planSaved.count} tasks
+                    {planSaved.ceremonyType && planSaved.ceremonyType !== 'other'
+                      ? ` for your ${planSaved.ceremonyType.charAt(0).toUpperCase() + planSaved.ceremonyType.slice(1)} celebration`
+                      : ''}
+                  </p>
+                </div>
+                <Link
+                  to="/plan/checklist"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-br from-dream-lavender to-twilight-blue text-white text-sm font-medium rounded-lg hover:shadow-md transition-all"
+                >
+                  View Your Checklist
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </div>
+          )}
+
+          {/* Typing dots */}
+          {isTyping && (
+            <div className="flex items-start gap-2.5 kasa-msg">
+              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-dream-lavender to-twilight-blue flex items-center justify-center shrink-0">
+                <Sparkles className="w-3.5 h-3.5 text-white" />
+              </div>
+              <TypingIndicator />
+            </div>
+          )}
+
+          {/* Quick prompts inline after conversation */}
+          {!isWelcomeOnly && !isBusy && messages.length > 1 && messages[messages.length - 1]?.sender === 'kasa' && (
+            <div className="flex flex-wrap gap-1.5 pl-9 kasa-msg">
+              {QUICK_PROMPTS.slice(0, 4).map((prompt) => (
+                <button
+                  key={prompt.label}
+                  onClick={() => handleSendMessage(prompt.label)}
+                  className="px-3 py-1.5 text-xs bg-bg-secondary border border-border text-text-secondary rounded-full hover:border-dream-lavender/40 hover:text-dream-lavender transition-colors"
+                >
+                  {prompt.label}
+                </button>
+              ))}
+            </div>
+          )}
+
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Scroll-to-bottom button */}
+        {showScrollBtn && (
+          <button
+            onClick={scrollToBottom}
+            className="sticky bottom-3 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-bg-secondary border border-border shadow-md flex items-center justify-center hover:bg-white transition-colors z-10"
+          >
+            <ChevronDown className="w-4 h-4 text-text-secondary" />
+          </button>
+        )}
+      </div>
+
+      {/* ── Input Bar ── */}
+      <div className="bg-bg-secondary border-t border-border px-4 sm:px-6 py-3">
+        <div className="max-w-2xl mx-auto flex items-center gap-2">
+          <div className="flex-1 relative">
+            <input
+              ref={inputRef}
+              type="text"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder={isBusy ? 'Kasa is thinking...' : 'Ask about wedding planning...'}
+              disabled={isBusy}
+              className="w-full pl-4 pr-4 py-2.5 bg-bg-primary border border-border rounded-xl text-[14px] text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:border-dream-lavender/50 focus:ring-2 focus:ring-dream-lavender/15 disabled:opacity-60 transition-all"
+            />
+          </div>
           <button
             onClick={() => handleSendMessage(inputValue)}
-            disabled={!inputValue.trim()}
-            className="px-6 py-3 bg-[#A63D5C] text-white rounded-lg hover:bg-[#8a3349] disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+            disabled={!inputValue.trim() || isBusy}
+            className="w-10 h-10 rounded-xl bg-gradient-to-br from-dream-lavender to-twilight-blue text-white flex items-center justify-center hover:shadow-md disabled:opacity-30 disabled:shadow-none transition-all shrink-0"
           >
-            <Send className="w-5 h-5" />
+            <Send className="w-4 h-4" />
           </button>
         </div>
       </div>

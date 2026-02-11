@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, ArrowLeft } from 'lucide-react';
+import { Heart, ArrowLeft, Loader2 } from 'lucide-react';
 import VendorCard from '../components/VendorCard';
-import { mockVendors } from '../data/mockVendors';
+import { fetchVendorsBySlugs } from '../lib/vendors';
+import type { Vendor } from '../types';
 
 interface FavoriteItem {
   vendorId: string;
@@ -16,6 +17,8 @@ const STORAGE_KEY = 'haraya-favorites';
 
 export default function Favorites() {
   const [favorites, setFavorites] = useState<FavoriteItem[]>([]);
+  const [vendorMap, setVendorMap] = useState<Map<string, Vendor>>(new Map());
+  const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState<SortOption>('dateAdded');
 
   useEffect(() => {
@@ -31,6 +34,17 @@ export default function Favorites() {
     }
   };
 
+  // Fetch vendor data from Supabase when favorites change
+  useEffect(() => {
+    const slugs = favorites.map((f) => f.vendorId);
+    if (slugs.length === 0) { setLoading(false); return; }
+    let cancelled = false;
+    fetchVendorsBySlugs(slugs).then((map) => {
+      if (!cancelled) { setVendorMap(map); setLoading(false); }
+    });
+    return () => { cancelled = true; };
+  }, [favorites]);
+
   const removeFavorite = (vendorId: string): void => {
     const updated = favorites.filter((fav) => fav.vendorId !== vendorId);
     try {
@@ -43,7 +57,7 @@ export default function Favorites() {
 
   const favoriteVendors = favorites
     .map((fav) => ({
-      vendor: mockVendors.find((v) => v.id === fav.vendorId),
+      vendor: vendorMap.get(fav.vendorId),
       dateAdded: fav.dateAdded,
     }))
     .filter((item) => item.vendor)
@@ -64,6 +78,14 @@ export default function Favorites() {
         return 0;
     }
   });
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-cloud-white flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-dream-lavender" />
+      </div>
+    );
+  }
 
   if (favorites.length === 0) {
     return (

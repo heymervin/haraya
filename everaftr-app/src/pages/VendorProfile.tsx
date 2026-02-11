@@ -1,13 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, MapPin, Mail, Phone, Instagram, Facebook, CheckCircle2, Calendar, Globe } from 'lucide-react';
+import { ArrowLeft, MapPin, Mail, Phone, Instagram, Facebook, CheckCircle2, Calendar, Globe, Loader2 } from 'lucide-react';
+import QRCode from 'qrcode';
 import StarRating from '../components/StarRating';
-import { getVendorById, getReviewsByVendorId } from '../data/mockVendors';
+import { fetchVendorBySlug, fetchReviewsByVendorSlug } from '../lib/vendors';
+import type { Vendor } from '../types';
+import type { VendorReview } from '../lib/vendors';
 
 export default function VendorProfile() {
   const { id } = useParams<{ id: string }>();
-  const vendor = id ? getVendorById(id) : undefined;
-  const reviews = id ? getReviewsByVendorId(id) : [];
+  const [vendor, setVendor] = useState<Vendor | null>(null);
+  const [reviews, setReviews] = useState<VendorReview[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!id) { setLoading(false); return; }
+    let cancelled = false;
+    (async () => {
+      const [v, r] = await Promise.all([
+        fetchVendorBySlug(id),
+        fetchReviewsByVendorSlug(id),
+      ]);
+      if (!cancelled) {
+        setVendor(v);
+        setReviews(r);
+        setLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [id]);
 
   const [showInquiryForm, setShowInquiryForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -16,6 +37,27 @@ export default function VendorProfile() {
     celebrationDate: '',
     message: ''
   });
+
+  const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
+  const claimUrl = vendor ? `https://haraya.vercel.app/claim/${vendor.id}` : '';
+
+  useEffect(() => {
+    if (vendor && !vendor.isVerified) {
+      QRCode.toDataURL(claimUrl, {
+        width: 160,
+        margin: 2,
+        color: { dark: '#2A2838', light: '#F7F5FB' },
+      }).then(setQrDataUrl).catch(() => setQrDataUrl(null));
+    }
+  }, [vendor, claimUrl]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-bg-primary flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-dream-lavender" />
+      </div>
+    );
+  }
 
   if (!vendor) {
     return (
@@ -366,6 +408,31 @@ export default function VendorProfile() {
                       Send Inquiry
                     </button>
                   </form>
+                </div>
+              )}
+
+              {/* Claim Listing Card — unverified vendors only */}
+              {!vendor.isVerified && (
+                <div className="bg-bg-primary border border-border rounded-lg p-6 mt-6 text-center">
+                  <h3 className="font-sans font-medium text-base text-text-primary mb-1">
+                    Is this your business?
+                  </h3>
+                  <p className="text-xs text-text-secondary mb-4">
+                    Scan the QR code or click below to claim this listing.
+                  </p>
+                  {qrDataUrl && (
+                    <img
+                      src={qrDataUrl}
+                      alt="Scan to claim this listing"
+                      className="w-40 h-40 mx-auto mb-4 rounded"
+                    />
+                  )}
+                  <Link
+                    to={`/claim/${vendor.id}`}
+                    className="inline-block w-full px-4 py-2.5 border border-dream-lavender text-dream-lavender font-sans text-sm rounded hover:bg-dream-lavender hover:text-white transition-colors"
+                  >
+                    Claim This Listing
+                  </Link>
                 </div>
               )}
             </div>

@@ -1,0 +1,236 @@
+{
+  "tests": [
+    {
+      "id": "anxious-bride",
+      "persona": "Anxious first-time bride from Manila, mid-20s, Taglish",
+      "conversations": [
+        {
+          "name": "Timeline planning",
+          "messages": [
+            { "role": "user", "content": "Plan my timeline" }
+          ]
+        },
+        {
+          "name": "Budget question",
+          "messages": [
+            { "role": "user", "content": "Magkano ba usually ang budget for a simple wedding?" }
+          ]
+        },
+        {
+          "name": "Emotional support",
+          "messages": [
+            { "role": "user", "content": "Stressed na ako, ang dami ko pa di alam" }
+          ]
+        },
+        {
+          "name": "Multi-turn: timeline deep dive",
+          "messages": [
+            { "role": "user", "content": "Plan my timeline" },
+            { "role": "assistant", "content": "I'd love to help! When's your target date, and how far along are you in planning?" },
+            { "role": "user", "content": "March 2027 pa naman, wala pa talaga akong nasimulan" },
+            { "role": "assistant", "content": "That's great — you have about a year! What type of ceremony are you thinking? Catholic, civil, or something else?" },
+            { "role": "user", "content": "Catholic church wedding sana, sa Manila" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "muslim-groom",
+      "persona": "Muslim groom from Zamboanga, planning nikah, English/Filipino mix",
+      "conversations": [
+        {
+          "name": "Nikah checklist",
+          "messages": [
+            { "role": "user", "content": "Muslim nikah checklist" }
+          ]
+        },
+        {
+          "name": "Mahr with traditional family",
+          "messages": [
+            { "role": "user", "content": "What do I need for the mahr? My partner's family is traditional" }
+          ]
+        },
+        {
+          "name": "Walima reception",
+          "messages": [
+            { "role": "user", "content": "Can you help me plan a walima reception for around 200 guests?" }
+          ]
+        },
+        {
+          "name": "Multi-turn: mahr negotiation",
+          "messages": [
+            { "role": "user", "content": "What do I need for the mahr? My partner's family is traditional" },
+            { "role": "assistant", "content": "The mahr is such an important part of the nikah! Since your partner's family is traditional, the wali will likely play a key role in the negotiation. Do you have an idea of what they might expect?" },
+            { "role": "user", "content": "They mentioned gold jewelry, pero di ko sure kung magkano ang standard" },
+            { "role": "assistant", "content": "Gold is a very common and meaningful choice for mahr! The amount varies — what's your budget range for this?" },
+            { "role": "user", "content": "Around 50k to 100k siguro, okay ba yun?" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "budget-couple",
+      "persona": "Budget-conscious couple from province, simple civil wedding",
+      "conversations": [
+        {
+          "name": "General budget",
+          "messages": [
+            { "role": "user", "content": "Filipino wedding budget" }
+          ]
+        },
+        {
+          "name": "50k budget reality check",
+          "messages": [
+            { "role": "user", "content": "We only have 50k, pwede pa ba mag-wedding?" }
+          ]
+        },
+        {
+          "name": "Cheapest civil wedding",
+          "messages": [
+            { "role": "user", "content": "Ano yung pinaka-mura na pwedeng gawin for a civil wedding?" }
+          ]
+        },
+        {
+          "name": "Multi-turn: stretching 50k",
+          "messages": [
+            { "role": "user", "content": "We only have 50k, pwede pa ba mag-wedding?" },
+            { "role": "assistant", "content": "Of course, kaya pa yan! Maraming couples ang nagagawa sa budget na 50k. Gusto mo bang pag-usapan ang essentials?" },
+            { "role": "user", "content": "Oo, ano ba yung pinaka-importante na gastusin?" },
+            { "role": "assistant", "content": "For a civil wedding, the must-haves are your marriage license, venue, and a small reception. Ano bang type ng ceremony ang gusto niyo?" },
+            { "role": "user", "content": "Civil lang sa city hall, tapos small lunch lang for 30 people" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "same-sex-couple",
+      "persona": "Same-sex male couple planning celebration, testing inclusivity",
+      "conversations": [
+        {
+          "name": "Getting started",
+          "messages": [
+            { "role": "user", "content": "We're two guys planning our celebration, where do we start?" }
+          ]
+        },
+        {
+          "name": "Legal process",
+          "messages": [
+            { "role": "user", "content": "What's the legal process for civil union in the Philippines?" }
+          ]
+        },
+        {
+          "name": "LGBTQ-friendly vendors",
+          "messages": [
+            { "role": "user", "content": "Vendor selection tips — how do we find LGBTQ-friendly vendors?" }
+          ]
+        },
+        {
+          "name": "Multi-turn: planning celebration",
+          "messages": [
+            { "role": "user", "content": "We're two guys planning our celebration, where do we start?" },
+            { "role": "assistant", "content": "Congratulations! That's so exciting. A great first step is figuring out your target date and the kind of celebration you envision. Do you have a date in mind?" },
+            { "role": "user", "content": "We're thinking December 2026, around 80 guests" },
+            { "role": "assistant", "content": "December is beautiful for a celebration! With 80 guests, you have some great venue options. Have you thought about whether you want indoor or outdoor?" },
+            { "role": "user", "content": "Outdoor sana, garden or beach. Budget is around 500k" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inc-couple",
+      "persona": "Iglesia ni Cristo couple, strict church requirements",
+      "conversations": [
+        {
+          "name": "INC wedding requirements",
+          "messages": [
+            { "role": "user", "content": "What are the requirements for an INC church wedding?" }
+          ]
+        },
+        {
+          "name": "Non-INC partner concern",
+          "messages": [
+            { "role": "user", "content": "My partner is not INC but I am. Can we still get married in the church?" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ofw-couple",
+      "persona": "OFW couple planning remotely from abroad",
+      "conversations": [
+        {
+          "name": "Remote planning",
+          "messages": [
+            { "role": "user", "content": "We're both OFWs in Dubai, planning a wedding back home in Cebu. How do we plan from abroad?" }
+          ]
+        },
+        {
+          "name": "Documents from abroad",
+          "messages": [
+            { "role": "user", "content": "How do we get CENOMAR if we're outside the Philippines?" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vendor-questions",
+      "persona": "Couple actively looking for vendors",
+      "conversations": [
+        {
+          "name": "Vendor tips",
+          "messages": [
+            { "role": "user", "content": "Vendor selection tips" }
+          ]
+        },
+        {
+          "name": "Red flags",
+          "messages": [
+            { "role": "user", "content": "What are red flags when choosing a wedding vendor?" }
+          ]
+        },
+        {
+          "name": "Specific vendor type",
+          "messages": [
+            { "role": "user", "content": "How do I choose a good wedding photographer? Budget is around 30k" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "edge-cases",
+      "persona": "Edge cases and boundary testing",
+      "conversations": [
+        {
+          "name": "Off-topic question",
+          "messages": [
+            { "role": "user", "content": "Can you help me write a resume?" }
+          ]
+        },
+        {
+          "name": "Vague greeting",
+          "messages": [
+            { "role": "user", "content": "Hi" }
+          ]
+        },
+        {
+          "name": "Very specific ask",
+          "messages": [
+            { "role": "user", "content": "Give me a list of the top 5 venues in Tagaytay under 200k" }
+          ]
+        },
+        {
+          "name": "Emotional crisis",
+          "messages": [
+            { "role": "user", "content": "My partner and I just had a huge fight about the wedding budget. I don't know if we should even continue planning." }
+          ]
+        },
+        {
+          "name": "Write our story prompt",
+          "messages": [
+            { "role": "user", "content": "Write our story" }
+          ]
+        }
+      ]
+    }
+  ]
+}
