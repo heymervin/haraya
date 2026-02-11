@@ -150,11 +150,6 @@ export default function VendorProfile() {
                     Verified
                   </span>
                 )}
-                {vendor.allCelebrationsWelcome && (
-                  <span className="inline-block px-2.5 py-1 bg-dream-lavender text-white text-[11px] font-medium tracking-wide uppercase rounded-sm">
-                    All Celebrations Welcome
-                  </span>
-                )}
               </div>
 
               {/* Price & Rating */}

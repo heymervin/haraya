@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { MapPin, CheckCircle2, Heart } from 'lucide-react';
+import { MapPin, CheckCircle2 } from 'lucide-react';
 import StarRating from './StarRating';
 
 export interface ChatVendor {
@@ -60,9 +60,6 @@ export default function ChatVendorCard({ vendor }: { vendor: ChatVendor }) {
           </span>
           {vendor.isVerified && (
             <CheckCircle2 className="w-3.5 h-3.5 text-accent-success shrink-0" />
-          )}
-          {vendor.allCelebrationsWelcome && (
-            <Heart className="w-3.5 h-3.5 text-langkit-violet fill-langkit-violet shrink-0" />
           )}
         </div>
 

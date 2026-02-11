@@ -20,7 +20,6 @@ export default function Vendors() {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [selectedLocation, setSelectedLocation] = useState<string>('All');
   const [selectedPriceRange, setSelectedPriceRange] = useState<string>('All');
-  const [onlyAllCelebrationsWelcome, setOnlyAllCelebrationsWelcome] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [displayCount, setDisplayCount] = useState(24);
   const VENDORS_PER_PAGE = 24;
@@ -127,17 +126,13 @@ export default function Vendors() {
         matchesPriceRange = vendor.priceRange.min >= 100000;
       }
 
-      // All Celebrations Welcome filter
-      const matchesACW = !onlyAllCelebrationsWelcome || vendor.allCelebrationsWelcome;
-
-      return matchesSearch && matchesCategory && matchesLocation && matchesPriceRange && matchesACW;
+      return matchesSearch && matchesCategory && matchesLocation && matchesPriceRange;
     });
-  }, [allVendors, searchQuery, selectedCategory, selectedLocation, selectedPriceRange, onlyAllCelebrationsWelcome]);
+  }, [allVendors, searchQuery, selectedCategory, selectedLocation, selectedPriceRange]);
 
   const hasActiveFilters = selectedCategory !== 'All' ||
     selectedLocation !== 'All' ||
     selectedPriceRange !== 'All' ||
-    onlyAllCelebrationsWelcome ||
     searchQuery.trim() !== '';
 
   const clearAllFilters = () => {
@@ -145,7 +140,6 @@ export default function Vendors() {
     setSelectedCategory('All');
     setSelectedLocation('All');
     setSelectedPriceRange('All');
-    setOnlyAllCelebrationsWelcome(false);
     setDisplayCount(VENDORS_PER_PAGE);
   };
 
@@ -257,20 +251,6 @@ export default function Vendors() {
               </select>
             </div>
 
-            {/* All Celebrations Welcome Toggle */}
-            <div className="flex items-end">
-              <label className="flex items-center gap-2 px-4 py-2.5 bg-bg-primary border border-border rounded cursor-pointer hover:border-dream-lavender transition-colors">
-                <input
-                  type="checkbox"
-                  checked={onlyAllCelebrationsWelcome}
-                  onChange={(e) => setOnlyAllCelebrationsWelcome(e.target.checked)}
-                  className="w-4 h-4 accent-dream-lavender"
-                />
-                <span className="font-jost text-sm text-text-primary">
-                  All Celebrations Welcome
-                </span>
-              </label>
-            </div>
           </div>
 
           {/* Clear Filters */}
